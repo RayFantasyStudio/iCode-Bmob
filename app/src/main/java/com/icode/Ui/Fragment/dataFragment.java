@@ -35,6 +35,7 @@ public class dataFragment extends Fragment
 		// 刷新数据
 		final BmobQuery<Data> query = new BmobQuery<Data>();
 		query.order("-createdAt");
+		query.setLimit(10);
 		query.findObjects(getActivity(), new FindListener<Data>(){
 
 				@Override
@@ -61,7 +62,6 @@ public class dataFragment extends Fragment
 				@Override
 				public void onError(int p1, String p2)
 				{
-					// TODO: Implement this method
 				}
 				
 			
