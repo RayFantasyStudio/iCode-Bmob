@@ -17,7 +17,7 @@
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="登录iCode账户"
+		android:text="登录iCode"
 		android:textSize="25sp"
 		android:textColor="#FFFFFF"
 		android:id="@+id/main_username"

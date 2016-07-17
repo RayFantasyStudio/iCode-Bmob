@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 			ImageView_user.setImageDrawable(drawableBuilder.build(userName.getText().toString().subSequence(0,1).toString(),
 			Color.argb(200,255,127,127)));
 		}else{
-			userName.setText("登录iCode账户");
+			userName.setText("登录iCode");
 			ImageView_user.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
 		}
 		
