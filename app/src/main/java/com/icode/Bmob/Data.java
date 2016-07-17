@@ -7,7 +7,7 @@ public class Data extends BmobObject
 	private String Title;
 	private String Message;
     private Number index;
-	private String userName;
+	private String UserName;
 	
     public Data() {
         this.setTableName("Data");
@@ -40,10 +40,10 @@ public class Data extends BmobObject
 	}
 	
 	public void setUser(String User){
-		this.userName=User;
+		this.UserName=User;
 	}
 	public String getUser(){
-		return userName;
+		return UserName;
 	}
 	
 }
