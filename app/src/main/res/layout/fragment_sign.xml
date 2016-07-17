@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:fab="http://schemas.android.com/apk/res-auto"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent">
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:orientation="vertical"
+		android:layout_centerInParent="true"
+		android:gravity="center"
+		android:id="@+id/usermainLinearLayout1">
+
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:hint="请输入帐号"
+			android:focusableInTouchMode="true"
+			app:met_floatingLabelText="帐号"
+			app:met_primaryColor="#0000ff"
+			app:met_minCharacters="5"
+			app:met_maxCharacters="18"
+			app:met_floatingLabel="highlight"
+			android:id="@+id/usermainMaterialEditText_account"/>
+
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:hint="请输入密码"
+			android:focusableInTouchMode="true"
+			app:met_floatingLabelText="密码"
+			app:met_primaryColor="#0000ff"
+			app:met_minCharacters="6"
+			app:met_maxCharacters="18"
+			app:met_floatingLabel="highlight"
+			android:id="@+id/usermainMaterialEditText_password"/>
+
+	</LinearLayout>
+
+	<com.melnykov.fab.FloatingActionButton
+		android:id="@+id/sign_up"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/sign_up"
+		fab:fab_colorNormal="#0000ff"
+		android:layout_margin="10dp"
+		android:layout_gravity="center"
+		android:layout_centerInParent="true"
+		android:layout_below="@id/usermainLinearLayout1"/>
+
+	<com.melnykov.fab.FloatingActionButton
+		android:id="@+id/sign_in"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/sign_in"
+		fab:fab_colorNormal="#ff0000"
+		android:layout_margin="10dp"
+		android:layout_gravity="right|center_vertical"
+		android:layout_alignParentRight="true"
+		android:layout_centerHorizontal="true"
+		android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
+

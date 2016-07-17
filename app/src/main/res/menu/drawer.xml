@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+		
+		<item
+            android:id="@+id/section"
+            android:title="用户">
+			
+			<menu>
+
+				<item
+					android:id="@+id/release"
+					android:checked="false"
+					android:title="@string/release" />
+
+			</menu>
+		
+		</item>
+		
+		<item
+            android:id="@+id/section2"
+            android:title="其他">
+            <menu>
+				
+				<item
+					android:id="@+id/setting"
+					android:checked="false"
+					android:title="@string/setting" />
+
+				<item
+					android:id="@+id/about"
+					android:checked="false"
+					android:title="@string/about" />
+		
+			</menu>
+			
+		</item>
+
+    </group>
+</menu>

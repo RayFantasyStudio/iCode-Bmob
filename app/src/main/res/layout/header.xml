@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="190dp"
+	android:background="@drawable/background_material"
+	android:orientation="vertical">
+
+	<ImageView
+		android:id="@+id/icode_user"
+		android:layout_width="72dp"
+		android:layout_height="72dp"
+		android:src="@drawable/icode_user"
+		android:layout_centerVertical="true"
+		android:layout_margin="10dp"/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="登录iCode账户"
+		android:textSize="25sp"
+		android:textColor="#FFFFFF"
+		android:id="@+id/main_username"
+		android:layout_below="@+id/icode_user"
+		android:layout_marginLeft="10dp"/>
+
+</RelativeLayout>
+

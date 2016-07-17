@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">iCode</string>
+    <string name="hello_world">Hello world!</string>
+	<string name="setting">设置</string>
+	<string name="about">关于</string>
+	<string name="release">发布</string>
+	
+	<string name="openDrawer">打开</string>
+	<string name="closeDrawer">关闭</string>
+	
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:colorPrimaryDark">@color/PrimaryDarkColor</item>
+        <item name="android:colorPrimary">@color/PrimaryColor</item>
+        <item name="android:navigationBarColor">@color/PrimaryDarkColor</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_transform</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_transform</item>
+    </style>
+	<style name="AppTheme.Main" parent="AppTheme">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+	
+</resources>
