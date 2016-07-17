@@ -1,4 +1,4 @@
-package com.icode.Ui.Activity;
+package rayfantasy.icode.Ui.Activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.icode.R;
+import rayfantasy.icode.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;

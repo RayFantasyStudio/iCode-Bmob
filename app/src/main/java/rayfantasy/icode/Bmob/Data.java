@@ -1,4 +1,4 @@
-package com.icode.Bmob;
+package rayfantasy.icode.Bmob;
 
 import cn.bmob.v3.*;
 

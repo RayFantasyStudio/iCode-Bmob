@@ -1,4 +1,4 @@
-package com.icode.Ui.Fragment;
+package rayfantasy.icode.Ui.Fragment;
 
 import android.content.*;
 import android.os.*;
@@ -6,10 +6,10 @@ import android.view.*;
 import android.view.View.*;
 import android.app.*;
 
-import com.icode.*;
-import com.icode.Bmob.*;
-import com.icode.Ui.*;
-import com.icode.R;
+import rayfantasy.icode.*;
+import rayfantasy.icode.Bmob.*;
+import rayfantasy.icode.Ui.*;
+import rayfantasy.icode.R;
 
 import android.support.design.widget.*;
 

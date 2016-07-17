@@ -1,8 +1,8 @@
-package com.icode.Ui.Activity;
+package rayfantasy.icode.Ui.Activity;
 
 import android.os.*;
 
-import com.icode.*;
+import rayfantasy.icode.*;
 
 import android.support.v7.app.*;
 import android.support.v7.widget.*;

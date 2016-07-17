@@ -1,4 +1,4 @@
-package com.icode.Ui.Fragment;
+package rayfantasy.icode.Ui.Fragment;
 
 import android.app.*;
 import android.os.*;
@@ -6,12 +6,12 @@ import android.view.*;
 import android.widget.*;
 import java.util.*;
 
-import com.icode.*;
+import rayfantasy.icode.*;
 
 import android.support.v4.widget.*;
 
 import cn.bmob.v3.*;
-import com.icode.Bmob.*;
+import rayfantasy.icode.Bmob.*;
 import cn.bmob.v3.listener.*;
 import cn.bmob.v3.exception.*;
 

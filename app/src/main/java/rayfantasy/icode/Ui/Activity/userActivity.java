@@ -1,10 +1,10 @@
-package com.icode.Ui.Activity;
+package rayfantasy.icode.Ui.Activity;
 
 import android.app.*;
 import android.os.*;
 
-import com.icode.*;
-import com.icode.Ui.Fragment.*;
+import rayfantasy.icode.*;
+import rayfantasy.icode.Ui.Fragment.*;
 
 import cn.bmob.v3.*;
 

@@ -1,4 +1,4 @@
-package com.icode.Ui;
+package rayfantasy.icode.Ui;
 
 import android.content.*;
 import android.content.pm.*;
@@ -8,9 +8,9 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 
-import com.icode.*;
-import com.icode.Ui.Activity.*;
-import com.icode.Ui.Fragment.*;
+import rayfantasy.icode.*;
+import rayfantasy.icode.Ui.Activity.*;
+import rayfantasy.icode.Ui.Fragment.*;
 
 import android.support.design.widget.*;
 import android.support.v4.view.*;

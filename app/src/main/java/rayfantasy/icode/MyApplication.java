@@ -1,4 +1,4 @@
-package com.icode;
+package rayfantasy.icode;
 
 import android.app.*;
 import android.content.*;
@@ -10,7 +10,7 @@ import android.widget.*;
 import cn.bmob.v3.*;
 import cn.bmob.v3.listener.*;
 
-import com.icode.Bmob.*;
+import rayfantasy.icode.Bmob.*;
 
 public class MyApplication extends Application
 {

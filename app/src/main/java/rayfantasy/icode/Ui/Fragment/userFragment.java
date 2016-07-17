@@ -1,4 +1,4 @@
-package com.icode.Ui.Fragment;
+package rayfantasy.icode.Ui.Fragment;
 
 import android.view.View.*;
 import android.view.*;
@@ -7,8 +7,8 @@ import android.widget.*;
 import android.graphics.*;
 import android.app.*;
 
-import com.icode.*;
-import com.icode.R;
+import rayfantasy.icode.*;
+import rayfantasy.icode.R;
 
 import cn.bmob.v3.*;
 import com.melnykov.fab.FloatingActionButton;
