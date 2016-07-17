@@ -11,6 +11,7 @@ import android.widget.*;
 import rayfantasy.icode.*;
 import rayfantasy.icode.Ui.Activity.*;
 import rayfantasy.icode.Ui.Fragment.*;
+import rayfantasy.icode.Var;
 
 import android.support.design.widget.*;
 import android.support.v4.view.*;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity
     }
 	
 	private void initbugly(){
-		CrashReport.initCrashReport(getApplicationContext(),"900040245",false);
+		CrashReport.initCrashReport(getApplicationContext(),Var.String("BuglyID"),false);
 	}
 
 	private void initData()
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 	private void initUser()
 	{
 		bmobUser = BmobUser.getCurrentUser(MainActivity.this);
-		//如果本地用户不为bull证明登录了
+		//如果本地用户不为null证明登录了
 		if(bmobUser != null){
 			//设置用户名称
 			userName.setText(bmobUser.getUsername());
@@ -168,10 +169,11 @@ public class MainActivity extends AppCompatActivity
             int code = sign.hashCode();
             int official = 507144210;
             int debug = -253306175;
+			
             if (code != official)
             {
                 if (code != debug){
-                    Toast.makeText(this,"Sign failed!" + code ,0).show();
+                    Toast.makeText(this,"Sign failed!",0).show();
                     finish();
                 }
                 else{
@@ -199,16 +201,22 @@ public class MainActivity extends AppCompatActivity
 		initUser();
 	}
 	
-	private void CusBar(String Message,String ActionText){
+	private void BarWithAction(String Message,String ActionText,final String Function){
 		Snackbar.make(getCurrentFocus(), Message, Snackbar.LENGTH_LONG).setAction(ActionText, new View.OnClickListener(){
 
 				@Override
 				public void onClick(View p1)
 				{
-					finish();
+					switch(Function){
+						case "finish":
+							finish();
+					}
 				}
-
 			}).show();
+	}
+	
+	private void Bar(String s){
+		Snackbar.make(getCurrentFocus(),s,0).show();
 	}
 
 		
@@ -217,7 +225,7 @@ public class MainActivity extends AppCompatActivity
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{ 
-			CusBar("你确定要退出？","确定");
+			BarWithAction("你确定要退出？","确定","finish");
 		}
 		return false;
 	}
