@@ -10,4 +10,6 @@
 	<string name="openDrawer">打开</string>
 	<string name="closeDrawer">关闭</string>
 	
+	<string name="cliexit">双击退出</string>
+	
 </resources>

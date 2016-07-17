@@ -3,16 +3,20 @@ package com.icode.Ui.Fragment;
 import android.view.View.*;
 import android.view.*;
 import android.os.*;
-import com.icode.*;
-import cn.bmob.v3.*;
-import com.melnykov.fab.*;
-import com.amulyakhare.textdrawable.*;
 import android.widget.*;
-import com.icode.R;
 import android.graphics.*;
-import android.support.design.widget.*;
-import com.melnykov.fab.FloatingActionButton;
 import android.app.*;
+
+import com.icode.*;
+import com.icode.R;
+
+import cn.bmob.v3.*;
+import com.melnykov.fab.FloatingActionButton;
+import com.amulyakhare.textdrawable.*;
+
+import android.support.design.widget.*;
+
+
 
 public class userFragment extends Fragment implements OnClickListener,OnLongClickListener
 {

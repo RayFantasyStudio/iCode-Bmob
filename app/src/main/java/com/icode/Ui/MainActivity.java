@@ -4,24 +4,27 @@ import android.content.*;
 import android.content.pm.*;
 import android.graphics.*;
 import android.os.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+
+import com.icode.*;
+import com.icode.Ui.Activity.*;
+import com.icode.Ui.Fragment.*;
+
 import android.support.design.widget.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
-import android.view.*;
-import android.view.View.*;
-import android.widget.*;
+import android.support.v7.widget.Toolbar;
+import android.support.design.widget.Snackbar;
+
+import com.tencent.bugly.crashreport.*;
 import cn.bmob.v3.*;
 import cn.bmob.v3.update.*;
 import com.amulyakhare.textdrawable.*;
-import com.icode.*;
-import com.icode.Ui.Activity.*;
-import com.icode.Ui.Fragment.*;
-
-import android.support.v7.widget.Toolbar;
-import android.support.design.widget.Snackbar;
-import com.tencent.bugly.crashreport.*;
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity 
 {
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity
 	private TextDrawable.IBuilder drawableBuilder;
 	
 	private int drawerLayoutCheck = GravityCompat.START;
+	private boolean isExit;
 	
 
     @Override
@@ -199,6 +203,33 @@ public class MainActivity extends AppCompatActivity
 	private void CusBar(String s){
 		//it will cause bugs,keep it until fix it.
 		Snackbar.make(this.getCurrentFocus(),s,0).show();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{ 
+			Click();
+		}
+		return false;
+	}
+
+	private void Click() {
+		Timer tExit = null;
+		if (isExit == false) {
+			isExit = true; 
+			Toast.makeText(this,getString(R.string.cliexit), 0).show();
+			tExit = new Timer();
+			tExit.schedule(new TimerTask() {
+					@Override
+					public void run() {
+						isExit = false; 
+					}
+				}, 2000);
+
+		} else {
+			finish();
+		}
 	}
 
 }

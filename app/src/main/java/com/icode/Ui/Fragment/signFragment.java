@@ -4,18 +4,21 @@ import android.content.*;
 import android.os.*;
 import android.view.*;
 import android.view.View.*;
-import cn.bmob.v3.*;
-import cn.bmob.v3.listener.*;
+import android.app.*;
+
 import com.icode.*;
 import com.icode.Bmob.*;
 import com.icode.Ui.*;
-import com.melnykov.fab.*;
+import com.icode.R;
+
+import android.support.design.widget.*;
+
+import cn.bmob.v3.*;
+import cn.bmob.v3.listener.*;
+import com.melnykov.fab.FloatingActionButton;
+
 import com.rengwuxian.materialedittext.*;
 
-import com.icode.R;
-import android.support.design.widget.*;
-import com.melnykov.fab.FloatingActionButton;
-import android.app.*;
 
 public class signFragment extends Fragment implements OnClickListener,OnLongClickListener
 {

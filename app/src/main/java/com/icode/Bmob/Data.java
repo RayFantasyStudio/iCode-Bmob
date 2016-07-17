@@ -1,6 +1,5 @@
 package com.icode.Bmob;
 
-
 import cn.bmob.v3.*;
 
 public class Data extends BmobObject
