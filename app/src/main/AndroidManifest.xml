@@ -26,7 +26,6 @@
         </activity>
 		<activity android:name=".Ui.Activity.userActivity" />
 			<activity android:name=".Ui.Activity.writeActivity" />
-		<!--自动更新-->
 		<activity 
             android:name="cn.bmob.v3.update.UpdateDialogActivity"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
