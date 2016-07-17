@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity
 	private TextDrawable.IBuilder drawableBuilder;
 	
 	private int drawerLayoutCheck = GravityCompat.START;
-	private boolean isExit;
 	
 
     @Override
@@ -200,36 +199,27 @@ public class MainActivity extends AppCompatActivity
 		initUser();
 	}
 	
-	private void CusBar(View v,String s){
-		//it will cause bugs,keep it until fix it.
-		Snackbar.make(v,s,0).show();
+	private void CusBar(String Message,String ActionText){
+		Snackbar.make(getCurrentFocus(), Message, Snackbar.LENGTH_LONG).setAction(ActionText, new View.OnClickListener(){
+
+				@Override
+				public void onClick(View p1)
+				{
+					finish();
+				}
+
+			}).show();
 	}
+
+		
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{ 
-			Click();
+			CusBar("你确定要退出？","确定");
 		}
 		return false;
-	}
-
-	private void Click() {
-		Timer tExit = null;
-		if (isExit == false) {
-			isExit = true; 
-			Toast.makeText(this,getString(R.string.cliexit), 0).show();
-			tExit = new Timer();
-			tExit.schedule(new TimerTask() {
-					@Override
-					public void run() {
-						isExit = false; 
-					}
-				}, 2000);
-
-		} else {
-			finish();
-		}
 	}
 
 }
