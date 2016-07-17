@@ -200,9 +200,9 @@ public class MainActivity extends AppCompatActivity
 		initUser();
 	}
 	
-	private void CusBar(String s){
+	private void CusBar(View v,String s){
 		//it will cause bugs,keep it until fix it.
-		Snackbar.make(this.getCurrentFocus(),s,0).show();
+		Snackbar.make(v,s,0).show();
 	}
 	
 	@Override

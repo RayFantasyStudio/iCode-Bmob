@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#FFF"
     android:theme="@style/AppTheme.NoActionBar.TransparentStatusBar"
-    tools:context="com.icode.Ui.Splash">
+    tools:context="rayfantasy.icode.Ui.Splash">
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
