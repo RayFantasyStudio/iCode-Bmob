@@ -3,14 +3,13 @@ package rayfantasy.icode.Ui;
 import android.os.*;
 import android.view.*;
 import android.content.*;
-
-import android.support.v7.app.*;
+import android.app.*;
 
 import rayfantasy.icode.R;
 
-public class Splash extends AppCompatActivity
+public class Splash extends Activity
 {
-	private Handler handler;
+	private Handler handler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -21,7 +20,8 @@ public class Splash extends AppCompatActivity
 		handler.postDelayed(new Runnable(){
 			public void run(){
 				startActivity(new Intent(Splash.this,MainActivity.class));
+				finish();
 			}
-		},700);
+		},666);		
 	}
 }
