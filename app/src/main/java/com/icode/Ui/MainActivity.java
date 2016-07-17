@@ -1,28 +1,27 @@
 package com.icode.Ui;
 
-import android.os.*;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.*;
-import android.widget.*;
-
-import android.support.v7.widget.Toolbar;
-import android.view.View.*;
 import android.content.*;
-import android.support.v4.view.*;
-import com.icode.*;
-import com.icode.R;
-import cn.bmob.v3.*;
-import com.amulyakhare.textdrawable.*;
+import android.content.pm.*;
 import android.graphics.*;
+import android.os.*;
+import android.support.design.widget.*;
+import android.support.v4.view.*;
+import android.support.v4.widget.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import cn.bmob.v3.*;
+import cn.bmob.v3.update.*;
+import com.amulyakhare.textdrawable.*;
+import com.icode.*;
 import com.icode.Ui.Activity.*;
 import com.icode.Ui.Fragment.*;
-import android.app.*;
-import cn.bmob.v3.update.*;
+
+import android.support.v7.widget.Toolbar;
+import android.support.design.widget.Snackbar;
+import com.tencent.bugly.crashreport.*;
 
 public class MainActivity extends AppCompatActivity 
 {
@@ -53,12 +52,20 @@ public class MainActivity extends AppCompatActivity
 		BmobUpdateAgent.update(this);//调用更新
         setContentView(R.layout.activity_main);
 		
+		initbugly();
+		
+		initSign();
+		
 		initView();
 		
 		initUser();
 		
 		initData();
     }
+	
+	private void initbugly(){
+		CrashReport.initCrashReport(getApplicationContext(),"900040245",false);
+	}
 
 	private void initData()
 	{
@@ -149,6 +156,30 @@ public class MainActivity extends AppCompatActivity
 		});
 	}
 	
+	public void initSign(){
+        try
+        {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            Signature[] signs = packageInfo.signatures;
+            Signature sign = signs[0];
+            int code = sign.hashCode();
+            int official = 507144210;
+            int debug = -253306175;
+            if (code != official)
+            {
+                if (code != debug){
+                    Toast.makeText(this,"Sign failed!" + code ,0).show();
+                    finish();
+                }
+                else{
+                    Toast.makeText(this,"Debug Version!" ,0).show();
+                }
+            }
+        }
+        catch (PackageManager.NameNotFoundException e){
+        }
+    }
+	
 	public void closeDrawer(){
 		drawerLayout.closeDrawer(drawerLayoutCheck);
 	}
@@ -163,6 +194,11 @@ public class MainActivity extends AppCompatActivity
 		super.onRestart();
 		
 		initUser();
+	}
+	
+	private void CusBar(String s){
+		//it will cause bugs,keep it until fix it.
+		Snackbar.make(this.getCurrentFocus(),s,0).show();
 	}
 
 }

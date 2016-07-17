@@ -15,3 +15,5 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-downwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

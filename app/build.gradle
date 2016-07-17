@@ -20,6 +20,7 @@ android {
 }
 
 dependencies {
+	compile 'com.tencent.bugly:crashreport:2.1.9'
 	compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:design:22.2.0'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
