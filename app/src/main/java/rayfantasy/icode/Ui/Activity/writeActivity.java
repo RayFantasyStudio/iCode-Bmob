@@ -11,12 +11,16 @@ public class writeActivity extends BaseActivity
 {
 
 	@Override
+	protected String getTitleText()
+	{
+		return "发布";
+	}
+
+
+	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
-		toolbar.setTitle("发布");
-		
 	}
 
 	@Override

@@ -13,9 +13,8 @@ import android.support.v7.widget.*;
 
 public class userActivity extends BaseActivity
 {
-
 	private BmobUser bmobUser;
-	
+		
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -30,15 +29,19 @@ public class userActivity extends BaseActivity
 		if(bmobUser!=null){
 			userFragment fragment_user=new userFragment();
 			getFragmentManager().beginTransaction().replace(R.id.fragmentLayout,fragment_user).commit();
-			initView(bmobUser.getUsername());
+			
 		}else{
 			signFragment fragment_sign=new signFragment();
 			getFragmentManager().beginTransaction().replace(R.id.fragmentLayout,fragment_sign).commit();
-			initView("登录");
 		}
 		
 	}
 	
+	@Override
+	protected String getTitleText()
+	{
+		return "用户";
+	}
 	
 	@Override
 	protected int getLayoutRes()
@@ -46,7 +49,4 @@ public class userActivity extends BaseActivity
 		return R.layout.activity_user;
 	}
 	
-	private void initView(String Title){
-		toolbar.setTitle(Title);
-	}
 }

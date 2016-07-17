@@ -11,13 +11,15 @@ import rayfantasy.icode.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
+	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutRes());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+		setTitle(getTitleText());
+		setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
     }
+	protected abstract String getTitleText();
 
     protected abstract int getLayoutRes();
 

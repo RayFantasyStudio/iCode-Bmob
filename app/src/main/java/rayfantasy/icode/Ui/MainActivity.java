@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity
 							return true;
 						case R.id.release:
 							startActivity(new Intent(MainActivity.this,writeActivity.class));
-							finish();
 							return true;
 						default:
 							Toast.makeText(MainActivity.this,"错误",Toast.LENGTH_SHORT).show();
