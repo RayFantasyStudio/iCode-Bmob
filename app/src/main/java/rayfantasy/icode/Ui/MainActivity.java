@@ -27,7 +27,7 @@ import cn.bmob.v3.update.*;
 import com.amulyakhare.textdrawable.*;
 import java.util.*;
 
-public class MainActivity extends AppCompatActivity 
+public class MainActivity extends AppCompatActivity implements OnClickListener
 {
 	private Toolbar toolbar;
     
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
 	private BmobUser bmobUser;
 	//圆形头像
 	private TextDrawable.IBuilder drawableBuilder;
-	
+
 	private int drawerLayoutCheck = GravityCompat.START;
 	
 
@@ -88,9 +88,11 @@ public class MainActivity extends AppCompatActivity
 			//根据用户名称的第一位字符设置头像
 			ImageView_user.setImageDrawable(drawableBuilder.build(userName.getText().toString().subSequence(0,1).toString(),
 			myApplication.getUserRandomColor()));
+			
 		}else{
 			userName.setText("登录iCode");
 			ImageView_user.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
+			
 		}
 		
 	}
@@ -146,18 +148,9 @@ public class MainActivity extends AppCompatActivity
 		userName=(TextView)findViewById(R.id.main_username);
 		ImageView_user=(ImageView)findViewById(R.id.icode_user);
 		
-		ImageView_user.setOnClickListener(new OnClickListener(){
-
-				@Override
-				public void onClick(View p1)
-				{
-					//点击头像跳转
-					closeDrawer();
-					
-					startActivity(new Intent(MainActivity.this,userActivity.class));
-				}
-			
-		});
+		ImageView_user.setOnClickListener(this);
+		
+		
 	}
 	
 	public void initSign(){
@@ -184,6 +177,19 @@ public class MainActivity extends AppCompatActivity
         catch (PackageManager.NameNotFoundException e){
         }
     }
+
+	@Override
+	public void onClick(View p1)
+	{
+		switch(p1.getId()){
+			case R.id.user_image:
+				//点击头像跳转
+				closeDrawer();
+				startActivity(new Intent(MainActivity.this,userActivity.class));
+				break;		
+		}
+	}
+
 	
 	public void closeDrawer(){
 		drawerLayout.closeDrawer(drawerLayoutCheck);

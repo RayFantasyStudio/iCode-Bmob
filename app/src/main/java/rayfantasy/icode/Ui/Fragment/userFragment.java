@@ -57,8 +57,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		if(bmobUser!=null){
 			userName.setText(bmobUser.getUsername());
 			drawableBuilder=TextDrawable.builder().round();
-			userImage.setImageDrawable(drawableBuilder.build(userName.getText().toString().subSequence(0,1).toString(),
-															 Color.BLUE));
+			userImage.setImageDrawable(drawableBuilder.build(userName.getText().toString().subSequence(0,1).toString(),myApplication.getUserRandomColor()));
 		}
 	}
 	

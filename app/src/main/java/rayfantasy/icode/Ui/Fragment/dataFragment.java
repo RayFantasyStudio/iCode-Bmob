@@ -13,8 +13,9 @@ import cn.bmob.v3.listener.*;
 import cn.bmob.v3.exception.*;
 import android.support.v7.widget.*;
 import rayfantasy.icode.Adapter.*;
+import android.support.design.widget.*;
 
-public class dataFragment extends Fragment
+public class dataFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {	
 	private RecyclerView recyclerView;
 	private dataRecyclerViewHolder dataRecyclerViewHolder;
@@ -22,6 +23,8 @@ public class dataFragment extends Fragment
 	private LinearLayoutManager layoutManager;
 	private View v;
 	private List<Data> mList=new ArrayList<Data>();
+	
+	private SwipeRefreshLayout swipeRefreshLayout;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -46,8 +49,10 @@ public class dataFragment extends Fragment
 					if (losts == null || losts.size() == 0) {
 						return;
 					}
-						mList.addAll(0, losts);
+					mList.addAll(0, losts);
 					dataRecyclerViewHolder.notifyDataSetChanged();
+					swipeRefreshLayout.setRefreshing(false);
+					
 				}
 
 				@Override
@@ -62,6 +67,12 @@ public class dataFragment extends Fragment
 
 	private void initView(View v)
 	{
+		
+		swipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipe_refreshlayout);
+		swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_light,
+								   android.R.color.holo_green_light,
+								   android.R.color.holo_orange_light, android.R.color.holo_red_light);
+		swipeRefreshLayout.setOnRefreshListener(this);
 		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_view);
 		layoutManager = new LinearLayoutManager(getActivity());
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -71,5 +82,12 @@ public class dataFragment extends Fragment
 		recyclerView.setAdapter(dataRecyclerViewHolder);
 		
 	}
+
+	@Override
+	public void onRefresh()
+	{
+		initData();
+	}
+
 	
 }
