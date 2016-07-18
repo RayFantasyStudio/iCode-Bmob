@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
 			drawableBuilder=TextDrawable.builder().round();
 			//根据用户名称的第一位字符设置头像
 			ImageView_user.setImageDrawable(drawableBuilder.build(userName.getText().toString().subSequence(0,1).toString(),
-			Color.argb(200,255,127,127)));
+			myApplication.getUserRandomColor()));
 		}else{
 			userName.setText("登录iCode");
 			ImageView_user.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
@@ -97,9 +97,9 @@ public class MainActivity extends AppCompatActivity
 
 	private void initView()
 	{
+		myApplication=(MyApplication)getApplication();
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-		
 		
 		navigationView = (NavigationView)findViewById(R.id.navigation_view);
 

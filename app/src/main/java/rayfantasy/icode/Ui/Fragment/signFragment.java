@@ -26,7 +26,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	private FloatingActionButton fab_sign_up,fab_sign_in;
 	
 	private MyApplication myApplication;
-	
+		
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
@@ -43,7 +43,6 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		password=(MaterialEditText)v.findViewById(R.id.usermainMaterialEditText_password);
 		fab_sign_up=(FloatingActionButton)v.findViewById(R.id.sign_up);
 		fab_sign_in=(FloatingActionButton)v.findViewById(R.id.sign_in);
-		
 		
 		
 		fab_sign_in.setOnClickListener(this);
@@ -100,7 +99,6 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				public void onSuccess()
 				{
 					myApplication.showToast("登录成功");
-					startActivity(new Intent(getActivity(),MainActivity.class));
 					getActivity().finish();
 				}
 

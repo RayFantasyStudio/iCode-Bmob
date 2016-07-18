@@ -11,6 +11,7 @@ import cn.bmob.v3.*;
 import cn.bmob.v3.listener.*;
 
 import rayfantasy.icode.Bmob.*;
+import android.graphics.*;
 
 public class MyApplication extends Application
 {
@@ -72,6 +73,11 @@ public class MyApplication extends Application
 		}  
 		return true;  
     }
+	
+	public int getUserRandomColor(){
+		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+	}
+	
 	
 	//上传数据Title为标题，Message为内容，User为用户名
 	public void saveData(String Title,String Message,String User){

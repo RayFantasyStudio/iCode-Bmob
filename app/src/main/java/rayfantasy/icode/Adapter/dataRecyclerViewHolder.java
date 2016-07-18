@@ -40,7 +40,7 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<dataRecyclerVie
 		//设置用户头像
 		drawableBuilder=TextDrawable.builder().round();
 		//根据用户名称的第一位字符设置头像
-		holder.userimage.setImageDrawable(drawableBuilder.build(holder.user.getText().toString().subSequence(0,1).toString(),Color.rgb(0,84,255)));
+		holder.userimage.setImageDrawable(drawableBuilder.build(holder.user.getText().toString().subSequence(0,1).toString(),getUserRandomColor()));
 	}
 
 	@Override
@@ -49,6 +49,9 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<dataRecyclerVie
 		return dataList.size();
 	}
 	
+	public int getUserRandomColor(){
+		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+	}
 	
 	public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, message, time, user;
