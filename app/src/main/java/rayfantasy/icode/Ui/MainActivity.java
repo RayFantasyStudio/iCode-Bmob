@@ -182,11 +182,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	public void onClick(View p1)
 	{
 		switch(p1.getId()){
-			case R.id.user_image:
+			case R.id.icode_user:
 				//点击头像跳转
 				closeDrawer();
 				startActivity(new Intent(MainActivity.this,userActivity.class));
-				break;		
+			break;		
 		}
 	}
 
