@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-		BmobUpdateAgent.initAppVersion(this);//自动在Web端创建表，第一次运行后创建，第二删除这行或注释掉
+		//BmobUpdateAgent.initAppVersion(this);//自动在Web端创建表，第一次运行后创建，第二删除这行或注释掉
 		BmobUpdateAgent.setUpdateOnlyWifi(false);//在任何环境下提示更新
 		BmobUpdateAgent.update(this);//调用更新
         setContentView(R.layout.activity_main);
