@@ -11,7 +11,7 @@ import android.widget.*;
 import rayfantasy.icode.*;
 import rayfantasy.icode.Ui.Activity.*;
 import rayfantasy.icode.Ui.Fragment.*;
-import rayfantasy.icode.Var;
+import rayfantasy.icode.Data.Var;
 
 import android.support.design.widget.*;
 import android.support.v4.view.*;

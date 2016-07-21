@@ -1,4 +1,4 @@
-package rayfantasy.icode;
+package rayfantasy.icode.Data;
 
 public class Var
 {
