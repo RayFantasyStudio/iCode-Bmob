@@ -27,6 +27,7 @@ import cn.bmob.v3.update.*;
 import com.amulyakhare.textdrawable.*;
 import java.util.*;
 import android.net.*;
+import java.io.*;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -66,11 +67,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		
 		initUser();
 		
-		if(checkNetworkState()){
+		if(checkNetworkState() || checkCache()){
 			initData();
 		}
     }
 	
+	private boolean checkCache(){
+		String s = "/data/data/rayfantasy.icode/code_cache/com.android.opengl.shaders_cache";
+		File f = new File(s);
+		if(f.exists()){
+			if(f.isFile() && f.length() != 0){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+	}
 	private void initbugly(){
 		CrashReport.initCrashReport(getApplicationContext(),Var.String("BuglyID"),false);
 	}
