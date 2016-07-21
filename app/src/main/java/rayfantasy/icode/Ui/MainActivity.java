@@ -164,8 +164,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
             Signature[] signs = packageInfo.signatures;
             Signature sign = signs[0];
             int code = sign.hashCode();
-            int official = 507144210;
-            int debug = -253306175;
+            int official = Var.Int("official");
+            int debug = Var.Int("debug");
 			
             if (code != official)
             {
