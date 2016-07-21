@@ -26,6 +26,9 @@ public class Splash extends Activity
 		if(needPm()){
 			Notice();
 		}
+		else{
+			LoadAc();
+		}
 	}
 	
 	private void PmRequest(String[] PER_NAME, int PER_CODE){
@@ -44,12 +47,7 @@ public class Splash extends Activity
         switch (permsRequestCode){
             case 666:
 				if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-					handler.postDelayed(new Runnable(){
-							public void run(){
-								startActivity(new Intent(Splash.this,MainActivity.class));
-								finish();
-							}
-						},888);		
+					LoadAc();
 				}
 		}
 	}
@@ -72,5 +70,14 @@ public class Splash extends Activity
 				}
 			});
 		builder.create().show();
+	}
+	
+	private void LoadAc(){
+		handler.postDelayed(new Runnable(){
+				public void run(){
+					startActivity(new Intent(Splash.this,MainActivity.class));
+					finish();
+				}
+			},888);		
 	}
 }
