@@ -3,16 +3,20 @@ package rayfantasy.icode.Ui.Fragment;
 import android.app.*;
 import android.os.*;
 import android.view.*;
-import rayfantasy.icode.*;
-import android.support.v4.widget.*;
 import android.widget.*;
+
+import rayfantasy.icode.*;
+import rayfantasy.icode.Bmob.*;
+import rayfantasy.icode.Adapter.*;
+
+import android.support.v4.widget.*;
+
 import java.util.*;
 import cn.bmob.v3.*;
-import rayfantasy.icode.Bmob.*;
 import cn.bmob.v3.listener.*;
 import cn.bmob.v3.exception.*;
+
 import android.support.v7.widget.*;
-import rayfantasy.icode.Adapter.*;
 import android.support.design.widget.*;
 
 public class dataFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener

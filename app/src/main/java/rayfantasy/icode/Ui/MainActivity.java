@@ -26,6 +26,7 @@ import cn.bmob.v3.*;
 import cn.bmob.v3.update.*;
 import com.amulyakhare.textdrawable.*;
 import java.util.*;
+import android.net.*;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 
 	private int drawerLayoutCheck = GravityCompat.START;
 	
+	private ConnectivityManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,7 +66,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		
 		initUser();
 		
-		initData();
+		if(checkNetworkState()){
+			initData();
+		}
     }
 	
 	private void initbugly(){
@@ -234,6 +238,58 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			BarWithAction("你确定要退出？","确定","finish");
 		}
 		return false;
+	}
+	
+
+	/**
+	 * 检测网络是否连接
+	 * @return
+	 */
+	private boolean checkNetworkState() {
+		boolean flag = false;
+		
+		manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		
+		if (manager.getActiveNetworkInfo() != null) {
+			flag = manager.getActiveNetworkInfo().isAvailable();
+		}
+		if (!flag) {
+			setNetwork();
+		}
+		return flag;
+	}
+
+	private void setNetwork(){
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("提示");
+		builder.setMessage("网络不可用，请先设置网络！");
+		builder.setPositiveButton("设置", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Intent intent = null;
+					
+					if (android.os.Build.VERSION.SDK_INT > 10) {
+						intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
+					} else {
+						intent = new Intent();
+						ComponentName component = new ComponentName(
+							"com.android.settings",
+							"com.android.settings.WirelessSettings");
+						intent.setComponent(component);
+						intent.setAction("android.intent.action.VIEW");
+					}
+					startActivity(intent);
+				}
+			});
+
+		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+
+				}
+			});
+		builder.create().show();
 	}
 
 }

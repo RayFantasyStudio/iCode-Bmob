@@ -16,7 +16,6 @@ import android.support.design.widget.*;
 import cn.bmob.v3.*;
 import cn.bmob.v3.listener.*;
 import com.melnykov.fab.FloatingActionButton;
-
 import com.rengwuxian.materialedittext.*;
 
 
