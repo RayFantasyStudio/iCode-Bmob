@@ -21,17 +21,18 @@ import android.graphics.*;
 import android.animation.*;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.*;
+import com.malinskiy.superrecyclerview.*;
+import android.view.animation.*;
 
 public class dataFragment extends Fragment implements OnClickListener,SwipeRefreshLayout.OnRefreshListener
 {	
-	private RecyclerView recyclerView;
+	
+	private SuperRecyclerView recyclerView;
 	private dataRecyclerViewHolder dataRecyclerViewHolder;
 	
-	private LinearLayoutManager layoutManager;
 	private View v;
 	private List<Data> mList=new ArrayList<Data>();
 	
-	private SwipeRefreshLayout swipeRefreshLayout;
 	private FloatingActionButton mFloatingActionButton;
 	
 	private MyApplication myApplication;
@@ -49,27 +50,28 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	private void initView(View v)
 	{
 		myApplication=(MyApplication)getActivity().getApplication();
-		swipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipe_refreshlayout);
-		swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_light,
-										  android.R.color.holo_green_light,
-										  android.R.color.holo_orange_light, android.R.color.holo_red_light);
-		swipeRefreshLayout.setOnRefreshListener(this);
 		
-		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_view);
-		layoutManager = new LinearLayoutManager(getActivity());
-		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-
+		recyclerView=(SuperRecyclerView)v.findViewById(R.id.recycler_view);
+		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.getRecyclerView().setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 		dataRecyclerViewHolder=new dataRecyclerViewHolder(mList);
 		recyclerView.setAdapter(dataRecyclerViewHolder);
 		
+		recyclerView.setRefreshingColorResources(android.R.color.holo_blue_light,
+										  android.R.color.holo_green_light,
+										  android.R.color.holo_orange_light, android.R.color.holo_red_light);
+		recyclerView.setRefreshListener(this);
+		
+		/*recyclerView.setupMoreListener(new OnMoreListener() {
+				@Override
+				public void onMoreAsked(int numberOfItems, int numberBeforeMore, int currentItemPos) {
+					data_skip++;
+					initData(data_skip);
+		}}, 1000);
+		*/
 		mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.new_code);
 		mFloatingActionButton.setOnClickListener(this);
-		mFloatingActionButton.attachToRecyclerView(recyclerView);
-		
-	}
-	
-	private void LodgingData(){
+		mFloatingActionButton.attachToRecyclerView(recyclerView.getRecyclerView());
 		
 	}
 
@@ -94,7 +96,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					}
 					mList.addAll(0, losts);
 					dataRecyclerViewHolder.notifyDataSetChanged();
-					swipeRefreshLayout.setRefreshing(false);
+					recyclerView.getSwipeToRefresh().setRefreshing(false);
 					
 				}
 
@@ -115,7 +117,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 			initData(0);
 		}else{
 			myApplication.showToast("当前无网络");
-			swipeRefreshLayout.setRefreshing(false);
+			recyclerView.getSwipeToRefresh().setRefreshing(false);
 		}
 	}
 
