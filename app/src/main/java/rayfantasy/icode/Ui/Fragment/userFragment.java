@@ -15,6 +15,7 @@ import com.melnykov.fab.FloatingActionButton;
 import com.amulyakhare.textdrawable.*;
 
 import android.support.design.widget.*;
+import de.hdodenhof.circleimageview.*;
 
 
 
@@ -26,8 +27,8 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 	
 	private FloatingActionButton fab_finish_user;
 	private TextView userName;
-	private TextDrawable.IBuilder drawableBuilder;
-	private ImageView userImage;
+	private TextDrawable drawableBuilder;
+	private CircleImageView userImage;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -44,7 +45,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		fab_finish_user=(FloatingActionButton)v.findViewById(R.id.finish_user);
 
 		userName=(TextView)v.findViewById(R.id.usermain_username);
-		userImage=(ImageView)v.findViewById(R.id.user_image);
+		userImage=(CircleImageView)v.findViewById(R.id.user_image);
 
 
 		fab_finish_user.setOnClickListener(this);
@@ -56,8 +57,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		bmobUser = BmobUser.getCurrentUser(getActivity());
 		if(bmobUser!=null){
 			userName.setText(bmobUser.getUsername());
-			drawableBuilder=TextDrawable.builder().round();
-			userImage.setImageDrawable(drawableBuilder.build(userName.getText().toString().subSequence(0,1).toString(),myApplication.getUserRandomColor()));
+			userImage.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),myApplication.getUserRandomColor()));
 		}
 	}
 	

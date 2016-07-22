@@ -15,7 +15,6 @@ import rayfantasy.icode.Data.Var;
 
 import android.support.design.widget.*;
 import android.support.v4.view.*;
-import android.support.v4.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +27,8 @@ import com.amulyakhare.textdrawable.*;
 import java.util.*;
 import android.net.*;
 import java.io.*;
+import de.hdodenhof.circleimageview.CircleImageView;
+import android.support.v4.widget.*;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -36,15 +37,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	private DrawerLayout drawerLayout;
 	private NavigationView navigationView;
 	
-	//头像
-	private ImageView ImageView_user;
 	private MyApplication myApplication;
 	//用户名称
 	private TextView userName;
 	//获取本地登录的bmob信息
 	private BmobUser bmobUser;
 	//圆形头像
-	private TextDrawable.IBuilder drawableBuilder;
+	private TextDrawable drawableBuilder;
+	
+	private CircleImageView mCircleImageView;
 
 	private int drawerLayoutCheck = GravityCompat.START;
 	
@@ -103,15 +104,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		if(bmobUser != null){
 			//设置用户名称
 			userName.setText(bmobUser.getUsername());
-			//设置用户头像
-			drawableBuilder=TextDrawable.builder().round();
 			//根据用户名称的第一位字符设置头像
-			ImageView_user.setImageDrawable(drawableBuilder.build(userName.getText().toString().subSequence(0,1).toString(),
+			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),
 			myApplication.getUserRandomColor()));
 			
 		}else{
 			userName.setText("登录iCode");
-			ImageView_user.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
+			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
 			
 		}
 		
@@ -166,9 +165,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		drawerLayout.setDrawerListener(actionBarDrawerToggle);
 		actionBarDrawerToggle.syncState();
 		userName=(TextView)findViewById(R.id.main_username);
-		ImageView_user=(ImageView)findViewById(R.id.icode_user);
+		mCircleImageView=(CircleImageView)findViewById(R.id.icode_user);
 		
-		ImageView_user.setOnClickListener(this);
+		mCircleImageView.setOnClickListener(this);
 		
 		
 	}
