@@ -24,6 +24,7 @@ import android.support.v7.widget.*;
 import android.view.animation.*;
 import com.chanven.lib.cptr.*;
 import com.chanven.lib.cptr.loadmore.*;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 
 
 public class dataFragment extends Fragment implements OnClickListener,SwipeRefreshLayout.OnRefreshListener
@@ -89,7 +90,11 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					new Handler().postDelayed(new Runnable() {
 							@Override
 							public void run() {
-								initData(0);
+								if(myApplication.isNetwork(getActivity())){
+									initData(0);
+								}else{
+									myApplication.showToast("当前无网络");
+								}	
 								ptrClassicFrameLayout.refreshComplete();
 								//ptrClassicFrameLayout.setLoadMoreEnable(true);
 							}

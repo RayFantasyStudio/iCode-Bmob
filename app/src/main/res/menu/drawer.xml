@@ -12,6 +12,7 @@
 				<item
 					android:id="@+id/release"
 					android:checked="false"
+					android:icon="@drawable/ic_home_white_36dp"
 					android:title="@string/release" />
 
 			</menu>
@@ -26,11 +27,13 @@
 				<item
 					android:id="@+id/setting"
 					android:checked="false"
+					android:icon="@drawable/ic_settings_white_36dp"
 					android:title="@string/setting" />
 
 				<item
 					android:id="@+id/about"
 					android:checked="false"
+					android:icon="@drawable/ic_info_outline_white_36dp"
 					android:title="@string/about" />
 		
 			</menu>

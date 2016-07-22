@@ -10,8 +10,9 @@ import rayfantasy.icode.*;
 import rayfantasy.icode.Bmob.*;
 import de.hdodenhof.circleimageview.*;
 import rayfantasy.icode.R;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 
-public class dataRecyclerViewHolder extends RecyclerView.Adapter<dataRecyclerViewHolder.MyViewHolder>
+public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 {
 	private List<Data> dataList;
 	private TextDrawable drawableBuilder;
@@ -30,10 +31,10 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<dataRecyclerVie
 	}
 
 	@Override
-	public void onBindViewHolder(dataRecyclerViewHolder.MyViewHolder itemview, int i)
+	public void onBindViewHolder(ViewHolder holder, int i)
 	{
-		
 		Data data = dataList.get(i);
+		MyViewHolder itemview=(MyViewHolder)holder;
 		itemview.title.setText(data.getTitle());
 		itemview.bg.setElevation(5);
 		itemview.message.setText(data.getMessage());
