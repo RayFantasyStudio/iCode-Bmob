@@ -30,21 +30,32 @@ public class dataFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 	
 	private SwipeRefreshLayout swipeRefreshLayout;
 	
+	private int data_skip=0;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		v=inflater.inflate(R.layout.fragment_data,container,false);
 		initView(v);
-		initData();
+		initData(0);
 		return v;
 	}
+	
+	private void LodgingData(){
+		
+	}
 
-	private void initData()
+	private void initData(int skip)
 	{
 		// 刷新数据
 		final BmobQuery<Data> query = new BmobQuery<Data>();
 		query.order("-createdAt");
 		query.setLimit(10);
+		//忽略前面数据
+		query.setSkip(skip*10);
+		if(skip==0){
+			mList.clear();
+		}
 		query.findObjects(getActivity(), new FindListener<Data>(){
 
 				@Override
@@ -90,7 +101,7 @@ public class dataFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 	@Override
 	public void onRefresh()
 	{
-		initData();
+		initData(0);
 	}
 
 	
