@@ -12,6 +12,9 @@ import cn.bmob.v3.listener.*;
 
 import rayfantasy.icode.Bmob.*;
 import android.graphics.*;
+import com.tencent.bugly.crashreport.*;
+import rayfantasy.icode.Data.*;
+import android.content.pm.*;
 
 public class MyApplication extends Application
 {
@@ -25,8 +28,37 @@ public class MyApplication extends Application
 		setting = PreferenceManager.getDefaultSharedPreferences(this);
         Bmob.initialize(this, Bmob_APPID);
 		context=this;
+		initbugly();
+	}
+	
+	private void initbugly(){
+		CrashReport.initCrashReport(getApplicationContext(),Var.String("BuglyID"),false);
 	}
 
+	public void initSign(){
+        try
+        {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            Signature[] signs = packageInfo.signatures;
+            Signature sign = signs[0];
+            int code = sign.hashCode();
+            int official = Var.Int("official");
+            int debug = Var.Int("debug");
+
+            if (code != official)
+            {
+                if (code != debug){
+                    Toast.makeText(this,"Sign failed!",0).show();
+                }
+                else{
+                    Toast.makeText(this,"Debug Version!" ,0).show();
+                }
+            }
+        }
+        catch (PackageManager.NameNotFoundException e){
+        }
+    }
+	
     public void editString(String s, String message) {
         setting.edit().putString(s, message).apply();
     }
@@ -60,10 +92,8 @@ public class MyApplication extends Application
 		return tm.getDeviceId();
 	}
 	//判断网络状态
-	public static boolean detect(Activity act) {  
-		ConnectivityManager manager = (ConnectivityManager) act  
-			.getApplicationContext().getSystemService(  
-			Context.CONNECTIVITY_SERVICE);  
+	public static boolean isNetwork(Activity a) {  
+		ConnectivityManager manager = (ConnectivityManager)a.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);  
 		if (manager == null) {  
 			return false;  
 		}  

@@ -55,20 +55,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-		//BmobUpdateAgent.initAppVersion(this);//自动在Web端创建表，第一次运行后创建，第二删除这行或注释掉
 		BmobUpdateAgent.setUpdateOnlyWifi(false);//在任何环境下提示更新
 		BmobUpdateAgent.update(this);//调用更新
         setContentView(R.layout.activity_main);
-		
-		initbugly();
-		
-		initSign();
 		
 		initView();
 		
 		initUser();
 		
-		if(checkNetworkState() || checkCache()){
+		if(myApplication.isNetwork(this) || checkCache()){
 			initData();
 		}
     }
@@ -88,10 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			return false;
 		}
 	}
-	private void initbugly(){
-		CrashReport.initCrashReport(getApplicationContext(),Var.String("BuglyID"),false);
-	}
-
+	
 	private void initData()
 	{
 		getFragmentManager().beginTransaction().replace(R.id.frame,new dataFragment()).commit();
@@ -104,12 +96,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		if(bmobUser != null){
 			//设置用户名称
 			userName.setText(bmobUser.getUsername());
+			//清空
+			mCircleImageView.setImageResource(0);
 			//根据用户名称的第一位字符设置头像
 			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),
 			myApplication.getUserRandomColor()));
 			
 		}else{
 			userName.setText("登录iCode");
+			//清空
+			mCircleImageView.setBackgroundResource(0);
 			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
 			
 		}
@@ -171,31 +167,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		
 		
 	}
-	
-	public void initSign(){
-        try
-        {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-            Signature[] signs = packageInfo.signatures;
-            Signature sign = signs[0];
-            int code = sign.hashCode();
-            int official = Var.Int("official");
-            int debug = Var.Int("debug");
-			
-            if (code != official)
-            {
-                if (code != debug){
-                    Toast.makeText(this,"Sign failed!",0).show();
-                    finish();
-                }
-                else{
-                    Toast.makeText(this,"Debug Version!" ,0).show();
-                }
-            }
-        }
-        catch (PackageManager.NameNotFoundException e){
-        }
-    }
 
 	@Override
 	public void onClick(View p1)
@@ -253,25 +224,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			BarWithAction("你确定要退出？","确定","finish");
 		}
 		return false;
-	}
-	
-
-	/**
-	 * 检测网络是否连接
-	 * @return
-	 */
-	private boolean checkNetworkState() {
-		boolean flag = false;
-		
-		manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		
-		if (manager.getActiveNetworkInfo() != null) {
-			flag = manager.getActiveNetworkInfo().isAvailable();
-		}
-		if (!flag) {
-			setNetwork();
-		}
-		return flag;
 	}
 
 	private void setNetwork(){
