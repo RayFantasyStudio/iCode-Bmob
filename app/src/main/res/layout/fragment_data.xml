@@ -5,17 +5,32 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<android.support.v4.widget.SwipeRefreshLayout
+<!--	<android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:id="@+id/swipe_layout">
-
-		<android.support.v7.widget.RecyclerView
-			android:id="@+id/recycler_view"
+		
+		-->
+		<com.chanven.lib.cptr.PtrClassicFrameLayout
+			xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+			android:id="@+id/recycler_view_frame"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+			android:layout_height="match_parent"
+			cube_ptr:ptr_duration_to_close="200"
+			cube_ptr:ptr_duration_to_close_header="700"
+			cube_ptr:ptr_keep_header_when_refresh="true"
+			cube_ptr:ptr_pull_to_fresh="false"
+			cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+			cube_ptr:ptr_resistance="1.8" >
+			
 
-	</android.support.v4.widget.SwipeRefreshLayout>
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/recycler_view"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"/>
+		
+		</com.chanven.lib.cptr.PtrClassicFrameLayout>
+
 
 	<com.melnykov.fab.FloatingActionButton
 		android:id="@+id/new_code"

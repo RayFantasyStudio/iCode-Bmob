@@ -22,13 +22,18 @@ import android.animation.*;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.*;
 import android.view.animation.*;
+import com.chanven.lib.cptr.*;
+import com.chanven.lib.cptr.loadmore.*;
 
 
 public class dataFragment extends Fragment implements OnClickListener,SwipeRefreshLayout.OnRefreshListener
 {	
-	private SwipeRefreshLayout mSwipeRefreshLayout;
+	//private SwipeRefreshLayout mSwipeRefreshLayout;
+	private PtrClassicFrameLayout ptrClassicFrameLayout;
+	
 	private RecyclerView recyclerView;
 	private dataRecyclerViewHolder dataRecyclerViewHolder;
+	private LinearLayoutManager mLinearLayoutManager;
 	
 	private View v;
 	private List<Data> mList=new ArrayList<Data>();
@@ -37,9 +42,6 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	
 	private MyApplication myApplication;
 	private int data_skip=0;
-	private boolean isScroll=true;
-
-	private LinearLayoutManager mLinearLayoutManager;
 	
 	
 	@Override
@@ -54,12 +56,12 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	private void initView(View v)
 	{
 		myApplication=(MyApplication)getActivity().getApplication();
-		mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipe_layout);
+		/*mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipe_layout);
 		mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
 											  android.R.color.holo_green_light,
 											  android.R.color.holo_orange_light, android.R.color.holo_red_light);
 		mSwipeRefreshLayout.setOnRefreshListener(this);
-		
+		*/
 		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_view);
 		mLinearLayoutManager = new LinearLayoutManager(getActivity());
 		recyclerView.setLayoutManager(mLinearLayoutManager);
@@ -73,43 +75,44 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		mFloatingActionButton.setOnClickListener(this);
 		mFloatingActionButton.attachToRecyclerView(recyclerView);
 		
-		recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-				Boolean isScrolling = false;
-				@Override
-				public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-					super.onScrollStateChanged(recyclerView, newState);
-					if (newState == RecyclerView.SCROLL_STATE_IDLE && isScroll) {
-						int lastVisibleItem = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
-						int totalItemCount = mLinearLayoutManager.getItemCount();
-						if (lastVisibleItem == (totalItemCount - 1)) {
-							LoadMore();
-							isScroll = false;
-							data_skip++;
-						}
-					}
-
-				}
-
-				@Override
-				public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-					super.onScrolled(recyclerView, dx, dy);
-					if (dy > 0) {
-						isScrolling = true;
-					} else {
-						isScrolling = false;
-					}
-				}
-			});
-	}
-	
-	public void LoadMore(){
-		isScroll=true;
-		new Handler().postDelayed(new Runnable() {
+		ptrClassicFrameLayout=(PtrClassicFrameLayout)v.findViewById(R.id.recycler_view_frame);
+		
+		ptrClassicFrameLayout.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					onPostLoadMore();
+					ptrClassicFrameLayout.autoRefresh(true);
 				}
-			}, 3000);
+		}, 150);
+		ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+				@Override
+				public void onRefreshBegin(PtrFrameLayout frame) {
+					new Handler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								initData(0);
+								ptrClassicFrameLayout.refreshComplete();
+								//ptrClassicFrameLayout.setLoadMoreEnable(true);
+							}
+						}, 1000);
+				}
+			});
+				
+		ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+				@Override
+				public void loadMore() {
+					new Handler().postDelayed(new Runnable() {
+
+							@Override
+							public void run() {
+								data_skip++;
+								initData(data_skip);
+								
+								ptrClassicFrameLayout.loadMoreComplete(true);
+							}
+						}, 1000);
+				}
+			});
+	
 	}
 
 	private void initData(final int skip)
@@ -133,7 +136,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					}
 					mList.addAll(skip, losts);
 					dataRecyclerViewHolder.notifyDataSetChanged();
-					mSwipeRefreshLayout.setRefreshing(false);
+					//mSwipeRefreshLayout.setRefreshing(false);
 				}
 
 				@Override
@@ -153,7 +156,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 			initData(0);
 		}else{
 			myApplication.showToast("当前无网络");
-			mSwipeRefreshLayout.setRefreshing(false);
+			//mSwipeRefreshLayout.setRefreshing(false);
 		}
 	}
 
@@ -170,8 +173,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	}
 
     public void onPostLoadMore() {
-        isScroll=true;
-		initData(data_skip);
+        initData(data_skip);
 		myApplication.showToast("加载更多");
         dataRecyclerViewHolder.notifyDataSetChanged();
     }
