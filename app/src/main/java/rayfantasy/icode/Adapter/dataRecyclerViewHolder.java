@@ -25,22 +25,23 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<dataRecyclerVie
 	public dataRecyclerViewHolder.MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
 	{
 		View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_text, viewGroup, false);
-        return new MyViewHolder(itemView);
+		return new MyViewHolder(itemView);
+		
 	}
 
 	@Override
-	public void onBindViewHolder(dataRecyclerViewHolder.MyViewHolder holder, int i)
+	public void onBindViewHolder(dataRecyclerViewHolder.MyViewHolder itemview, int i)
 	{
-		Data data = dataList.get(i);
-      
-		holder.title.setText(data.getTitle());
-		holder.bg.setElevation(5);
-		holder.message.setText(data.getMessage());
-		holder.time.setText(data.getCreatedAt());
-		holder.user.setText(data.getUser());
 		
+		Data data = dataList.get(i);
+		itemview.title.setText(data.getTitle());
+		itemview.bg.setElevation(5);
+		itemview.message.setText(data.getMessage());
+		itemview.time.setText(data.getCreatedAt());
+		itemview.user.setText(data.getUser());
 		//根据用户名称的第一位字符设置头像
-		holder.userimage.setBackground(drawableBuilder.builder().buildRound(holder.user.getText().toString().subSequence(0,1).toString(),getUserRandomColor()));
+		itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),getUserRandomColor()));
+		
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<dataRecyclerVie
 		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
 	}
 	
-	public static class MyViewHolder extends RecyclerView.ViewHolder {
+	class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, message, time, user;
         public CardView bg;
 		public CircleImageView userimage;
@@ -69,4 +70,5 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<dataRecyclerVie
             bg = (CardView) itemView.findViewById(R.id.card_view);
         }
     }
+	
 }

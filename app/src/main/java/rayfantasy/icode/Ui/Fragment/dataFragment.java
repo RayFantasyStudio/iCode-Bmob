@@ -21,13 +21,13 @@ import android.graphics.*;
 import android.animation.*;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.*;
-import com.malinskiy.superrecyclerview.*;
 import android.view.animation.*;
+
 
 public class dataFragment extends Fragment implements OnClickListener,SwipeRefreshLayout.OnRefreshListener
 {	
-	
-	private SuperRecyclerView recyclerView;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
+	private RecyclerView recyclerView;
 	private dataRecyclerViewHolder dataRecyclerViewHolder;
 	
 	private View v;
@@ -37,6 +37,10 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	
 	private MyApplication myApplication;
 	private int data_skip=0;
+	private boolean isScroll=true;
+
+	private LinearLayoutManager mLinearLayoutManager;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -50,32 +54,65 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	private void initView(View v)
 	{
 		myApplication=(MyApplication)getActivity().getApplication();
+		mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipe_layout);
+		mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
+											  android.R.color.holo_green_light,
+											  android.R.color.holo_orange_light, android.R.color.holo_red_light);
+		mSwipeRefreshLayout.setOnRefreshListener(this);
 		
-		recyclerView=(SuperRecyclerView)v.findViewById(R.id.recycler_view);
-		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.getRecyclerView().setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
+		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_view);
+		mLinearLayoutManager = new LinearLayoutManager(getActivity());
+		recyclerView.setLayoutManager(mLinearLayoutManager);
+		
+		
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 		dataRecyclerViewHolder=new dataRecyclerViewHolder(mList);
 		recyclerView.setAdapter(dataRecyclerViewHolder);
 		
-		recyclerView.setRefreshingColorResources(android.R.color.holo_blue_light,
-										  android.R.color.holo_green_light,
-										  android.R.color.holo_orange_light, android.R.color.holo_red_light);
-		recyclerView.setRefreshListener(this);
-		
-		/*recyclerView.setupMoreListener(new OnMoreListener() {
-				@Override
-				public void onMoreAsked(int numberOfItems, int numberBeforeMore, int currentItemPos) {
-					data_skip++;
-					initData(data_skip);
-		}}, 1000);
-		*/
 		mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.new_code);
 		mFloatingActionButton.setOnClickListener(this);
-		mFloatingActionButton.attachToRecyclerView(recyclerView.getRecyclerView());
+		mFloatingActionButton.attachToRecyclerView(recyclerView);
 		
+		recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+				Boolean isScrolling = false;
+				@Override
+				public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+					super.onScrollStateChanged(recyclerView, newState);
+					if (newState == RecyclerView.SCROLL_STATE_IDLE && isScroll) {
+						int lastVisibleItem = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+						int totalItemCount = mLinearLayoutManager.getItemCount();
+						if (lastVisibleItem == (totalItemCount - 1)) {
+							LoadMore();
+							isScroll = false;
+							data_skip++;
+						}
+					}
+
+				}
+
+				@Override
+				public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+					super.onScrolled(recyclerView, dx, dy);
+					if (dy > 0) {
+						isScrolling = true;
+					} else {
+						isScrolling = false;
+					}
+				}
+			});
+	}
+	
+	public void LoadMore(){
+		isScroll=true;
+		new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					onPostLoadMore();
+				}
+			}, 3000);
 	}
 
-	private void initData(int skip)
+	private void initData(final int skip)
 	{
 		// 刷新数据
 		final BmobQuery<Data> query = new BmobQuery<Data>();
@@ -94,10 +131,9 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					if (losts == null || losts.size() == 0) {
 						return;
 					}
-					mList.addAll(0, losts);
+					mList.addAll(skip, losts);
 					dataRecyclerViewHolder.notifyDataSetChanged();
-					recyclerView.getSwipeToRefresh().setRefreshing(false);
-					
+					mSwipeRefreshLayout.setRefreshing(false);
 				}
 
 				@Override
@@ -117,7 +153,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 			initData(0);
 		}else{
 			myApplication.showToast("当前无网络");
-			recyclerView.getSwipeToRefresh().setRefreshing(false);
+			mSwipeRefreshLayout.setRefreshing(false);
 		}
 	}
 
@@ -132,5 +168,12 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		}
 		
 	}
+
+    public void onPostLoadMore() {
+        isScroll=true;
+		initData(data_skip);
+		myApplication.showToast("加载更多");
+        dataRecyclerViewHolder.notifyDataSetChanged();
+    }
 	
 }
