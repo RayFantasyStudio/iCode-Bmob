@@ -8,24 +8,23 @@ public class User extends BmobUser
 {
 
 	private String About;
-	private Integer Head_Color;
 	private BmobFile Head;	
+	private String HeadColor="-10839344";
 	
 	public void setAbout(String About){
 		this.About=About;
 	}
 	
+	public void setHeadColor(String HeadColor){
+		this.HeadColor=HeadColor;
+	}
 	
 	public String getAbout(){
 		return About;
 	}
-	
-	public void setHead_Color(Integer Head_Color){
-		this.Head_Color=Head_Color;
-	}
 
-	public Integer getHead_Color(){
-		return Head_Color;
+	public String getHeadColor(){
+		return HeadColor;
 	}
 	
 	public BmobFile getHead(){
