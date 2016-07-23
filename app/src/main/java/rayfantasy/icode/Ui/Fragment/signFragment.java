@@ -112,7 +112,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		User bu = new User();
 		bu.setPassword(Password);
 		bu.setUsername(UserName);
-		bu.setHead_Color(myApplication.getUserRandomColor());
+		bu.setHeadColor(myApplication.getUserRandomColor());
 		bu.setAbout(UserName+"很懒什么都没有写");
 		bu.signUp(new SaveListener<User>(){
 				@Override

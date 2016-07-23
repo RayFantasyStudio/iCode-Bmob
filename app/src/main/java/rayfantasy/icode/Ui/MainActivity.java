@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	private CircleImageView mCircleImageView;
 	private int drawerLayoutCheck = GravityCompat.START;
 	
-	private int ImageColor;
+	private int HeadColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -100,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			//清空
 			mCircleImageView.setImageResource(0);
 			//根据用户名称的第一位字符设置头像
-			//ImageColor=bmobUser.getObjectByKey("Head_Color");
-			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),Color.rgb(256,127,127)));
+			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
+			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor));
 			
 		}else{
 			userName.setText("登录iCode");

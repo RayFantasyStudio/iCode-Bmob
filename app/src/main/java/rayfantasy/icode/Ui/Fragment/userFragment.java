@@ -30,7 +30,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 	private TextView userName,userabout;
 	private TextDrawable drawableBuilder;
 	private CircleImageView userImage;
-	private Integer ImageColor;
+	private int HeadColor;
 	private String User_About;
 	
 	@Override
@@ -60,9 +60,9 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		user = BmobUser.getCurrentUser(User.class);
 		if(user!=null){
 			userName.setText(user.getUsername());
-			ImageColor=(Integer)user.getObjectByKey("Head_Color");
+			HeadColor=myApplication.getHeadColor((String)user.getObjectByKey("HeadColor"));
 			User_About=(String)user.getObjectByKey("About");
-			userImage.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),ImageColor));
+			userImage.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor));
 			userabout.setText(User_About);
 		}
 	}

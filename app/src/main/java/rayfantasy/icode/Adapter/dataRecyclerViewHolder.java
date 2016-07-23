@@ -52,9 +52,14 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 			itemview.time.setText(data.getCreatedAt());
 			itemview.user.setText(data.getUser());
 			//根据用户名称的第一位字符设置头像
-			itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),data.getHead_Color()));
+			itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
+			getHeadColor(data.getHeadColor())));
 																				  
 		}
+	}
+	
+	private int getHeadColor(String s){
+		return Integer.valueOf(s).intValue();
 	}
 
 	@Override

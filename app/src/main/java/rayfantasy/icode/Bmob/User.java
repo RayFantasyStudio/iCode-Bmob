@@ -7,7 +7,7 @@ public class User extends BmobUser
 {
 
 	private String About;
-	private Integer Head_Color;
+	private String HeadColor;
 	private File Head;	
 	
 	public void setAbout(String About){
@@ -19,12 +19,12 @@ public class User extends BmobUser
 		return About;
 	}
 	
-	public void setHead_Color(Integer Head_Color){
-		this.Head_Color=Head_Color;
+	public void setHeadColor(String HeadColor){
+		this.HeadColor=HeadColor;
 	}
 
 
-	public Integer getHead_Color(){
-		return Head_Color;
+	public String getHeadColor(){
+		return HeadColor;
 	}
 }

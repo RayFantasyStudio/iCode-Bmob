@@ -84,6 +84,10 @@ public class MyApplication extends Application
     public String getString(String s, String message) {
         return setting.getString(s, message);
     }
+	
+	public int getHeadColor(String s){
+		return Integer.valueOf(s).intValue();
+	}
 
 	public void showToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
@@ -126,8 +130,8 @@ public class MyApplication extends Application
 		return true;  
     }
 	
-	public int getUserRandomColor(){
-		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+	public String getUserRandomColor(){
+		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255))+"";
 	}
 	
 }

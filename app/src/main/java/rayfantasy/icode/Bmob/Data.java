@@ -7,7 +7,7 @@ public class Data extends BmobObject
 	private String Title="Title";
 	private String Message="Message";
    	private String UserName="UserName";
-	private Integer Head_Color=0;
+	private String HeadColor="-10839344";
 	
     public Data() {
         this.setTableName("Data");
@@ -36,12 +36,12 @@ public class Data extends BmobObject
 		return UserName;
 	}
 	
-	public void setHead_Color(Integer Head_Color){
-		this.Head_Color=Head_Color;
+	public void setHeadColor(String HeadColor){
+		this.HeadColor=HeadColor;
 	}
 
 
-	public Integer getHead_Color(){
-		return Head_Color;
+	public String getHeadColor(){
+		return HeadColor;
 	}
 }
