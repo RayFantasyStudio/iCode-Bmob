@@ -27,18 +27,6 @@ A new project which is included in iCode-Android Based on Bmob.Wish it can bring
 更多信息交流讨论：
 - QQ  : 49162418，欢迎加入讨论，
 
-## 项目预览
-<img src="./art/demo1.png" alt="Example App" width="250px" />
-<img src="./art/demo2.png" alt="Example App" width="250px" />
-<img src="./art/demo3.png" alt="Example App" width="250px" />
-<img src="./art/demo4.png" alt="Example App" width="250px" />
-<img src="./art/demo5.png" alt="Example App" width="250px" />
-<img src="./art/demo6.png" alt="Example App" width="250px" />
-<img src="./art/demo7.png" alt="Example App" width="250px" />
-<img src="./art/demo8.png" alt="Example App" width="250px" />
-<img src="./art/demo9.png" alt="Example App" width="250px" />
-<img src="./art/demo10.png" alt="Example App" width="250px" />
-
 ## 许可证
 ``` 
 Copyright 2015-2016 RayFantasy Studio
