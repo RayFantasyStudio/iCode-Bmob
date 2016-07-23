@@ -4,15 +4,14 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent">
-	
 
 	<de.hdodenhof.circleimageview.CircleImageView
 		app:border_color="#FF000000"
 		android:id="@+id/user_image"
 		android:layout_width="72dp"
 		android:layout_height="72dp"
-		android:layout_centerInParent="true"/>
-
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="40dp"/>
 
 	<TextView
 		android:layout_height="wrap_content"
@@ -23,7 +22,7 @@
 		android:layout_below="@+id/user_image"
 		android:layout_centerInParent="true"
 		android:layout_marginTop="10dp"/>
-	
+
 	<TextView
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
@@ -35,16 +34,60 @@
 		android:layout_centerInParent="true"
 		android:layout_marginTop="10dp"/>
 
-	<com.melnykov.fab.FloatingActionButton
-		android:id="@+id/finish_user"
+	<com.rengwuxian.materialedittext.MaterialEditText
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:src="@drawable/finish_user"
-		app:fab_colorNormal="#ff0000"
-		android:layout_margin="10dp"
-		android:layout_alignParentBottom="true"
-		android:layout_centerHorizontal="true"/>
-	
+		android:hint="请输入帐号"
+		android:focusableInTouchMode="true"
+		app:met_floatingLabelText="帐号"
+		app:met_primaryColor="#0000ff"
+		app:met_minCharacters="5"
+		app:met_maxCharacters="18"
+		app:met_floatingLabel="highlight"
+		android:layout_below="@+id/user_image"
+		android:layout_centerInParent="true"
+		android:layout_marginTop="10dp"
+		android:id="@+id/fragmentuserMaterialEditText1"/>
+
+	<com.rengwuxian.materialedittext.MaterialEditText
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:hint="请输入签名"
+		android:focusableInTouchMode="true"
+		app:met_floatingLabelText="签名"
+		app:met_primaryColor="#0000ff"
+		app:met_maxCharacters="50"
+		app:met_floatingLabel="highlight"
+		android:layout_below="@+id/fragmentuserMaterialEditText1"
+		android:layout_centerInParent="true"
+		android:layout_marginTop="10dp"
+		android:id="@+id/fragmentuserMaterialEditText2"/>
+
+	<RelativeLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:layout_alignParentBottom="true">
+
+		<com.melnykov.fab.FloatingActionButton
+			android:id="@+id/updata_user"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/ic_create_white_36dp"
+			app:fab_colorNormal="#0084FF"
+			android:layout_centerInParent="true"
+			android:layout_margin="10dp"/>
+
+		<com.melnykov.fab.FloatingActionButton
+			android:id="@+id/finish_user"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/finish_user"
+			app:fab_colorNormal="#ff0000"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:layout_margin="10dp"/>
+
+	</RelativeLayout>
 
 </RelativeLayout>
 

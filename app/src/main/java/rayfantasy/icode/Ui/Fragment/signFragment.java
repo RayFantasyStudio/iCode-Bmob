@@ -62,14 +62,14 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	{
 		switch(p1.getId()){
 			case R.id.sign_up:
-				if(isCharacter(account.getText().toString().length(),password.getText().toString().length())){
+				if(myApplication.isCharacter(account.getText().toString().length(),password.getText().toString().length(),5,18,6,18)){
 					loginByAccountPwd(account.getText().toString(),password.getText().toString());
 				}else{
 					Snackbar.make(p1,"输入格式有误！",1000).show();
 				}
 				break;
 			case R.id.sign_in:
-				if(isCharacter(account.getText().toString().length(),password.getText().toString().length())){
+				if(myApplication.isCharacter(account.getText().toString().length(),password.getText().toString().length(),5,18,6,18)){
 					LoginData(account.getText().toString(),password.getText().toString());
 				}else{
 					Snackbar.make(p1,"输入格式有误！",1000).show();
@@ -129,13 +129,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		
 	}
 	
-	private boolean isCharacter(int i,int j){
-		if(i>=5&&i<=18&&j>=6&&j<=18){
-			return true;
-		}else{
-			return false;
-		}
-	}
+	
 
 	
 	

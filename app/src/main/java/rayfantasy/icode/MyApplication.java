@@ -85,6 +85,7 @@ public class MyApplication extends Application
         return setting.getString(s, message);
     }
 	
+	//String转int
 	public int getHeadColor(String s){
 		return Integer.valueOf(s).intValue();
 	}
@@ -97,6 +98,7 @@ public class MyApplication extends Application
 		Snackbar.make(a.getCurrentFocus(), Message, Snackbar.LENGTH_SHORT).show();
 	}
 	
+	//无网络跳转
 	public void NetworkIntent(){
 		Intent intent = null;
 		if (android.os.Build.VERSION.SDK_INT > 10) {
@@ -113,10 +115,21 @@ public class MyApplication extends Application
 		showToast("当前无网络");
 	}
 
+	//检测输入框是否符合规则
+	public boolean isCharacter(int i,int j,int a,int b,int c,int d){
+		if(i>=a&&i<=b&&j>=c&&j<=d){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	//获取imei
 	public String getImei(){
 		TelephonyManager tm=(TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 		return tm.getDeviceId();
 	}
+	
 	//判断网络状态
 	public static boolean isNetwork(Activity a) {  
 		ConnectivityManager manager = (ConnectivityManager)a.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);  
