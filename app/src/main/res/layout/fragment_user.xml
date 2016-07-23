@@ -13,27 +13,6 @@
 		android:layout_centerHorizontal="true"
 		android:layout_marginTop="40dp"/>
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:gravity="center"
-		android:textSize="25sp"
-		android:id="@+id/usermain_username"
-		android:layout_below="@+id/user_image"
-		android:layout_centerInParent="true"
-		android:layout_marginTop="10dp"/>
-
-	<TextView
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:gravity="center"
-		android:textSize="15sp"
-		android:id="@+id/usermain_about"
-		android:textColor="#0084FF"
-		android:layout_below="@+id/usermain_username"
-		android:layout_centerInParent="true"
-		android:layout_marginTop="10dp"/>
-
 	<com.rengwuxian.materialedittext.MaterialEditText
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -47,7 +26,7 @@
 		android:layout_below="@+id/user_image"
 		android:layout_centerInParent="true"
 		android:layout_marginTop="10dp"
-		android:id="@+id/fragmentuserMaterialEditText1"/>
+		android:id="@+id/user_name"/>
 
 	<com.rengwuxian.materialedittext.MaterialEditText
 		android:layout_width="wrap_content"
@@ -58,10 +37,10 @@
 		app:met_primaryColor="#0000ff"
 		app:met_maxCharacters="50"
 		app:met_floatingLabel="highlight"
-		android:layout_below="@+id/fragmentuserMaterialEditText1"
+		android:layout_below="@+id/user_name"
 		android:layout_centerInParent="true"
 		android:layout_marginTop="10dp"
-		android:id="@+id/fragmentuserMaterialEditText2"/>
+		android:id="@+id/user_about"/>
 
 	<RelativeLayout
 		android:layout_height="wrap_content"

@@ -28,8 +28,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 	private User user;
 	
 	private FloatingActionButton fab_finish_user,fab_updata_user;
-	private TextView userName,userabout;
-	private MaterialEditText met1,met2;
+	private MaterialEditText user_name,user_about;
 	
 	private TextDrawable drawableBuilder;
 	private CircleImageView userImage;
@@ -51,15 +50,15 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		fab_finish_user=(FloatingActionButton)v.findViewById(R.id.finish_user);
 		fab_updata_user=(FloatingActionButton)v.findViewById(R.id.updata_user);
 		
-		userName=(TextView)v.findViewById(R.id.usermain_username);
-		userabout=(TextView)v.findViewById(R.id.usermain_about);
-		met1=(MaterialEditText)v.findViewById(R.id.fragmentuserMaterialEditText1);
-		met2=(MaterialEditText)v.findViewById(R.id.fragmentuserMaterialEditText2);
+		user_name=(MaterialEditText)v.findViewById(R.id.user_name);
+		user_about=(MaterialEditText)v.findViewById(R.id.user_about);
 		
 		userImage=(CircleImageView)v.findViewById(R.id.user_image);
-		met1.setTextSize(25);
-		met2.setTextSize(15);
-
+		
+		user_name.setTextSize(25);
+		user_about.setTextSize(15);
+		setMetVisibility(true);
+		
 		fab_finish_user.setOnClickListener(this);
 		fab_finish_user.setOnLongClickListener(this);
 		fab_updata_user.setOnClickListener(this);
@@ -70,14 +69,12 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 	{
 		user = BmobUser.getCurrentUser(User.class);
 		if(user!=null){
-			userName.setText(user.getUsername());
+			user_name.setText(user.getUsername());
 			HeadColor=myApplication.getHeadColor((String)user.getObjectByKey("HeadColor"));
 			User_About=(String)user.getObjectByKey("About");
-			userImage.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor));
-			userabout.setText(User_About);
-			met1.setVisibility(View.GONE);
-			met2.setVisibility(View.GONE);
-		}
+			userImage.setBackground(drawableBuilder.builder().buildRound(user_name.getText().toString().subSequence(0,1).toString(),HeadColor));
+			user_about.setText(User_About);
+			}
 	}
 	
 	@Override
@@ -89,21 +86,12 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 				break;
 			case R.id.updata_user:
 				if(fab_finish_user.getVisibility()==View.VISIBLE){
-					userName.setVisibility(View.GONE);
-					userabout.setVisibility(View.GONE);
-					met1.setVisibility(View.VISIBLE);
-					met2.setVisibility(View.VISIBLE);
-					met1.setText(userName.getText());
-					met2.setText(userabout.getText());
+					setMetVisibility(false);
 					fab_finish_user.setVisibility(View.GONE);
 				}else{
-					if(myApplication.isCharacter(met1.getText().toString().length(),met2.getText().toString().length(),5,18,0,50)){
-						userName.setVisibility(View.VISIBLE);
-						userabout.setVisibility(View.VISIBLE);
-						met1.setVisibility(View.GONE);
-						met2.setVisibility(View.GONE);
+					if(myApplication.isCharacter(user_name.getText().toString().length(),user_about.getText().toString().length(),5,18,0,50)){
 						fab_finish_user.setVisibility(View.VISIBLE);
-						updata(met1.getText().toString(),met2.getText().toString());
+						updata(user_name.getText().toString(),user_about.getText().toString());
 					}else{
 						myApplication.showSnackBar(getActivity(),"其中一项不符合规则");
 					}
@@ -112,24 +100,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 				break;
 		}
 	}
-
-	private void updata(String UserName,String About){
-		User newUser = new User();
-		newUser.setAbout(About);
-		newUser.setUsername(UserName);
-		BmobUser bmobUser = BmobUser.getCurrentUser(User.class);
-		newUser.update(bmobUser.getObjectId(), new UpdateListener() {
-				@Override
-				public void done(BmobException e) {
-					if(e==null){
-						myApplication.showToast("更新用户信息成功");
-					}else{
-						myApplication.showToast("更新用户信息失败:" + e.getMessage());
-					}
-				}
-			});
-	}
-
+	
 	@Override
 	public boolean onLongClick(View p1)
 	{
@@ -142,6 +113,43 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 				break;
 		}
 		return false;
+	}
+	
+	private void setMetVisibility(boolean v){
+		if(v){
+			user_name.setFocusable(false);
+			user_name.setFocusableInTouchMode(false);
+			user_name.setHideUnderline(true);
+			user_about.setFocusable(false);
+			user_about.setHideUnderline(true);
+			user_about.setFocusableInTouchMode(false);
+		}else{
+			user_name.setFocusable(true);
+			user_name.setFocusableInTouchMode(true);
+			user_name.setHideUnderline(false);
+			user_about.setFocusable(true);
+			user_about.setHideUnderline(false);
+			user_about.setFocusableInTouchMode(true);
+		}
+
+	}
+
+	private void updata(String UserName,String About){
+		User newUser = new User();
+		newUser.setAbout(About);
+		newUser.setUsername(UserName);
+		BmobUser bmobUser = BmobUser.getCurrentUser(User.class);
+		newUser.update(bmobUser.getObjectId(), new UpdateListener() {
+				@Override
+				public void done(BmobException e) {
+					if(e==null){
+						setMetVisibility(true);
+						myApplication.showToast("更新用户信息成功");
+					}else{
+						myApplication.showToast("更新用户信息失败:" + e.getMessage());
+					}
+				}
+			});
 	}
 
 	//退出登录
