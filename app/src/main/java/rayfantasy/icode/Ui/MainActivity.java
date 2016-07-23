@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		
 		if(myApplication.isNetwork(this) || checkCache()){
 			initData();
+		}else{
+			myApplication.NetworkIntent();
 		}
     }
 	
@@ -197,66 +199,36 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		initUser();
 	}
 	
-	private void BarWithAction(String Message,String ActionText,final String Function){
-		Snackbar.make(getCurrentFocus(), Message, Snackbar.LENGTH_LONG).setAction(ActionText, new View.OnClickListener(){
-
-				@Override
-				public void onClick(View p1)
-				{
-					switch(Function){
-						case "finish":
-							finish();
-					}
-				}
-			}).show();
-	}
-	
-	private void Bar(String s){
-		Snackbar.make(getCurrentFocus(),s,0).show();
-	}
-
-		
-	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if(keyCode == KeyEvent.KEYCODE_BACK)
-		{ 
-			BarWithAction("你确定要退出？","确定","finish");
+		if(keyCode == KeyEvent.KEYCODE_BACK){
+			showDialog("退出","你确定要退出？","确定","取消","finish");
 		}
 		return false;
 	}
 
-	private void setNetwork(){
-
+	private void showDialog(String Title,String Message,String Position,String Negative,final String Listener){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("提示");
-		builder.setMessage("网络不可用，请先设置网络！");
-		builder.setPositiveButton("设置", new DialogInterface.OnClickListener() {
+		builder.setTitle(Title);
+		builder.setMessage(Message);
+		builder.setPositiveButton(Position, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					Intent intent = null;
-					
-					if (android.os.Build.VERSION.SDK_INT > 10) {
-						intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
-					} else {
-						intent = new Intent();
-						ComponentName component = new ComponentName(
-							"com.android.settings",
-							"com.android.settings.WirelessSettings");
-						intent.setComponent(component);
-						intent.setAction("android.intent.action.VIEW");
+					switch(Listener){
+						case "finish":
+							finish();
+						break;
 					}
-					startActivity(intent);
 				}
 			});
 
-		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(Negative, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-
+					dialog.dismiss();
 				}
 			});
 		builder.create().show();
 	}
-
+	
 }

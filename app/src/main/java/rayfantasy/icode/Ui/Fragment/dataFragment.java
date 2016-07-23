@@ -61,10 +61,10 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 											  android.R.color.holo_orange_light, android.R.color.holo_red_light);
 		mSwipeRefreshLayout.setOnRefreshListener(this);
 		
-		mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
+		/*mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
 												   .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
 																   .getDisplayMetrics()));
-																   
+							*/									   
 		mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.new_code);
 		mFloatingActionButton.setOnClickListener(this);
 		

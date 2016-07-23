@@ -49,7 +49,6 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		fab_sign_up.setOnLongClickListener(this);
 		fab_sign_in.setOnLongClickListener(this);
 		
-		
 	}
 	
 	@Override
@@ -57,14 +56,14 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	{
 		switch(p1.getId()){
 			case R.id.sign_up:
-				if(isCharacter()){
+				if(isCharacter(account.getText().toString().length(),password.getText().toString().length())){
 					Login(account.getText().toString(),password.getText().toString());
 				}else{
 					Snackbar.make(p1,"输入格式有误！",1000).show();
 				}
 				break;
 			case R.id.sign_in:
-				if(isCharacter()){
+				if(isCharacter(account.getText().toString().length(),password.getText().toString().length())){
 					LoginData(account.getText().toString(),password.getText().toString());
 				}else{
 					Snackbar.make(p1,"输入格式有误！",1000).show();
@@ -142,9 +141,8 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 			});
 	}
 	
-	private boolean isCharacter(){
-		if(account.getText().toString().length()>5||account.getText().toString().length()<18
-		   &&password.getText().toString().length()>6||password.getText().toString().length()<18){
+	private boolean isCharacter(int i,int j){
+		if(i>5&&i<18&&j>6&&j<18){
 			return true;
 		}else{
 			return false;

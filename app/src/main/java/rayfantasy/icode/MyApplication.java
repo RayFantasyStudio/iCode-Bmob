@@ -15,6 +15,7 @@ import android.graphics.*;
 import com.tencent.bugly.crashreport.*;
 import rayfantasy.icode.Data.*;
 import android.content.pm.*;
+import android.support.design.widget.*;
 
 public class MyApplication extends Application
 {
@@ -86,6 +87,26 @@ public class MyApplication extends Application
 	public void showToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
+	
+	public void showSnackBar(Activity a,String Message){
+		Snackbar.make(a.getCurrentFocus(), Message, Snackbar.LENGTH_SHORT).show();
+	}
+	
+	public void NetworkIntent(){
+		Intent intent = null;
+		if (android.os.Build.VERSION.SDK_INT > 10) {
+			intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
+		} else {
+			intent = new Intent();
+			ComponentName component = new ComponentName(
+				"com.android.settings",
+				"com.android.settings.WirelessSettings");
+			intent.setComponent(component);
+			intent.setAction("android.intent.action.VIEW");
+		}
+		startActivity(intent);
+		showToast("当前无网络");
+	}
 
 	public String getImei(){
 		TelephonyManager tm=(TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
