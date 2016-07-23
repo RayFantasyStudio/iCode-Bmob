@@ -21,6 +21,7 @@ import rayfantasy.icode.Bmob.*;
 import cn.bmob.v3.listener.*;
 import cn.bmob.v3.exception.*;
 import com.rengwuxian.materialedittext.*;
+import android.view.animation.*;
 
 public class userFragment extends Fragment implements OnClickListener,OnLongClickListener
 {
@@ -74,7 +75,8 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 			User_About=(String)user.getObjectByKey("About");
 			userImage.setBackground(drawableBuilder.builder().buildRound(user_name.getText().toString().subSequence(0,1).toString(),HeadColor));
 			user_about.setText(User_About);
-			}
+			user_name.setTextColor(HeadColor);
+		}
 	}
 	
 	@Override
@@ -90,7 +92,6 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 					fab_finish_user.setVisibility(View.GONE);
 				}else{
 					if(myApplication.isCharacter(user_name.getText().toString().length(),user_about.getText().toString().length(),5,18,0,50)){
-						fab_finish_user.setVisibility(View.VISIBLE);
 						updata(user_name.getText().toString(),user_about.getText().toString());
 					}else{
 						myApplication.showSnackBar(getActivity(),"其中一项不符合规则");
@@ -144,6 +145,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 				public void done(BmobException e) {
 					if(e==null){
 						setMetVisibility(true);
+						fab_finish_user.setVisibility(View.VISIBLE);
 						myApplication.showToast("更新用户信息成功");
 					}else{
 						myApplication.showToast("更新用户信息失败:" + e.getMessage());
