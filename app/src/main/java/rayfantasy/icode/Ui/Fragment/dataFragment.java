@@ -22,15 +22,12 @@ import android.animation.*;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.*;
 import android.view.animation.*;
-import com.chanven.lib.cptr.*;
-import com.chanven.lib.cptr.loadmore.*;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import android.util.*;
 
 
 public class dataFragment extends Fragment implements OnClickListener,SwipeRefreshLayout.OnRefreshListener
 {	
-	//private SwipeRefreshLayout mSwipeRefreshLayout;
-	private PtrClassicFrameLayout ptrClassicFrameLayout;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
 	
 	private RecyclerView recyclerView;
 	private dataRecyclerViewHolder dataRecyclerViewHolder;
@@ -43,6 +40,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	
 	private MyApplication myApplication;
 	private int data_skip=0;
+	private int lastVisibleItem=0;
 	
 	
 	@Override
@@ -57,12 +55,15 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	private void initView(View v)
 	{
 		myApplication=(MyApplication)getActivity().getApplication();
-		/*mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipe_layout);
+		mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipe_layout);
 		mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
 											  android.R.color.holo_green_light,
 											  android.R.color.holo_orange_light, android.R.color.holo_red_light);
 		mSwipeRefreshLayout.setOnRefreshListener(this);
-		*/
+		
+		mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
+												   .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
+																   .getDisplayMetrics()));
 		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_view);
 		mLinearLayoutManager = new LinearLayoutManager(getActivity());
 		recyclerView.setLayoutManager(mLinearLayoutManager);
@@ -76,48 +77,33 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		mFloatingActionButton.setOnClickListener(this);
 		mFloatingActionButton.attachToRecyclerView(recyclerView);
 		
-		ptrClassicFrameLayout=(PtrClassicFrameLayout)v.findViewById(R.id.recycler_view_frame);
-		
-		ptrClassicFrameLayout.postDelayed(new Runnable() {
+		recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+			
 				@Override
-				public void run() {
-					ptrClassicFrameLayout.autoRefresh(true);
+				public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+					super.onScrolled(recyclerView, dx, dy);
+					lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
 				}
-		}, 150);
-		ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
-				@Override
-				public void onRefreshBegin(PtrFrameLayout frame) {
-					new Handler().postDelayed(new Runnable() {
-							@Override
-							public void run() {
-								if(myApplication.isNetwork(getActivity())){
-									initData(0);
-								}else{
-									myApplication.showToast("当前无网络");
-								}	
-								ptrClassicFrameLayout.refreshComplete();
-								//ptrClassicFrameLayout.setLoadMoreEnable(true);
-							}
-						}, 1000);
-				}
-			});
 				
-		ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
 				@Override
-				public void loadMore() {
-					new Handler().postDelayed(new Runnable() {
+				public void onScrollStateChanged(RecyclerView recyclerView,int newState) {
+					super.onScrollStateChanged(recyclerView, newState);
+					if(newState ==RecyclerView.SCROLL_STATE_IDLE 
+					&& lastVisibleItem + 1 == dataRecyclerViewHolder.getItemCount()){
+						new Handler().postDelayed(new Runnable(){
 
-							@Override
-							public void run() {
-								data_skip++;
-								initData(data_skip);
-								
-								ptrClassicFrameLayout.loadMoreComplete(true);
-							}
-						}, 1000);
+								@Override
+								public void run()
+								{
+									data_skip++;
+									onPostLoadMore();
+								}
+
+							},1000);
+					}
 				}
-			});
-	
+				
+		});
 	}
 
 	private void initData(final int skip)
@@ -141,7 +127,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					}
 					mList.addAll(skip, losts);
 					dataRecyclerViewHolder.notifyDataSetChanged();
-					//mSwipeRefreshLayout.setRefreshing(false);
+					mSwipeRefreshLayout.setRefreshing(false);
 				}
 
 				@Override
@@ -161,7 +147,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 			initData(0);
 		}else{
 			myApplication.showToast("当前无网络");
-			//mSwipeRefreshLayout.setRefreshing(false);
+			mSwipeRefreshLayout.setRefreshing(false);
 		}
 	}
 

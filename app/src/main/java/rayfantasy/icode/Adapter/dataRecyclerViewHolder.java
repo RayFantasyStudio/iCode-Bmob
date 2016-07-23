@@ -16,17 +16,29 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 {
 	private List<Data> dataList;
 	private TextDrawable drawableBuilder;
-	
+	private static final int TYPE_ITEM = 0;
+	private static final int TYPE_FOOTER = 1;
 	
 	public dataRecyclerViewHolder(List<Data> dataList){
 		this.dataList=dataList;
 	}
 	
 	@Override
-	public dataRecyclerViewHolder.MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
 	{
-		View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_text, viewGroup, false);
-		return new MyViewHolder(itemView);
+		//View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_text, viewGroup, false);
+		//return new MyViewHolder(itemView);
+		if (viewType == TYPE_ITEM) {
+			View view = LayoutInflater.from(parent.getContext()).inflate(
+				R.layout.
+				cardview_text, null);
+			return new MyViewHolder(view);
+		}else {
+			View view = LayoutInflater.from(parent.getContext()).inflate(
+				R.layout.loadmore, null);
+			return new FooterViewHolder(view);
+		}
+
 		
 	}
 
@@ -34,15 +46,19 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 	public void onBindViewHolder(ViewHolder holder, int i)
 	{
 		Data data = dataList.get(i);
-		MyViewHolder itemview=(MyViewHolder)holder;
-		itemview.title.setText(data.getTitle());
-		itemview.bg.setElevation(5);
-		itemview.message.setText(data.getMessage());
-		itemview.time.setText(data.getCreatedAt());
-		itemview.user.setText(data.getUser());
-		//根据用户名称的第一位字符设置头像
-		itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),getUserRandomColor()));
+		if(holder instanceof MyViewHolder){
 		
+			MyViewHolder itemview=(MyViewHolder)holder;
+			itemview.title.setText(data.getTitle());
+			itemview.bg.setElevation(5);
+			itemview.message.setText(data.getMessage());
+			itemview.time.setText(data.getCreatedAt());
+			itemview.user.setText(data.getUser());
+			//根据用户名称的第一位字符设置头像
+			itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
+																				  getUserRandomColor()));
+																				  
+		}
 	}
 
 	@Override
@@ -72,4 +88,11 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
         }
     }
 	
+	class FooterViewHolder extends ViewHolder {
+
+		public FooterViewHolder(View view) {
+			super(view);
+		}
+
+	}
 }
