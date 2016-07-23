@@ -43,12 +43,12 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	{
 		account=(MaterialEditText)v.findViewById(R.id.usermainMaterialEditText_account);
 		password=(MaterialEditText)v.findViewById(R.id.usermainMaterialEditText_password);
-		//phone_Number=(MaterialEditText)v.findViewById(R.id.usermainMaterialEditText_phoneNumber);
-		//phone_Number.setInputType(InputType.TYPE_CLASS_PHONE);
 		
 		fab_sign_up=(FloatingActionButton)v.findViewById(R.id.sign_up);
 		fab_sign_in=(FloatingActionButton)v.findViewById(R.id.sign_in);
 		
+		account.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+		password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
 		
 		fab_sign_in.setOnClickListener(this);
 		fab_sign_up.setOnClickListener(this);
@@ -62,14 +62,14 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	{
 		switch(p1.getId()){
 			case R.id.sign_up:
-				if(myApplication.isCharacter(account.getText().toString().length(),password.getText().toString().length(),5,18,6,18)){
-					loginByAccountPwd(account.getText().toString(),password.getText().toString());
+				if(isCharacter(password.getText().toString().length(),6,18)){
+					loginByEmail(account.getText().toString(),password.getText().toString());
 				}else{
 					Snackbar.make(p1,"输入格式有误！",1000).show();
 				}
 				break;
 			case R.id.sign_in:
-				if(myApplication.isCharacter(account.getText().toString().length(),password.getText().toString().length(),5,18,6,18)){
+				if(isCharacter(password.getText().toString().length(),6,18)){
 					LoginData(account.getText().toString(),password.getText().toString());
 				}else{
 					Snackbar.make(p1,"输入格式有误！",1000).show();
@@ -92,7 +92,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		return false;
 	}
 	
-	//手机号登录
+	//登录
 	private void loginByAccountPwd(String Account,String Password){
 		BmobUser.loginByAccount(Account, Password, new LogInListener<User>() {
 				@Override
@@ -111,6 +111,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	public void LoginData(final String UserName,final String Password){
 		User bu = new User();
 		bu.setPassword(Password);
+		bu.setEmail(UserName);
 		bu.setUsername(UserName);
 		bu.setHeadColor(myApplication.getUserRandomColor());
 		bu.setAbout(UserName+"很懒什么都没有写");
@@ -120,7 +121,8 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				{
 					if(e==null){
 						myApplication.showToast("注册成功，正在登录");
-						loginByAccountPwd(UserName,Password);
+						loginByEmail(UserName,Password);
+						//isEmailVerified(UserName);
 					}else{
 						myApplication.showToast("注册失败"+e);
 					}
@@ -129,8 +131,41 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		
 	}
 	
+	private void loginByEmail(String Email,String Password){
+		BmobUser.loginByAccount(Email, Password, new LogInListener<User>() {
+				@Override
+				public void done(User user, BmobException e) {
+					if(user!=null){
+						myApplication.showToast("登录成功");
+						getActivity().finish();
+					}else{
+						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
+					}
+				}
+			});
+	}
 	
+	//验证邮箱验证码
+	private void isEmailVerified(final String email){
+		BmobUser.requestEmailVerify(email, new UpdateListener() {
+				@Override
+				public void done(BmobException e) {
+					if(e==null){
+						myApplication.showToast("请求验证邮件成功，请到" + email + "邮箱中进行激活。");
+					}else{
+						myApplication.showToast("失败:" + e.getMessage());
+					}
+				}
+			});
+	}
 
-	
+	//检测输入框是否符合规则
+	public boolean isCharacter(int i,int a,int b){
+		if(i>=a&&i<=b){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 }
