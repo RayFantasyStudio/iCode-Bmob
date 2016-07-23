@@ -64,38 +64,33 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
 												   .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
 																   .getDisplayMetrics()));
+																   
+		mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.new_code);
+		mFloatingActionButton.setOnClickListener(this);
+		
+		
 		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_view);
 		mLinearLayoutManager = new LinearLayoutManager(getActivity());
 		recyclerView.setLayoutManager(mLinearLayoutManager);
-		
-		
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 		dataRecyclerViewHolder=new dataRecyclerViewHolder(mList);
 		recyclerView.setAdapter(dataRecyclerViewHolder);
-		
-		mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.new_code);
-		mFloatingActionButton.setOnClickListener(this);
-		mFloatingActionButton.attachToRecyclerView(recyclerView);
-		
 		recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-			
 				@Override
 				public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 					super.onScrolled(recyclerView, dx, dy);
 					lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
 				}
-				
+
 				@Override
 				public void onScrollStateChanged(RecyclerView recyclerView,int newState) {
 					super.onScrollStateChanged(recyclerView, newState);
 					if(newState ==RecyclerView.SCROLL_STATE_IDLE 
-						&& lastVisibleItem + 1 == dataRecyclerViewHolder.getItemCount()){
+					   && lastVisibleItem + 1 == dataRecyclerViewHolder.getItemCount()){
 						data_skip++;
 						isNetwork_LoadingData(data_skip);
 					}
 				}
-				
-		});
+			});
 	}
 
 	private void initData(final int skip)
@@ -120,6 +115,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					}
 					mList.addAll(skip, losts);
 					dataRecyclerViewHolder.notifyDataSetChanged();
+					recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 					mSwipeRefreshLayout.setRefreshing(false);
 				}
 
@@ -129,7 +125,6 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					myApplication.showToast("加载数据出错"+p2);
 				}
 				
-			
 		}); 
 	}
 
