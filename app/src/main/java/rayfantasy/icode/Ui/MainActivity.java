@@ -29,6 +29,7 @@ import android.net.*;
 import java.io.*;
 import de.hdodenhof.circleimageview.CircleImageView;
 import android.support.v4.widget.*;
+import rayfantasy.icode.Bmob.*;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -41,16 +42,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	//用户名称
 	private TextView userName;
 	//获取本地登录的bmob信息
-	private BmobUser bmobUser;
+	private User bmobUser;
 	//圆形头像
 	private TextDrawable drawableBuilder;
-	
 	private CircleImageView mCircleImageView;
-
 	private int drawerLayoutCheck = GravityCompat.START;
 	
-	private ConnectivityManager manager;
-	private Integer ImageColor=0;
+	private int ImageColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 
 	private void initUser()
 	{
-		bmobUser = BmobUser.getCurrentUser(MainActivity.this);
+		bmobUser = BmobUser.getCurrentUser(User.class);
 		//如果本地用户不为null证明登录了
 		if(bmobUser != null){
 			//设置用户名称
@@ -102,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			//清空
 			mCircleImageView.setImageResource(0);
 			//根据用户名称的第一位字符设置头像
-			ImageColor=(Integer)bmobUser.getObjectByKey(this,"Head_Color");
-			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),ImageColor));
+			//ImageColor=bmobUser.getObjectByKey("Head_Color");
+			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),Color.rgb(256,127,127)));
 			
 		}else{
 			userName.setText("登录iCode");
@@ -178,7 +176,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			case R.id.icode_user:
 				//点击头像跳转
 				closeDrawer();
-				startActivity(new Intent(MainActivity.this,userActivity.class));
+				Intent i=new Intent(MainActivity.this,userActivity.class);
+				i.putExtra("UserName",userName.getText().toString());
+				startActivity(i);
 			break;		
 		}
 	}

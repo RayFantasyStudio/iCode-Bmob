@@ -16,6 +16,7 @@ import com.tencent.bugly.crashreport.*;
 import rayfantasy.icode.Data.*;
 import android.content.pm.*;
 import android.support.design.widget.*;
+import cn.bmob.v3.exception.*;
 
 public class MyApplication extends Application
 {
@@ -127,25 +128,6 @@ public class MyApplication extends Application
 	
 	public int getUserRandomColor(){
 		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
-	}
-	
-	
-	//上传数据Title为标题，Message为内容，User为用户名
-	public void saveData(String Title,String Message,String User){
-		Data bmobdata = new Data();
-		bmobdata.setTitle(Title);
-		bmobdata.setMessage(Message);
-		bmobdata.setUser(User);
-		bmobdata.save(this, new SaveListener() {
-				@Override
-				public void onSuccess() {
-					showToast("上传代码成功!");
-				}
-				@Override
-				public void onFailure(int code, String arg0) {
-					showToast("上传代码失败:"+arg0);
-				}
-			});
 	}
 	
 }

@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.*;
 import android.view.animation.*;
 import android.util.*;
+import cn.bmob.v3.exception.*;
 
 
 public class dataFragment extends Fragment implements OnClickListener,SwipeRefreshLayout.OnRefreshListener
@@ -105,27 +106,23 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 			mList.clear();
 			data_skip=0;
 		}
-		query.findObjects(getActivity(), new FindListener<Data>(){
-
+		query.findObjects(new FindListener<Data>(){
 				@Override
-				public void onSuccess(List<Data> losts)
+				public void done(List<Data> losts, BmobException p2)
 				{
-					if (losts == null || losts.size() == 0) {
-						return;
+					if(p2==null){
+						if (losts == null || losts.size() == 0) {
+							return;
+						}
+						mList.addAll(0, losts);
+						dataRecyclerViewHolder.notifyDataSetChanged();
+						recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
+						mSwipeRefreshLayout.setRefreshing(false);
+					}else{
+						myApplication.showToast("加载数据出错"+p2);
 					}
-					mList.addAll(0, losts);
-					dataRecyclerViewHolder.notifyDataSetChanged();
-					recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
-					mSwipeRefreshLayout.setRefreshing(false);
 				}
-
-				@Override
-				public void onError(int p1, String p2)
-				{
-					myApplication.showToast("加载数据出错"+p2);
-				}
-				
-		}); 
+			});
 	}
 
 	@Override

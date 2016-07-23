@@ -13,10 +13,13 @@ import rayfantasy.icode.R;
 
 import android.support.design.widget.*;
 
-import cn.bmob.v3.*;
-import cn.bmob.v3.listener.*;
 import com.melnykov.fab.FloatingActionButton;
 import com.rengwuxian.materialedittext.*;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.*;
+import cn.bmob.v3.listener.*;
+import android.text.*;
 
 
 public class signFragment extends Fragment implements OnClickListener,OnLongClickListener
@@ -40,6 +43,9 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	{
 		account=(MaterialEditText)v.findViewById(R.id.usermainMaterialEditText_account);
 		password=(MaterialEditText)v.findViewById(R.id.usermainMaterialEditText_password);
+		//phone_Number=(MaterialEditText)v.findViewById(R.id.usermainMaterialEditText_phoneNumber);
+		//phone_Number.setInputType(InputType.TYPE_CLASS_PHONE);
+		
 		fab_sign_up=(FloatingActionButton)v.findViewById(R.id.sign_up);
 		fab_sign_in=(FloatingActionButton)v.findViewById(R.id.sign_in);
 		
@@ -57,7 +63,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		switch(p1.getId()){
 			case R.id.sign_up:
 				if(isCharacter(account.getText().toString().length(),password.getText().toString().length())){
-					Login(account.getText().toString(),password.getText().toString());
+					loginByAccountPwd(account.getText().toString(),password.getText().toString());
 				}else{
 					Snackbar.make(p1,"输入格式有误！",1000).show();
 				}
@@ -86,61 +92,41 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		return false;
 	}
 	
-	//登录
-	private void Login(String UserName,String Password){
-		User bu2 = new User();
-		bu2.setUsername(UserName);
-		bu2.setPassword(Password);
-		bu2.login(getActivity(), new SaveListener() {
-
+	//手机号登录
+	private void loginByAccountPwd(String Account,String Password){
+		BmobUser.loginByAccount(Account, Password, new LogInListener<User>() {
 				@Override
-				public void onSuccess()
-				{
-					myApplication.showToast("登录成功");
-					getActivity().finish();
-				}
-
-				@Override
-				public void onFailure(int p1, String p2)
-				{
-					if(p1==101){
-						myApplication.showToast("帐号或密码不正确\n或者没注册");
-					}else if(p1==304){
-						myApplication.showToast("其中一项输入为空");
+				public void done(User user, BmobException e) {
+					if(user!=null){
+						myApplication.showToast("登录成功");
+						getActivity().finish();
 					}else{
-						myApplication.showToast("登录失败："+p1+p2);
+						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
 					}
 				}
-			});
+			});			
 	}
 
 	//注册
 	public void LoginData(final String UserName,final String Password){
 		User bu = new User();
-		bu.setUsername(UserName);
 		bu.setPassword(Password);
+		bu.setUsername(UserName);
 		bu.setHead_Color(myApplication.getUserRandomColor());
 		bu.setAbout(UserName+"很懒什么都没有写");
-		bu.signUp(getActivity(), new SaveListener(){
+		bu.signUp(new SaveListener<User>(){
 				@Override
-				public void onSuccess()
+				public void done(User p1, BmobException e)
 				{
-					myApplication.showToast("注册成功，正在登录");
-					Login(UserName,Password);
-				}
-
-				@Override
-				public void onFailure(int p1, String p2)
-				{
-					if(p1==202){
-						myApplication.showToast("该用户名已被注册！");
-					}else if(p1==304){
-						myApplication.showToast("其中一项输入为空");
+					if(e==null){
+						myApplication.showToast("注册成功，正在登录");
+						loginByAccountPwd(UserName,Password);
 					}else{
-						myApplication.showToast("注册失败"+p1);
+						myApplication.showToast("注册失败"+e);
 					}
 				}
-			});
+		});
+		
 	}
 	
 	private boolean isCharacter(int i,int j){

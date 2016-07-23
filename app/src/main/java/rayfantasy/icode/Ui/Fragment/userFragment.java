@@ -17,20 +17,21 @@ import com.amulyakhare.textdrawable.*;
 import android.support.design.widget.*;
 import de.hdodenhof.circleimageview.*;
 import android.graphics.drawable.*;
+import rayfantasy.icode.Bmob.*;
 
 
 
 public class userFragment extends Fragment implements OnClickListener,OnLongClickListener
 {
 	private MyApplication myApplication;
-	private BmobUser bmobUser;
+	private User user;
 	
 	private FloatingActionButton fab_finish_user;
 	private TextView userName,userabout;
 	private TextDrawable drawableBuilder;
 	private CircleImageView userImage;
-	private Integer ImageColor=0;
-	private String User_About="";
+	private Integer ImageColor;
+	private String User_About;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -56,11 +57,11 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 
 	private void init()
 	{
-		bmobUser = BmobUser.getCurrentUser(getActivity());
-		if(bmobUser!=null){
-			userName.setText(bmobUser.getUsername());
-			ImageColor=(Integer)bmobUser.getObjectByKey(getActivity(),"Head_Color");
-			User_About=(String)bmobUser.getObjectByKey(getActivity(),"About");
+		user = BmobUser.getCurrentUser(User.class);
+		if(user!=null){
+			userName.setText(user.getUsername());
+			ImageColor=(Integer)user.getObjectByKey("Head_Color");
+			User_About=(String)user.getObjectByKey("About");
 			userImage.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),ImageColor));
 			userabout.setText(User_About);
 		}
@@ -90,9 +91,9 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 
 	//退出登录
 	private void finishLogin(){
-		BmobUser.logOut(getActivity());
+		BmobUser.logOut();
 		//清除缓存用户对象
-		BmobUser currentUser = BmobUser.getCurrentUser(getActivity());
+		BmobUser currentUser = BmobUser.getCurrentUser();
 		// 现在的currentUser是null了
 		getActivity().finish();
 	}

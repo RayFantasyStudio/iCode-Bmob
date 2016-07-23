@@ -8,8 +8,7 @@ public class User extends BmobUser
 
 	private String About;
 	private Integer Head_Color;
-	private File Head;
-	
+	private File Head;	
 	
 	public void setAbout(String About){
 		this.About=About;
