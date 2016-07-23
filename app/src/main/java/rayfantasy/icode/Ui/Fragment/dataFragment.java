@@ -89,17 +89,9 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 				public void onScrollStateChanged(RecyclerView recyclerView,int newState) {
 					super.onScrollStateChanged(recyclerView, newState);
 					if(newState ==RecyclerView.SCROLL_STATE_IDLE 
-					&& lastVisibleItem + 1 == dataRecyclerViewHolder.getItemCount()){
-						new Handler().postDelayed(new Runnable(){
-
-								@Override
-								public void run()
-								{
-									data_skip++;
-									onPostLoadMore();
-								}
-
-							},1000);
+						&& lastVisibleItem + 1 == dataRecyclerViewHolder.getItemCount()){
+						data_skip++;
+						isNetwork_LoadingData(data_skip);
 					}
 				}
 				
@@ -116,6 +108,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		query.setSkip(skip*10);
 		if(skip==0){
 			mList.clear();
+			data_skip=0;
 		}
 		query.findObjects(getActivity(), new FindListener<Data>(){
 
@@ -133,7 +126,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 				@Override
 				public void onError(int p1, String p2)
 				{
-					
+					myApplication.showToast("加载数据出错"+p2);
 				}
 				
 			
@@ -143,8 +136,12 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	@Override
 	public void onRefresh()
 	{
+		isNetwork_LoadingData(0);
+	}
+	
+	private void isNetwork_LoadingData(int skip){
 		if(myApplication.isNetwork(getActivity())){
-			initData(0);
+			initData(skip);
 		}else{
 			myApplication.showToast("当前无网络");
 			mSwipeRefreshLayout.setRefreshing(false);
@@ -162,11 +159,5 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		}
 		
 	}
-
-    public void onPostLoadMore() {
-        initData(data_skip);
-		myApplication.showToast("加载更多");
-        dataRecyclerViewHolder.notifyDataSetChanged();
-    }
 	
 }

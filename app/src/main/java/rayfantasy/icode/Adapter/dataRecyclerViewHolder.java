@@ -26,20 +26,17 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
 	{
-		//View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_text, viewGroup, false);
-		//return new MyViewHolder(itemView);
 		if (viewType == TYPE_ITEM) {
 			View view = LayoutInflater.from(parent.getContext()).inflate(
 				R.layout.
 				cardview_text, null);
 			return new MyViewHolder(view);
-		}else {
+		}else if(viewType == TYPE_FOOTER){
 			View view = LayoutInflater.from(parent.getContext()).inflate(
 				R.layout.loadmore, null);
 			return new FooterViewHolder(view);
 		}
-
-		
+		return null;
 	}
 
 	@Override
@@ -60,6 +57,19 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 																				  
 		}
 	}
+
+	@Override
+	public int getItemViewType(int position)
+	{
+		// 最后一个item设置为footerView
+		if (position + 1 == getItemCount()) {
+			return TYPE_FOOTER;
+		} else {
+			return TYPE_ITEM;
+		}
+	}
+	
+	
 
 	@Override
 	public int getItemCount()
