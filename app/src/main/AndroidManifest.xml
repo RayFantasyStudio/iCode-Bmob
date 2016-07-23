@@ -32,7 +32,8 @@
             android:label="@string/app_name" >
         </activity>
 		<activity android:name=".Ui.Activity.userActivity" />
-			<activity android:name=".Ui.Activity.writeActivity" />
+		<activity android:name=".Ui.Activity.writeActivity" />
+		<activity android:name=".Ui.Activity.userSetActivity" />
 		<activity 
             android:name="cn.bmob.v3.update.UpdateDialogActivity"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar" >

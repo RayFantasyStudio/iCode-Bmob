@@ -2,13 +2,14 @@ package rayfantasy.icode.Bmob;
 
 import cn.bmob.v3.*;
 import java.io.*;
+import cn.bmob.v3.datatype.*;
 
 public class User extends BmobUser
 {
 
 	private String About;
-	private String HeadColor;
-	private File Head;	
+	private Integer Head_Color;
+	private BmobFile Head;	
 	
 	public void setAbout(String About){
 		this.About=About;
@@ -19,12 +20,19 @@ public class User extends BmobUser
 		return About;
 	}
 	
-	public void setHeadColor(String HeadColor){
-		this.HeadColor=HeadColor;
+	public void setHead_Color(Integer Head_Color){
+		this.Head_Color=Head_Color;
 	}
 
-
-	public String getHeadColor(){
-		return HeadColor;
+	public Integer getHead_Color(){
+		return Head_Color;
+	}
+	
+	public BmobFile getHead(){
+		return Head;
+	}
+	
+	public void setHead(BmobFile head){
+		this.Head = head;
 	}
 }
