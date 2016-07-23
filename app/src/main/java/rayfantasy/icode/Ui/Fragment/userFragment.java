@@ -26,11 +26,11 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 	private BmobUser bmobUser;
 	
 	private FloatingActionButton fab_finish_user;
-	private TextView userName;
+	private TextView userName,userabout;
 	private TextDrawable drawableBuilder;
 	private CircleImageView userImage;
 	private Integer ImageColor=0;
-	
+	private String User_About="";
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -47,8 +47,8 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		fab_finish_user=(FloatingActionButton)v.findViewById(R.id.finish_user);
 
 		userName=(TextView)v.findViewById(R.id.usermain_username);
+		userabout=(TextView)v.findViewById(R.id.usermain_about);
 		userImage=(CircleImageView)v.findViewById(R.id.user_image);
-
 
 		fab_finish_user.setOnClickListener(this);
 		fab_finish_user.setOnLongClickListener(this);
@@ -60,8 +60,9 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		if(bmobUser!=null){
 			userName.setText(bmobUser.getUsername());
 			ImageColor=(Integer)bmobUser.getObjectByKey(getActivity(),"Head_Color");
+			User_About=(String)bmobUser.getObjectByKey(getActivity(),"About");
 			userImage.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),ImageColor));
-			
+			userabout.setText(User_About);
 		}
 	}
 	

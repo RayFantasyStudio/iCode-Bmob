@@ -104,7 +104,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				public void onFailure(int p1, String p2)
 				{
 					if(p1==101){
-						myApplication.showToast("帐号或密码不正确");
+						myApplication.showToast("帐号或密码不正确\n或者没注册");
 					}else if(p1==304){
 						myApplication.showToast("其中一项输入为空");
 					}else{
@@ -120,6 +120,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		bu.setUsername(UserName);
 		bu.setPassword(Password);
 		bu.setHead_Color(myApplication.getUserRandomColor());
+		bu.setAbout(UserName+"很懒什么都没有写");
 		bu.signUp(getActivity(), new SaveListener(){
 				@Override
 				public void onSuccess()
@@ -143,7 +144,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	}
 	
 	private boolean isCharacter(int i,int j){
-		if(i>5&&i<18&&j>6&&j<18){
+		if(i>=5&&i<=18&&j>=6&&j<=18){
 			return true;
 		}else{
 			return false;

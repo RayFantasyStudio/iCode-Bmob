@@ -23,6 +23,17 @@
 		android:layout_below="@+id/user_image"
 		android:layout_centerInParent="true"
 		android:layout_marginTop="10dp"/>
+	
+	<TextView
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:gravity="center"
+		android:textSize="15sp"
+		android:id="@+id/usermain_about"
+		android:textColor="#0084FF"
+		android:layout_below="@+id/usermain_username"
+		android:layout_centerInParent="true"
+		android:layout_marginTop="10dp"/>
 
 	<com.melnykov.fab.FloatingActionButton
 		android:id="@+id/finish_user"
