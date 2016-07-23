@@ -7,8 +7,8 @@ public class User extends BmobUser
 {
 
 	private String About;
-	private String userImage_Color;
-	private File userImage;
+	private Integer Head_Color;
+	private File Head;
 	
 	
 	public void setAbout(String About){
@@ -20,12 +20,12 @@ public class User extends BmobUser
 		return About;
 	}
 	
-	public void setuserImage_Color(String userImage_Color){
-		this.userImage_Color=userImage_Color;
+	public void setHead_Color(Integer Head_Color){
+		this.Head_Color=Head_Color;
 	}
 
 
-	public String getuserImage_Color(){
-		return userImage_Color;
+	public Integer getHead_Color(){
+		return Head_Color;
 	}
 }

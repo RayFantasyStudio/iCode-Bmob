@@ -11,6 +11,7 @@ import rayfantasy.icode.Bmob.*;
 import de.hdodenhof.circleimageview.*;
 import rayfantasy.icode.R;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import cn.bmob.v3.*;
 
 public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 {
@@ -42,17 +43,16 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int i)
 	{
-		Data data = dataList.get(i);
 		if(holder instanceof MyViewHolder){
-		
 			MyViewHolder itemview=(MyViewHolder)holder;
+			Data data = dataList.get(i);
+			
 			itemview.title.setText(data.getTitle());
 			itemview.message.setText(data.getMessage());
 			itemview.time.setText(data.getCreatedAt());
 			itemview.user.setText(data.getUser());
 			//根据用户名称的第一位字符设置头像
-			itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
-																				  getUserRandomColor()));
+			itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),data.getHead_Color()));
 																				  
 		}
 	}
@@ -67,17 +67,11 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 			return TYPE_ITEM;
 		}
 	}
-	
-	
 
 	@Override
 	public int getItemCount()
 	{
-		return dataList.size();
-	}
-	
-	public int getUserRandomColor(){
-		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+		return dataList.size()+1;
 	}
 	
 	class MyViewHolder extends RecyclerView.ViewHolder {

@@ -16,6 +16,7 @@ import com.amulyakhare.textdrawable.*;
 
 import android.support.design.widget.*;
 import de.hdodenhof.circleimageview.*;
+import android.graphics.drawable.*;
 
 
 
@@ -24,11 +25,12 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 	private MyApplication myApplication;
 	private BmobUser bmobUser;
 	
-	
 	private FloatingActionButton fab_finish_user;
 	private TextView userName;
 	private TextDrawable drawableBuilder;
 	private CircleImageView userImage;
+	private Integer ImageColor=0;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -57,7 +59,9 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		bmobUser = BmobUser.getCurrentUser(getActivity());
 		if(bmobUser!=null){
 			userName.setText(bmobUser.getUsername());
-			userImage.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),myApplication.getUserRandomColor()));
+			ImageColor=(Integer)bmobUser.getObjectByKey(getActivity(),"Head_Color");
+			userImage.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),ImageColor));
+			
 		}
 	}
 	

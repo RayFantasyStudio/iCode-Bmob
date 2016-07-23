@@ -113,7 +113,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					if (losts == null || losts.size() == 0) {
 						return;
 					}
-					mList.addAll(skip, losts);
+					mList.addAll(0, losts);
 					dataRecyclerViewHolder.notifyDataSetChanged();
 					recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 					mSwipeRefreshLayout.setRefreshing(false);
