@@ -47,7 +47,6 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 		
 			MyViewHolder itemview=(MyViewHolder)holder;
 			itemview.title.setText(data.getTitle());
-			itemview.bg.setElevation(5);
 			itemview.message.setText(data.getMessage());
 			itemview.time.setText(data.getCreatedAt());
 			itemview.user.setText(data.getUser());
@@ -94,7 +93,7 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 			user = (TextView) itemView.findViewById(R.id.list_user);
 			userimage=(CircleImageView)itemView.findViewById(R.id.cardviewtextImageView1);
 			
-            bg = (CardView) itemView.findViewById(R.id.card_view);
+            bg = (CardView) itemView.findViewById(R.id.element_bg);
         }
     }
 	
