@@ -97,23 +97,6 @@ public class MyApplication extends Application
 	public void showSnackBar(Activity a,String Message){
 		Snackbar.make(a.getCurrentFocus(), Message, Snackbar.LENGTH_SHORT).show();
 	}
-	
-	//无网络跳转
-	public void NetworkIntent(){
-		Intent intent = null;
-		if (android.os.Build.VERSION.SDK_INT > 10) {
-			intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
-		} else {
-			intent = new Intent();
-			ComponentName component = new ComponentName(
-				"com.android.settings",
-				"com.android.settings.WirelessSettings");
-			intent.setComponent(component);
-			intent.setAction("android.intent.action.VIEW");
-		}
-		startActivity(intent);
-		showToast("当前无网络");
-	}
 
 	//检测输入框是否符合规则
 	public boolean isCharacter(int i,int j,int a,int b,int c,int d){

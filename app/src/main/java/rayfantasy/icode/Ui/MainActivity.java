@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		if(myApplication.isNetwork(this) || checkCache()){
 			initData();
 		}else{
-			myApplication.NetworkIntent();
+			showDialog("无网络","请检查网络状态！","设置","取消","Network");
 		}
     }
 	
@@ -182,7 +182,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			break;		
 		}
 	}
-
+	
+	//无网络跳转
+	public void NetworkIntent(){
+		Intent intent = null;
+		if (android.os.Build.VERSION.SDK_INT > 10) {
+			intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
+		} else {
+			intent = new Intent();
+			ComponentName component = new ComponentName(
+				"com.android.settings",
+				"com.android.settings.WirelessSettings");
+			intent.setComponent(component);
+			intent.setAction("android.intent.action.VIEW");
+		}
+		startActivity(intent);
+		myApplication.showToast("当前无网络");
+	}
 	
 	public void closeDrawer(){
 		drawerLayout.closeDrawer(drawerLayoutCheck);
@@ -218,6 +234,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 					switch(Listener){
 						case "finish":
 							finish();
+						break;
+						case "Network":
+							NetworkIntent();
 						break;
 					}
 				}
