@@ -17,9 +17,10 @@
 		<com.rengwuxian.materialedittext.MaterialEditText
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:hint="请输入邮箱/用户名"
+			android:hint="请输入邮箱"
+			android:textAppearance="@style/Text"
 			android:focusableInTouchMode="true"
-			app:met_floatingLabelText="邮箱/用户名"
+			app:met_floatingLabelText="邮箱"
 			app:met_primaryColor="#0000ff"
 			app:met_floatingLabel="highlight"
 			android:id="@+id/usermainMaterialEditText_account"/>
@@ -28,6 +29,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:hint="请输入密码"
+			android:inputType="textPassword"
 			android:focusableInTouchMode="true"
 			app:met_floatingLabelText="密码"
 			app:met_primaryColor="#0000ff"

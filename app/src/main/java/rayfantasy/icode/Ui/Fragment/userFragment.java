@@ -76,6 +76,9 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 			userImage.setBackground(drawableBuilder.builder().buildRound(user_name.getText().toString().subSequence(0,1).toString(),HeadColor));
 			user_about.setText(User_About);
 			user_name.setTextColor(HeadColor);
+			user_about.setTextColor(HeadColor);
+			user_name.setPrimaryColor(HeadColor);
+			user_about.setPrimaryColor(HeadColor);
 			
 		}
 	}

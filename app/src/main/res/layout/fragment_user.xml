@@ -17,10 +17,10 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:hint="请输入帐号"
+		android:textAppearance="@style/Text"
 		android:focusableInTouchMode="true"
 		app:met_floatingLabelText="帐号"
 		android:gravity="center"
-		app:met_primaryColor="#0000ff"
 		app:met_minCharacters="5"
 		app:met_maxCharacters="18"
 		app:met_floatingLabel="highlight"
@@ -33,10 +33,10 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:hint="请输入签名"
+		android:textAppearance="@style/Text"
 		android:focusableInTouchMode="true"
 		app:met_floatingLabelText="签名"
 		android:gravity="center"
-		app:met_primaryColor="#0000ff"
 		app:met_maxCharacters="50"
 		app:met_floatingLabel="highlight"
 		android:layout_below="@+id/user_name"
@@ -44,31 +44,25 @@
 		android:layout_marginTop="10dp"
 		android:id="@+id/user_about"/>
 
-	<RelativeLayout
+	<com.melnykov.fab.FloatingActionButton
+		android:id="@+id/updata_user"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:layout_alignParentBottom="true">
+		android:src="@drawable/ic_create_white_36dp"
+		app:fab_colorNormal="#0084FF"
+		android:layout_margin="10dp"
+		android:layout_centerHorizontal="true"
+		android:layout_below="@id/user_about"/>
 
-		<com.melnykov.fab.FloatingActionButton
-			android:id="@+id/updata_user"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/ic_create_white_36dp"
-			app:fab_colorNormal="#0084FF"
-			android:layout_centerInParent="true"
-			android:layout_margin="10dp"/>
-
-		<com.melnykov.fab.FloatingActionButton
-			android:id="@+id/finish_user"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/finish_user"
-			app:fab_colorNormal="#ff0000"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:layout_margin="10dp"/>
-
-	</RelativeLayout>
+	<com.melnykov.fab.FloatingActionButton
+		android:id="@+id/finish_user"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/finish_user"
+		app:fab_colorNormal="#ff0000"
+		android:layout_alignParentRight="true"
+		android:layout_margin="10dp"
+		android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
 

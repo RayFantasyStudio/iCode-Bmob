@@ -47,9 +47,6 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		fab_sign_up=(FloatingActionButton)v.findViewById(R.id.sign_up);
 		fab_sign_in=(FloatingActionButton)v.findViewById(R.id.sign_in);
 		
-		account.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-		password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-		
 		fab_sign_in.setOnClickListener(this);
 		fab_sign_up.setOnClickListener(this);
 		fab_sign_up.setOnLongClickListener(this);
@@ -65,14 +62,14 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				if(isCharacter(password.getText().toString().length(),6,18)){
 					loginByEmail(account.getText().toString(),password.getText().toString());
 				}else{
-					Snackbar.make(p1,"输入格式有误！",1000).show();
+					myApplication.showSnackBar(getActivity(),"输入格式有误！");
 				}
 				break;
 			case R.id.sign_in:
 				if(isCharacter(password.getText().toString().length(),6,18)){
 					LoginData(account.getText().toString(),password.getText().toString());
 				}else{
-					Snackbar.make(p1,"输入格式有误！",1000).show();
+					myApplication.showSnackBar(getActivity(),"输入格式有误！");
 				}
 				break;
 		}
@@ -83,30 +80,15 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	{
 		switch(p1.getId()){
 			case R.id.sign_up:
-				Snackbar.make(p1,"登录",1000).show();
+				myApplication.showSnackBar(getActivity(),"登录");
 				break;
 			case R.id.sign_in:
-				Snackbar.make(p1,"注册",1000).show();
+				myApplication.showSnackBar(getActivity(),"注册");
 				break;
 		}
 		return false;
 	}
 	
-	//登录
-	private void loginByAccountPwd(String Account,String Password){
-		BmobUser.loginByAccount(Account, Password, new LogInListener<User>() {
-				@Override
-				public void done(User user, BmobException e) {
-					if(user!=null){
-						myApplication.showToast("登录成功");
-						getActivity().finish();
-					}else{
-						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
-					}
-				}
-			});			
-	}
-
 	//注册
 	public void LoginData(final String UserName,final String Password){
 		User bu = new User();
@@ -120,9 +102,8 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				public void done(User p1, BmobException e)
 				{
 					if(e==null){
-						myApplication.showToast("注册成功，正在登录");
+						myApplication.showSnackBar(getActivity(),"注册成功，正在登录");
 						loginByEmail(UserName,Password);
-						//isEmailVerified(UserName);
 					}else{
 						myApplication.showToast("注册失败"+e);
 					}
@@ -166,6 +147,22 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		}else{
 			return false;
 		}
+	}
+	
+	
+	//密码+帐号登录，已弃用
+	private void loginByAccountPwd(String Account,String Password){
+		BmobUser.loginByAccount(Account, Password, new LogInListener<User>() {
+				@Override
+				public void done(User user, BmobException e) {
+					if(user!=null){
+						myApplication.showToast("登录成功");
+						getActivity().finish();
+					}else{
+						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
+					}
+				}
+			});			
 	}
 	
 }
