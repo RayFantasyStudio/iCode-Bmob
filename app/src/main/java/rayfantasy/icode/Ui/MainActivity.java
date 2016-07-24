@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	private CircleImageView mCircleImageView;
 	private int drawerLayoutCheck = GravityCompat.START;
 	
-	private int HeadColor;
+	private int HeadColor = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	{
 		myApplication=(MyApplication)getApplication();
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setBackgroundColor(getResources().getColor(R.color.PrimaryColor));
         setSupportActionBar(toolbar);
 		
 		navigationView = (NavigationView)findViewById(R.id.navigation_view);
@@ -179,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 				closeDrawer();
 				Intent i=new Intent(MainActivity.this,userActivity.class);
 				i.putExtra("UserName",userName.getText().toString());
+				i.putExtra("HeadColor",HeadColor);
 				startActivity(i);
 			break;		
 		}

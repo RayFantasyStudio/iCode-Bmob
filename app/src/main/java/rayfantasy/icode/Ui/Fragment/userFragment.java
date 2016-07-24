@@ -77,6 +77,7 @@ public class userFragment extends Fragment implements OnClickListener
 			user_about.setTextColor(HeadColor);
 			user_name.setPrimaryColor(HeadColor);
 			user_about.setPrimaryColor(HeadColor);
+			fab_updata_user.setColorNormal(HeadColor);
 			
 		}
 	}

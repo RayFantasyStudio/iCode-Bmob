@@ -16,6 +16,7 @@ import rayfantasy.icode.Bmob.*;
 public class userActivity extends BaseActivity
 {
 	private User bmobUser;
+	
 	private Intent i;
 	
 	@Override
@@ -41,6 +42,13 @@ public class userActivity extends BaseActivity
 	{
 		i=getIntent();
 		return i.getStringExtra("UserName");
+	}
+	
+	@Override
+	protected int getBackgroundColor()
+	{
+		i=getIntent();
+		return i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
 	}
 	
 	@Override

@@ -4,5 +4,4 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/abc_action_bar_default_height_material"
 	android:theme="@style/MyToolBarStyle"
-	android:elevation="5dp"
-    android:background="@color/PrimaryColor"/>
+	android:elevation="5dp" />

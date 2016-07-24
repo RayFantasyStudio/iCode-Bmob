@@ -8,16 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import rayfantasy.icode.R;
+import android.graphics.*;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
-	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutRes());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setBackgroundColor(getBackgroundColor());
 		setTitle(getTitleText());
 		setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -29,6 +30,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 	protected abstract String getTitleText();
+	
+	protected abstract int getBackgroundColor();
 
     protected abstract int getLayoutRes();
 
