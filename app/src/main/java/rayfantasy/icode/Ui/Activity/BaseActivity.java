@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 
 import rayfantasy.icode.R;
 import android.graphics.*;
+import android.view.*;
+import android.os.*;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
@@ -16,6 +18,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			Window window = getWindow();
+			window.setFlags(
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		}
         setContentView(getLayoutRes());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setBackgroundColor(getBackgroundColor());
@@ -29,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
     }
+	
 	protected abstract String getTitleText();
 	
 	protected abstract int getBackgroundColor();

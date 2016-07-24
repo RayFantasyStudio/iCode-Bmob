@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-		BmobUpdateAgent.setUpdateOnlyWifi(false);//在任何环境下提示更新
-		BmobUpdateAgent.update(this);//调用更新
+		init();
         setContentView(R.layout.activity_main);
 		
 		initView();
@@ -68,6 +67,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			showDialog("无网络","请检查网络状态！","设置","取消","Network");
 		}
     }
+
+	private void init()
+	{
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			Window window = getWindow();
+			window.setFlags(
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		}
+		BmobUpdateAgent.setUpdateOnlyWifi(false);//在任何环境下提示更新
+		BmobUpdateAgent.update(this);//调用更新
+	}
 	
 	private boolean checkCache(){
 		String s = "/data/data/rayfantasy.icode/code_cache/com.android.opengl.shaders_cache";
