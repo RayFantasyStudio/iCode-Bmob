@@ -129,6 +129,7 @@ public class userFragment extends Fragment implements OnClickListener
 		if(myApplication.noEquals(user.getUsername(),UserName)){
 			newUser.setUsername(UserName);
 		}
+		newUser.setHeadColor(user.getHeadColor());
 		newUser.setAbout(About);
 		User bmobuser=BmobUser.getCurrentUser(User.class);
 		newUser.update(bmobuser.getObjectId(), new UpdateListener() {
