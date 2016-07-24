@@ -24,7 +24,6 @@
 		android:layout_height="wrap_content"
 		android:layout_margin="16dp"
 		android:src="@drawable/ic_create_white_36dp"
-		app:fab_colorNormal="@color/PrimaryColor"
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentRight="true"/>
 

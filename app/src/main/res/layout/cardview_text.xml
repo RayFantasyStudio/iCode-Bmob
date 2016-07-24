@@ -10,13 +10,14 @@
 		android:layout_gravity="center"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		app:cardCornerRadius="3dp"
+		app:cardCornerRadius="0dp"
 		android:layout_centerInParent="true"
 		android:clickable="true"
 		android:foreground="?android:attr/selectableItemBackground"
 		android:transitionName="element_bg"
 		app:cardBackgroundColor="@android:color/white"
-		android:layout_margin="3dp">
+		android:layout_marginTop="3dp"
+		android:layout_marginBottom="3dp" >
 
 		<LinearLayout
 			android:layout_width="match_parent"
@@ -30,7 +31,7 @@
 				android:gravity="center">
 
 				<de.hdodenhof.circleimageview.CircleImageView
-					app:border_color="#FF000000"
+					app:civ_border_color="#FF000000"
 					android:layout_width="@dimen/profile_pic_size"
 					android:layout_height="@dimen/profile_pic_size"
 					android:id="@+id/cardviewtextImageView1"/>
@@ -63,13 +64,13 @@
 
 			</RelativeLayout>
 
-		<!--	<TextView
+			<TextView
 				android:layout_height="1dp"
 				android:layout_width="match_parent"
 				android:background="#B8B8B8"
 				android:layout_marginLeft="20dp"
 				android:layout_marginRight="20dp"/>
--->
+
 			<RelativeLayout
 				android:layout_height="wrap_content"
 				android:layout_width="match_parent"

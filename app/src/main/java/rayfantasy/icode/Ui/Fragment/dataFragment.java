@@ -43,6 +43,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	private int data_skip=0;
 	private int lastVisibleItem=0;
 	private User user;
+	private int HeadColor;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -71,7 +72,6 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 			});
 		mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.new_code);
 		mFloatingActionButton.setOnClickListener(this);
-		
 		
 		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_view);
 		mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -121,10 +121,10 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 						dataRecyclerViewHolder.notifyDataSetChanged();
 						recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 						mSwipeRefreshLayout.setRefreshing(false);
-						dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount());
+						//dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount());
 					}else{
 						myApplication.showToast("加载数据出错"+p2);
-						dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount());
+						//dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount());
 					}
 				}
 			});
@@ -135,10 +135,12 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		user=BmobUser.getCurrentUser(User.class);
 		if(user!=null){
 			mFloatingActionButton.setVisibility(View.VISIBLE);
-			
+			HeadColor=myApplication.getHeadColor((String)user.getObjectByKey("HeadColor"));
 		}else{
 			mFloatingActionButton.setVisibility(View.GONE);
+			HeadColor=getResources().getColor(R.color.PrimaryColor);
 		}
+		mFloatingActionButton.setColorNormal(HeadColor);
 	}
 
 	@Override

@@ -6,7 +6,7 @@
 	android:layout_width="match_parent">
 
 	<de.hdodenhof.circleimageview.CircleImageView
-		app:border_color="#FF000000"
+		app:civ_border_color="#FF000000"
 		android:id="@+id/user_image"
 		android:layout_width="72dp"
 		android:layout_height="72dp"

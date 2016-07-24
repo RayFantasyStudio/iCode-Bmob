@@ -49,7 +49,7 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 		if(holder instanceof MyViewHolder){
 			MyViewHolder itemview=(MyViewHolder)holder;
 			Data data = dataList.get(i);
-			
+			User u=BmobUser.getCurrentUser(User.class);
 			itemview.title.setText(data.getTitle());
 			itemview.message.setText(data.getMessage());
 			itemview.time.setText(data.getCreatedAt());
@@ -57,11 +57,18 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 			//根据用户名称的第一位字符设置头像
 			itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
 			getHeadColor(data.getHeadColor())));
-																				  
+			if(u!=null){
+				itemview.title.setTextColor(getTextColor(u.getHeadColor()));
+			}
 		}
 	}
 	
 	private int getHeadColor(String s){
+		return Integer.valueOf(s).intValue();
+	}
+	
+	//String转int
+	public int getTextColor(String s){
 		return Integer.valueOf(s).intValue();
 	}
 

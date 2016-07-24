@@ -4,16 +4,18 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="190dp"
-	android:background="@drawable/background_material"
-	android:orientation="vertical">
-	
+	android:orientation="vertical"
+	android:id="@+id/headerRelativeLayout1">
+
 	<de.hdodenhof.circleimageview.CircleImageView
-		app:border_color="#FF000000"
+		
 		android:id="@+id/icode_user"
 		android:layout_width="72dp"
 		android:layout_height="72dp"
 		android:layout_centerVertical="true"
-		android:layout_margin="10dp"/>
+		android:layout_margin="10dp"
+		app:civ_border_width="2dp"
+		app:civ_border_color="#FFEEEEEE" />
 
 	<TextView
 		android:layout_width="wrap_content"

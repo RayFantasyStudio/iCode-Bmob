@@ -31,7 +31,7 @@ public class userFragment extends Fragment
 	
 	private TextDrawable drawableBuilder;
 	private CircleImageView userImage;
-	private int HeadColor;
+	private int HeadColor,color;
 	private String UserName,UserAbout;
 	
 	private MenuItem item;
@@ -74,7 +74,17 @@ public class userFragment extends Fragment
 		user_about.setTextColor(HeadColor);
 		user_name.setPrimaryColor(HeadColor);
 		user_about.setPrimaryColor(HeadColor);
-		
+		color=HeadColor;
+		userImage.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View p1)
+				{
+					if(item!=null&&item.getTitle().equals("确定")){
+						color=getUserRandomColor();
+						userImage.setBackground(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),color));
+					}
+				}
+		});
 	}
 	
 	@Override
@@ -99,7 +109,7 @@ public class userFragment extends Fragment
 					item.setTitle("确定");
 				}else{
 					if(myApplication.isCharacter(user_name.getText().toString().length(),user_about.getText().toString().length(),5,18,0,50)){
-						updata(user_name.getText().toString(),user_about.getText().toString());
+						updata(user_name.getText().toString(),user_about.getText().toString(),color+"");
 					}else{
 						myApplication.showSnackBar(getActivity(),"其中一项不符合规则");
 					}
@@ -128,12 +138,12 @@ public class userFragment extends Fragment
 
 	}
 
-	private void updata(String UserName,String About){
+	private void updata(String UserName,String About,String color){
 		User newUser = new User();
 		if(myApplication.noEquals(this.UserName,UserName)){
 			newUser.setUsername(UserName);
 		}
-		newUser.setHeadColor(HeadColor+"");
+		newUser.setHeadColor(color);
 		newUser.setAbout(About);
 		User bmobuser=BmobUser.getCurrentUser(User.class);
 		newUser.update(bmobuser.getObjectId(), new UpdateListener() {
@@ -150,6 +160,9 @@ public class userFragment extends Fragment
 			});
 	}
 	
+	public int getUserRandomColor(){
+		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+	}
 	
 	//退出登录
 	private void finishLogin(){

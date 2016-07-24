@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	private TextDrawable drawableBuilder;
 	private CircleImageView mCircleImageView;
 	private int drawerLayoutCheck = GravityCompat.START;
+	
+	private RelativeLayout HeadLayout;
 	private int HeadColor;
 	private String About;
 
@@ -115,22 +117,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
 			About=(String)bmobUser.getObjectByKey("About");
 			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor));
-			userName.setTextColor(HeadColor);
 		}else{
 			userName.setText("登录iCode");
-			userName.setTextColor(Color.WHITE);
 			//清空
 			mCircleImageView.setBackgroundResource(0);
 			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
 			HeadColor=getResources().getColor(R.color.PrimaryColor);
 			About="没有更多了";
 		}
-		
+		toolbar.setBackgroundColor(HeadColor);
+		HeadLayout.setBackgroundColor(HeadColor);
 	}
 
 	private void initView()
 	{
 		myApplication=(MyApplication)getApplication();
+		HeadLayout=(RelativeLayout)findViewById(R.id.headerRelativeLayout1);
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setBackgroundColor(getResources().getColor(R.color.PrimaryColor));
         setSupportActionBar(toolbar);
