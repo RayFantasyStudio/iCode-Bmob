@@ -23,18 +23,19 @@ import cn.bmob.v3.exception.*;
 import com.rengwuxian.materialedittext.*;
 import android.view.animation.*;
 
-public class userFragment extends Fragment implements OnClickListener
+public class userFragment extends Fragment
 {
 	private MyApplication myApplication;
 	private User user;
 	
-	private FloatingActionButton fab_finish_user,fab_updata_user;
 	private MaterialEditText user_name,user_about;
 	
 	private TextDrawable drawableBuilder;
 	private CircleImageView userImage;
 	private int HeadColor;
 	private String User_About;
+	
+	private MenuItem item;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -48,9 +49,6 @@ public class userFragment extends Fragment implements OnClickListener
 
 	private void initView(View v)
 	{
-		fab_finish_user=(FloatingActionButton)v.findViewById(R.id.finish_user);
-		fab_updata_user=(FloatingActionButton)v.findViewById(R.id.updata_user);
-		
 		user_name=(MaterialEditText)v.findViewById(R.id.user_name);
 		user_about=(MaterialEditText)v.findViewById(R.id.user_about);
 		
@@ -59,9 +57,7 @@ public class userFragment extends Fragment implements OnClickListener
 		user_name.setTextSize(25);
 		user_about.setTextSize(15);
 		setMetVisibility(true);
-		
-		fab_finish_user.setOnClickListener(this);
-		fab_updata_user.setOnClickListener(this);
+		setHasOptionsMenu(true);
 	}
 
 	private void init()
@@ -77,22 +73,30 @@ public class userFragment extends Fragment implements OnClickListener
 			user_about.setTextColor(HeadColor);
 			user_name.setPrimaryColor(HeadColor);
 			user_about.setPrimaryColor(HeadColor);
-			fab_updata_user.setColorNormal(HeadColor);
 			
 		}
 	}
 	
 	@Override
-	public void onClick(View p1)
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
 	{
-		switch(p1.getId()){
-			case R.id.finish_user:
+		getActivity().getMenuInflater().inflate(R.menu.user_menu,menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		int id=item.getItemId();
+		this.item=item;
+		switch(id){
+			case R.id.finish:
 				finishLogin();
-				break;
-			case R.id.updata_user:
-				if(fab_finish_user.getVisibility()==View.VISIBLE){
+			break;
+			case R.id.update:
+				if(item.getTitle().toString().equals("修改")){
 					setMetVisibility(false);
-					fab_finish_user.setVisibility(View.GONE);
+					item.setTitle("确定");
 				}else{
 					if(myApplication.isCharacter(user_name.getText().toString().length(),user_about.getText().toString().length(),5,18,0,50)){
 						updata(user_name.getText().toString(),user_about.getText().toString());
@@ -100,9 +104,9 @@ public class userFragment extends Fragment implements OnClickListener
 						myApplication.showSnackBar(getActivity(),"其中一项不符合规则");
 					}
 				}
-				
-				break;
+			break;
 		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	private void setMetVisibility(boolean v){
@@ -136,8 +140,8 @@ public class userFragment extends Fragment implements OnClickListener
 				@Override
 				public void done(BmobException e) {
 					if(e==null){
+						item.setTitle("修改");
 						setMetVisibility(true);
-						fab_finish_user.setVisibility(View.VISIBLE);
 						myApplication.showToast("更新用户信息成功");
 					}else{
 						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getMessage());	
@@ -145,7 +149,8 @@ public class userFragment extends Fragment implements OnClickListener
 				}
 			});
 	}
-
+	
+	
 	//退出登录
 	private void finishLogin(){
 		BmobUser.logOut();

@@ -12,6 +12,7 @@ import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.content.*;
 import rayfantasy.icode.Bmob.*;
+import android.view.*;
 
 public class userActivity extends BaseActivity
 {
