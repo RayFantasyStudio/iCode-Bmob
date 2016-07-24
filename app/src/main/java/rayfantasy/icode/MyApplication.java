@@ -107,12 +107,18 @@ public class MyApplication extends Application
 		}
 	}
 	
+	//比较两个String不想等返回true
 	public boolean noEquals(String a,String b){
 		if(a.equals(b)){
 			return false;
 		}else{
 			return true;
 		}
+	}
+	
+	//判断是否为空
+	public String isStringNull(String s){
+		return s.equals(null) ? "" : s;
 	}
 	
 	//获取imei

@@ -139,17 +139,15 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 			mSwipeRefreshLayout.setRefreshing(false);
 		}
 	}
-
+	
 	@Override
 	public void onClick(View p1)
 	{
-		
 		switch(p1.getId()){
 			case R.id.new_code:
 				startActivity(new Intent(getActivity(),writeActivity.class));
 				break;
 		}
-		
 	}
 	
 }

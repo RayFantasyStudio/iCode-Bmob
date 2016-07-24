@@ -30,6 +30,8 @@ import java.io.*;
 import de.hdodenhof.circleimageview.CircleImageView;
 import android.support.v4.widget.*;
 import rayfantasy.icode.Bmob.*;
+import cn.bmob.v3.listener.*;
+import cn.bmob.v3.exception.*;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -47,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	private TextDrawable drawableBuilder;
 	private CircleImageView mCircleImageView;
 	private int drawerLayoutCheck = GravityCompat.START;
-	
 	private int HeadColor;
+	private String About;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
         setContentView(R.layout.activity_main);
 		
 		initView();
-		
 		initUser();
 		
 		if(myApplication.isNetwork(this) || checkCache()){
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			mCircleImageView.setImageResource(0);
 			//根据用户名称的第一位字符设置头像
 			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
+			About=(String)bmobUser.getObjectByKey("About");
 			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor));
 			userName.setTextColor(HeadColor);
 		}else{
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			mCircleImageView.setBackgroundResource(0);
 			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
 			HeadColor=getResources().getColor(R.color.PrimaryColor);
+			About="没有更多了";
 		}
 		
 	}
@@ -142,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 					else menuItem.setChecked(true);
 
 					closeDrawer();
-
 					switch (menuItem.getItemId()){
 						case R.id.about:
 							return true;
@@ -176,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		actionBarDrawerToggle.syncState();
 		userName=(TextView)findViewById(R.id.main_username);
 		mCircleImageView=(CircleImageView)findViewById(R.id.icode_user);
-		
 		mCircleImageView.setOnClickListener(this);
 		
 		
@@ -189,8 +190,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			case R.id.icode_user:
 				//点击头像跳转
 				closeDrawer();
+				//这里注意不要跳转空的数值
 				Intent i=new Intent(MainActivity.this,userActivity.class);
 				i.putExtra("UserName",userName.getText().toString());
+				i.putExtra("About",About);
 				i.putExtra("HeadColor",HeadColor);
 				startActivity(i);
 			break;		

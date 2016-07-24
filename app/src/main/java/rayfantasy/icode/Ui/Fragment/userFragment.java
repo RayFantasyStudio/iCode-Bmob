@@ -22,25 +22,26 @@ import cn.bmob.v3.listener.*;
 import cn.bmob.v3.exception.*;
 import com.rengwuxian.materialedittext.*;
 import android.view.animation.*;
+import android.content.*;
 
 public class userFragment extends Fragment
 {
 	private MyApplication myApplication;
-	private User user;
-	
 	private MaterialEditText user_name,user_about;
 	
 	private TextDrawable drawableBuilder;
 	private CircleImageView userImage;
 	private int HeadColor;
-	private String User_About;
+	private String UserName,UserAbout;
 	
 	private MenuItem item;
+	private Intent i;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View v = inflater.inflate(R.layout.fragment_user,container,false);
+		i=getActivity().getIntent();
 		myApplication=(MyApplication)getActivity().getApplication();
 		initView(v);
 		init();
@@ -53,7 +54,6 @@ public class userFragment extends Fragment
 		user_about=(MaterialEditText)v.findViewById(R.id.user_about);
 		
 		userImage=(CircleImageView)v.findViewById(R.id.user_image);
-		
 		user_name.setTextSize(25);
 		user_about.setTextSize(15);
 		setMetVisibility(true);
@@ -62,19 +62,19 @@ public class userFragment extends Fragment
 
 	private void init()
 	{
-		user = BmobUser.getCurrentUser(User.class);
-		if(user!=null){
-			user_name.setText(user.getUsername());
-			HeadColor=myApplication.getHeadColor((String)user.getObjectByKey("HeadColor"));
-			User_About=(String)user.getObjectByKey("About");
-			userImage.setBackground(drawableBuilder.builder().buildRound(user_name.getText().toString().subSequence(0,1).toString(),HeadColor));
-			user_about.setText(User_About);
-			user_name.setTextColor(HeadColor);
-			user_about.setTextColor(HeadColor);
-			user_name.setPrimaryColor(HeadColor);
-			user_about.setPrimaryColor(HeadColor);
-			
-		}
+		HeadColor=i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
+		UserAbout=i.getStringExtra("About");
+		UserName=i.getStringExtra("UserName");
+		
+		userImage.setBackground(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),HeadColor));
+		user_name.setText(UserName);
+		user_about.setText(UserAbout);
+		
+		user_name.setTextColor(HeadColor);
+		user_about.setTextColor(HeadColor);
+		user_name.setPrimaryColor(HeadColor);
+		user_about.setPrimaryColor(HeadColor);
+		
 	}
 	
 	@Override
@@ -130,10 +130,10 @@ public class userFragment extends Fragment
 
 	private void updata(String UserName,String About){
 		User newUser = new User();
-		if(myApplication.noEquals(user.getUsername(),UserName)){
+		if(myApplication.noEquals(this.UserName,UserName)){
 			newUser.setUsername(UserName);
 		}
-		newUser.setHeadColor(user.getHeadColor());
+		newUser.setHeadColor(HeadColor+"");
 		newUser.setAbout(About);
 		User bmobuser=BmobUser.getCurrentUser(User.class);
 		newUser.update(bmobuser.getObjectId(), new UpdateListener() {
