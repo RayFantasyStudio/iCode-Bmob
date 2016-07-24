@@ -33,7 +33,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View v=inflater.inflate(R.layout.fragment_sign,container,false);
-		myApplication=(MyApplication)this.getActivity().getApplication();
+		myApplication=(MyApplication)getActivity().getApplication();
 		initView(v);
 		return v;
 		
@@ -105,7 +105,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 						myApplication.showSnackBar(getActivity(),"注册成功，正在登录");
 						loginByEmail(UserName,Password);
 					}else{
-						myApplication.showToast("注册失败"+e);
+						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
 					}
 				}
 		});
@@ -118,6 +118,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				public void done(User user, BmobException e) {
 					if(user!=null){
 						myApplication.showToast("登录成功");
+						getFragmentManager().popBackStack();
 						getActivity().finish();
 					}else{
 						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
@@ -134,7 +135,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 					if(e==null){
 						myApplication.showToast("请求验证邮件成功，请到" + email + "邮箱中进行激活。");
 					}else{
-						myApplication.showToast("失败:" + e.getMessage());
+						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
 					}
 				}
 			});
@@ -157,6 +158,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				public void done(User user, BmobException e) {
 					if(user!=null){
 						myApplication.showToast("登录成功");
+						getFragmentManager().popBackStack();
 						getActivity().finish();
 					}else{
 						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());

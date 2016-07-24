@@ -102,9 +102,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			//根据用户名称的第一位字符设置头像
 			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
 			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor));
-			
+			userName.setTextColor(HeadColor);
 		}else{
 			userName.setText("登录iCode");
+			userName.setTextColor(Color.WHITE);
 			//清空
 			mCircleImageView.setBackgroundResource(0);
 			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));

@@ -15,7 +15,7 @@ import rayfantasy.icode.Bmob.*;
 
 public class userActivity extends BaseActivity
 {
-	private BmobUser bmobUser;
+	private User bmobUser;
 	private Intent i;
 	
 	@Override
@@ -27,14 +27,11 @@ public class userActivity extends BaseActivity
 
 	private void init()
 	{
-		bmobUser=BmobUser.getCurrentUser();
+		bmobUser=BmobUser.getCurrentUser(User.class);
 		if(bmobUser!=null){
-			userFragment fragment_user=new userFragment();
-			getFragmentManager().beginTransaction().replace(R.id.fragmentLayout,fragment_user).commit();
-			
+			getFragmentManager().beginTransaction().replace(R.id.fragmentLayout,new userFragment()).commit();
 		}else{
-			signFragment fragment_sign=new signFragment();
-			getFragmentManager().beginTransaction().replace(R.id.fragmentLayout,fragment_sign).commit();
+			getFragmentManager().beginTransaction().replace(R.id.fragmentLayout,new signFragment()).commit();
 		}
 		
 	}
@@ -50,6 +47,12 @@ public class userActivity extends BaseActivity
 	protected int getLayoutRes()
 	{
 		return R.layout.activity_user;
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
 	}
 	
 }

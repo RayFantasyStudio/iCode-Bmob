@@ -23,7 +23,7 @@ import cn.bmob.v3.exception.*;
 import com.rengwuxian.materialedittext.*;
 import android.view.animation.*;
 
-public class userFragment extends Fragment implements OnClickListener,OnLongClickListener
+public class userFragment extends Fragment implements OnClickListener
 {
 	private MyApplication myApplication;
 	private User user;
@@ -40,7 +40,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View v = inflater.inflate(R.layout.fragment_user,container,false);
-		myApplication=(MyApplication)this.getActivity().getApplication();
+		myApplication=(MyApplication)getActivity().getApplication();
 		initView(v);
 		init();
 		return v;
@@ -61,9 +61,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		setMetVisibility(true);
 		
 		fab_finish_user.setOnClickListener(this);
-		fab_finish_user.setOnLongClickListener(this);
 		fab_updata_user.setOnClickListener(this);
-		fab_updata_user.setOnLongClickListener(this);
 	}
 
 	private void init()
@@ -106,20 +104,6 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 		}
 	}
 	
-	@Override
-	public boolean onLongClick(View p1)
-	{
-		switch(p1.getId()){
-			case R.id.finish_user:
-				Snackbar.make(p1,"退出当前账户",1000).show();
-				break;
-			case R.id.updata_user:
-				Snackbar.make(p1,"修改",1000).show();
-				break;
-		}
-		return false;
-	}
-	
 	private void setMetVisibility(boolean v){
 		if(v){
 			user_name.setFocusable(false);
@@ -141,10 +125,14 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 
 	private void updata(String UserName,String About){
 		User newUser = new User();
-		newUser.setAbout(About);
-		newUser.setUsername(UserName);
-		BmobUser bmobUser = BmobUser.getCurrentUser(User.class);
-		newUser.update(bmobUser.getObjectId(), new UpdateListener() {
+		if(!user.getUsername().equals(UserName)){
+			newUser.setUsername(UserName);
+		}
+		if(!user.getAbout().equals(About)){
+			newUser.setAbout(About);
+		}
+		User bmobuser=BmobUser.getCurrentUser(User.class);
+		newUser.update(bmobuser.getObjectId(), new UpdateListener() {
 				@Override
 				public void done(BmobException e) {
 					if(e==null){
@@ -152,7 +140,7 @@ public class userFragment extends Fragment implements OnClickListener,OnLongClic
 						fab_finish_user.setVisibility(View.VISIBLE);
 						myApplication.showToast("更新用户信息成功");
 					}else{
-						myApplication.showToast("更新用户信息失败:" + e.getMessage());
+						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getMessage());	
 					}
 				}
 			});
