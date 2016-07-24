@@ -54,11 +54,13 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 			itemview.message.setText(data.getMessage());
 			itemview.time.setText(data.getCreatedAt());
 			itemview.user.setText(data.getUser());
-			//根据用户名称的第一位字符设置头像
-			itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
-			getHeadColor(data.getHeadColor())));
 			if(u!=null){
 				itemview.title.setTextColor(getTextColor(u.getHeadColor()));
+				itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
+																					  getHeadColor(u.getHeadColor())));
+			}else{
+				itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
+																					  getHeadColor(data.getHeadColor())));
 			}
 		}
 	}

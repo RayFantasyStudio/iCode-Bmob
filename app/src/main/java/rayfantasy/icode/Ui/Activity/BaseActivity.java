@@ -38,6 +38,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 	
+	
+	public void setToolBarBackgroundColor(int color){
+		toolbar.setBackgroundColor(color);
+	}
+	
 	protected abstract String getTitleText();
 	
 	protected abstract int getBackgroundColor();

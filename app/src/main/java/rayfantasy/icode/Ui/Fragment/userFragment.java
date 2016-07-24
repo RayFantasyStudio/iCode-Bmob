@@ -36,6 +36,22 @@ public class userFragment extends Fragment
 	
 	private MenuItem item;
 	private Intent i;
+	public interface OnFabClickListener{
+		public void OnClick(View v1,int color)
+	}
+	private OnFabClickListener mOnFabClickListener;
+	
+
+	@Override
+	public void onAttach(Activity activity)
+	{
+		super.onAttach(activity);
+		try {
+            mOnFabClickListener = (OnFabClickListener) activity;
+		} catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() );
+        }
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -82,6 +98,11 @@ public class userFragment extends Fragment
 					if(item!=null&&item.getTitle().equals("确定")){
 						color=getUserRandomColor();
 						userImage.setBackground(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),color));
+						user_name.setTextColor(color);
+						user_about.setTextColor(color);
+						if(mOnFabClickListener!=null){
+							mOnFabClickListener.OnClick(p1,color);
+						}
 					}
 				}
 		});

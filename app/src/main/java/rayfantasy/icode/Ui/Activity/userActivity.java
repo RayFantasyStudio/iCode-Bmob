@@ -13,8 +13,9 @@ import android.support.v7.widget.*;
 import android.content.*;
 import rayfantasy.icode.Bmob.*;
 import android.view.*;
+import rayfantasy.icode.Ui.Fragment.userFragment.*;
 
-public class userActivity extends BaseActivity
+public class userActivity extends BaseActivity implements userFragment.OnFabClickListener
 {
 	private User bmobUser;
 	
@@ -37,6 +38,13 @@ public class userActivity extends BaseActivity
 		}
 		
 	}
+
+	@Override
+	public void OnClick(View v1, int color)
+	{
+		setToolBarBackgroundColor(color);
+	}
+	
 	
 	@Override
 	protected String getTitleText()

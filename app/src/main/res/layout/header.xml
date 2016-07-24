@@ -3,19 +3,17 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
-	android:layout_height="190dp"
-	android:orientation="vertical"
+	android:layout_height="200dp"
 	android:id="@+id/headerRelativeLayout1">
 
 	<de.hdodenhof.circleimageview.CircleImageView
-		
 		android:id="@+id/icode_user"
 		android:layout_width="72dp"
 		android:layout_height="72dp"
 		android:layout_centerVertical="true"
 		android:layout_margin="10dp"
 		app:civ_border_width="2dp"
-		app:civ_border_color="#FFEEEEEE" />
+		app:civ_border_color="#FFEEEEEE"/>
 
 	<TextView
 		android:layout_width="wrap_content"

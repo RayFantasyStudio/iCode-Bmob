@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			//根据用户名称的第一位字符设置头像
 			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
 			About=(String)bmobUser.getObjectByKey("About");
-			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor));
+			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor-1000));
 		}else{
 			userName.setText("登录iCode");
 			//清空
@@ -148,12 +148,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 
 					closeDrawer();
 					switch (menuItem.getItemId()){
-						case R.id.about:
+						case R.id.drawer_home:
 							return true;
-						case R.id.setting:
+						case R.id.drawer_material:
 							return true;
-						case R.id.release:
-							startActivity(new Intent(MainActivity.this,writeActivity.class));
+						case R.id.drawer_bug:
+							return true;
+						case R.id.drawer_setting:
+							return true;
+						case R.id.drawer_about:
 							return true;
 						default:
 							Toast.makeText(MainActivity.this,"错误",Toast.LENGTH_SHORT).show();
@@ -233,7 +236,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		super.onRestart();
 		
 		initUser();
+		
 	}
+
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

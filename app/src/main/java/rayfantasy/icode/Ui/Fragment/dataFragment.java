@@ -129,7 +129,6 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 				}
 			});
 	}
-
 	
 	private void initBmobUser(){
 		user=BmobUser.getCurrentUser(User.class);
@@ -148,6 +147,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	{
 		super.onStart();
 		initBmobUser();
+		isNetwork_LoadingData(0);
 	}
 	
 	
@@ -157,7 +157,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		isNetwork_LoadingData(0);
 	}
 	
-	private void isNetwork_LoadingData(int skip){
+	public void isNetwork_LoadingData(int skip){
 		if(myApplication.isNetwork(getActivity())){
 			initData(skip);
 		}else{

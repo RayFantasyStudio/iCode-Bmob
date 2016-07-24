@@ -4,34 +4,47 @@
     <group android:checkableBehavior="single">
 		
 		<item
-            android:id="@+id/section"
+            android:id="@+id/drawer_user"
             android:title="用户">
 			
 			<menu>
 
 				<item
-					android:id="@+id/release"
+					android:id="@+id/drawer_home"
 					android:checked="false"
 					android:icon="@drawable/ic_home_white_36dp"
-					android:title="@string/release" />
-
+					android:title="@string/home" />
+				
+				
+				<item
+					android:id="@+id/drawer_material"
+					android:checked="false"
+					android:icon="@drawable/ic_home_white_36dp"
+					android:title="@string/material" />
+				
+				<item
+					android:id="@+id/drawer_bug"
+					android:checked="false"
+					android:icon="@drawable/ic_home_white_36dp"
+					android:title="@string/bug" />
+				
 			</menu>
 		
 		</item>
 		
 		<item
-            android:id="@+id/section2"
+            android:id="@+id/drawer_other"
             android:title="其他">
             <menu>
 				
 				<item
-					android:id="@+id/setting"
+					android:id="@+id/drawer_setting"
 					android:checked="false"
 					android:icon="@drawable/ic_settings_white_36dp"
 					android:title="@string/setting" />
 
 				<item
-					android:id="@+id/about"
+					android:id="@+id/drawer_about"
 					android:checked="false"
 					android:icon="@drawable/ic_info_outline_white_36dp"
 					android:title="@string/about" />
