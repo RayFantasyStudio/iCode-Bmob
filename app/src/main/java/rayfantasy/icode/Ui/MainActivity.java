@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	private CircleImageView mCircleImageView;
 	private int drawerLayoutCheck = GravityCompat.START;
 	
-	private int HeadColor = 0;
+	private int HeadColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			//清空
 			mCircleImageView.setBackgroundResource(0);
 			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
-			
+			HeadColor=getResources().getColor(R.color.PrimaryColor);
 		}
 		
 	}

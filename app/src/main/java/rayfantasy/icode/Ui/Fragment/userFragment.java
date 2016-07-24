@@ -126,12 +126,10 @@ public class userFragment extends Fragment implements OnClickListener
 
 	private void updata(String UserName,String About){
 		User newUser = new User();
-		if(!user.getUsername().equals(UserName)){
+		if(myApplication.noEquals(user.getUsername(),UserName)){
 			newUser.setUsername(UserName);
 		}
-		if(!user.getAbout().equals(About)){
-			newUser.setAbout(About);
-		}
+		newUser.setAbout(About);
 		User bmobuser=BmobUser.getCurrentUser(User.class);
 		newUser.update(bmobuser.getObjectId(), new UpdateListener() {
 				@Override

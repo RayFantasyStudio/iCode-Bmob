@@ -107,6 +107,14 @@ public class MyApplication extends Application
 		}
 	}
 	
+	public boolean noEquals(String a,String b){
+		if(a.equals(b)){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 	//获取imei
 	public String getImei(){
 		TelephonyManager tm=(TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
