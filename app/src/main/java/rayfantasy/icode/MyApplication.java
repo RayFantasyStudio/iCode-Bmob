@@ -144,4 +144,22 @@ public class MyApplication extends Application
 		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255))+"";
 	}
 	
+	public void saveData(String UserName,String HeadColor,String Title,String Message){
+		Data data = new Data();
+		data.setUser(UserName);
+		data.setHeadColor(HeadColor);
+		data.setTitle(Title);
+		data.setMessage(Message);
+		
+		data.save(new SaveListener<String>() {
+				@Override
+				public void done(String objectId, BmobException e) {
+					if(e==null){
+						showToast("上传代码成功");
+					}else{
+						showToast("上传失败："+e.getMessage()+","+e.getErrorCode());
+					}
+				}
+			});
+	}
 }

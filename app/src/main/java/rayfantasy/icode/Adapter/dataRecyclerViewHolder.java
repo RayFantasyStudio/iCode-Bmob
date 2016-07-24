@@ -12,6 +12,7 @@ import de.hdodenhof.circleimageview.*;
 import rayfantasy.icode.R;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import cn.bmob.v3.*;
+import android.widget.RelativeLayout.*;
 
 public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 {
@@ -28,13 +29,15 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
 	{
 		if (viewType == TYPE_ITEM) {
-			View view = LayoutInflater.from(parent.getContext()).inflate(
-				R.layout.
+			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.
 				cardview_text, null);
+			view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+												  LayoutParams.WRAP_CONTENT));
 			return new MyViewHolder(view);
 		}else if(viewType == TYPE_FOOTER){
-			View view = LayoutInflater.from(parent.getContext()).inflate(
-				R.layout.loadmore, null);
+			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loadmore, null);
+			view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+												  LayoutParams.WRAP_CONTENT));
 			return new FooterViewHolder(view);
 		}
 		return null;
@@ -76,7 +79,7 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 	@Override
 	public int getItemCount()
 	{
-		return dataList.size()+1;
+		return /*dataList.size() == 0 ? 0 : */dataList.size() + 1;
 	}
 	
 	class MyViewHolder extends RecyclerView.ViewHolder {

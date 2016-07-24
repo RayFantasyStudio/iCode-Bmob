@@ -42,13 +42,14 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	private MyApplication myApplication;
 	private int data_skip=0;
 	private int lastVisibleItem=0;
-	
+	private User user;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		v=inflater.inflate(R.layout.fragment_data,container,false);
 		initView(v);
+		initBmobUser();
 		initData(0);
 		return v;
 	}
@@ -62,10 +63,12 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 											  android.R.color.holo_orange_light, android.R.color.holo_red_light);
 		mSwipeRefreshLayout.setOnRefreshListener(this);
 		
-		/*mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
-												   .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
-																   .getDisplayMetrics()));
-							*/									   
+		mSwipeRefreshLayout.post(new Runnable() {
+				@Override
+				public void run() {
+					mSwipeRefreshLayout.setRefreshing(true);
+				}
+			});
 		mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.new_code);
 		mFloatingActionButton.setOnClickListener(this);
 		
@@ -114,17 +117,38 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 						if (losts == null || losts.size() == 0) {
 							return;
 						}
-						mList.addAll(0, losts);
+						mList.addAll(dataRecyclerViewHolder.getItemCount() - 1, losts);
 						dataRecyclerViewHolder.notifyDataSetChanged();
 						recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 						mSwipeRefreshLayout.setRefreshing(false);
+						dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount());
 					}else{
 						myApplication.showToast("加载数据出错"+p2);
+						dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount());
 					}
 				}
 			});
 	}
 
+	
+	private void initBmobUser(){
+		user=BmobUser.getCurrentUser(User.class);
+		if(user!=null){
+			mFloatingActionButton.setVisibility(View.VISIBLE);
+			
+		}else{
+			mFloatingActionButton.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		initBmobUser();
+	}
+	
+	
 	@Override
 	public void onRefresh()
 	{
@@ -145,7 +169,8 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	{
 		switch(p1.getId()){
 			case R.id.new_code:
-				startActivity(new Intent(getActivity(),writeActivity.class));
+				//startActivity(new Intent(getActivity(),writeActivity.class));
+				myApplication.saveData(user.getUsername(),user.getHeadColor(),"标题","本内容为测试内容");
 				break;
 		}
 	}
