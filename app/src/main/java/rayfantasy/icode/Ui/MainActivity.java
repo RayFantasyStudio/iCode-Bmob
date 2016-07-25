@@ -32,6 +32,7 @@ import android.support.v4.widget.*;
 import rayfantasy.icode.Bmob.*;
 import cn.bmob.v3.listener.*;
 import cn.bmob.v3.exception.*;
+import android.content.res.*;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -53,7 +54,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	private RelativeLayout HeadLayout;
 	private int HeadColor;
 	private String About;
-
+	private ColorStateList csl;
+	private Window window;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -73,79 +76,28 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 
 	private void init()
 	{
+		myApplication=(MyApplication)getApplication();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			Window window = getWindow();
-			window.setFlags(
-				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			window = getWindow();
+			window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		}
 		BmobUpdateAgent.setUpdateOnlyWifi(false);//在任何环境下提示更新
 		BmobUpdateAgent.update(this);//调用更新
 	}
 	
-	private boolean checkCache(){
-		String s = "/data/data/rayfantasy.icode/code_cache/com.android.opengl.shaders_cache";
-		File f = new File(s);
-		if(f.exists()){
-			if(f.isFile() && f.length() != 0){
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
-		else{
-			return false;
-		}
-	}
-	
-	private void initData()
-	{
-		getFragmentManager().beginTransaction().replace(R.id.frame,new dataFragment()).commit();
-	}
-
-	private void initUser()
-	{
-		bmobUser = BmobUser.getCurrentUser(User.class);
-		//如果本地用户不为null证明登录了
-		if(bmobUser != null){
-			//设置用户名称
-			userName.setText(bmobUser.getUsername());
-			//清空
-			mCircleImageView.setImageResource(0);
-			//根据用户名称的第一位字符设置头像
-			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
-			About=(String)bmobUser.getObjectByKey("About");
-			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor-1000));
-		}else{
-			userName.setText("登录iCode");
-			//清空
-			mCircleImageView.setBackgroundResource(0);
-			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icode_user));
-			HeadColor=getResources().getColor(R.color.PrimaryColor);
-			About="没有更多了";
-		}
-		toolbar.setBackgroundColor(HeadColor);
-		HeadLayout.setBackgroundColor(HeadColor);
-	}
-
 	private void initView()
 	{
-		myApplication=(MyApplication)getApplication();
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 		HeadLayout=(RelativeLayout)findViewById(R.id.headerRelativeLayout1);
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setBackgroundColor(getResources().getColor(R.color.PrimaryColor));
-        setSupportActionBar(toolbar);
-		
+		setSupportActionBar(toolbar);
 		navigationView = (NavigationView)findViewById(R.id.navigation_view);
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 				@Override
-				public boolean onNavigationItemSelected(MenuItem menuItem) {
-
+				public boolean onNavigationItemSelected(MenuItem menuItem)
+				{
 					if(menuItem.isChecked()) menuItem.setChecked(false);
 					else menuItem.setChecked(true);
-
 					closeDrawer();
 					switch (menuItem.getItemId()){
 						case R.id.drawer_home:
@@ -158,15 +110,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 							return true;
 						case R.id.drawer_about:
 							return true;
-						default:
-							Toast.makeText(MainActivity.this,"错误",Toast.LENGTH_SHORT).show();
-							return true;
 					}
+					return false;
 				}
 			});
-			
-		drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
+		ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -178,16 +126,46 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                 super.onDrawerOpened(drawerView);
             }
         };
-
 		drawerLayout.setDrawerListener(actionBarDrawerToggle);
 		actionBarDrawerToggle.syncState();
 		userName=(TextView)findViewById(R.id.main_username);
 		mCircleImageView=(CircleImageView)findViewById(R.id.icode_user);
 		mCircleImageView.setOnClickListener(this);
-		
-		
 	}
 
+	private void initUser()
+	{
+		bmobUser = BmobUser.getCurrentUser(User.class);
+		//如果本地用户不为null证明登录了
+		if(bmobUser != null){
+			userName.setText(bmobUser.getUsername());
+			mCircleImageView.setImageResource(0);
+			//根据用户名称的第一位字符设置头像
+			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
+			About=(String)bmobUser.getObjectByKey("About");
+			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor-1000));
+		}else{
+			HeadColor=getResources().getColor(R.color.PrimaryColor);
+			userName.setText("登录iCode");
+			mCircleImageView.setBackgroundResource(0);
+			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_account_circle_white));
+			About="没有更多了";
+		}
+		toolbar.setBackgroundColor(HeadColor);
+		HeadLayout.setBackgroundColor(HeadColor);
+		csl=myApplication.createSelector(HeadColor,getResources().getColor(R.color.csl_color),HeadColor,getResources().getColor(R.color.csl_color));
+		navigationView.setItemTextColor(csl);
+		navigationView.setItemIconTintList(csl);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			window.setNavigationBarColor(HeadColor);
+		}
+	}
+	
+	private void initData()
+	{
+		getFragmentManager().beginTransaction().replace(R.id.frame,new dataFragment()).commit();
+	}
+	
 	@Override
 	public void onClick(View p1)
 	{
@@ -202,6 +180,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 				i.putExtra("HeadColor",HeadColor);
 				startActivity(i);
 			break;		
+		}
+	}
+	
+	
+	private boolean checkCache(){
+		String s = "/data/data/rayfantasy.icode/code_cache/com.android.opengl.shaders_cache";
+		File f = new File(s);
+		if(f.exists()){
+			if(f.isFile() && f.length() != 0){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
 		}
 	}
 	
@@ -234,9 +229,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	protected void onRestart()
 	{
 		super.onRestart();
-		
 		initUser();
-		
 	}
 
 	

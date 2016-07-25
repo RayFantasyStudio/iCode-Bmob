@@ -4,4 +4,6 @@
     <color name="PrimaryDarkColor">#1976D2</color>
     <color name="appbar_overlay_top">#99000000</color>
     <color name="appbar_overlay_bottom">#00000000</color>
+	
+	<color name="csl_color">#FF888888</color>
 </resources>

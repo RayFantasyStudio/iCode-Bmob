@@ -33,4 +33,11 @@ public class writeActivity extends BaseActivity
 	{
 		return getResources().getColor(R.color.PrimaryColor);
 	}
+
+	@Override
+	protected int getNavigationBarColor()
+	{
+		return getResources().getColor(R.color.PrimaryColor);
+	}
+
 }

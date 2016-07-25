@@ -100,6 +100,8 @@ public class userFragment extends Fragment
 						userImage.setBackground(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),color));
 						user_name.setTextColor(color);
 						user_about.setTextColor(color);
+						user_name.setPrimaryColor(color);
+						user_about.setPrimaryColor(color);
 						if(mOnFabClickListener!=null){
 							mOnFabClickListener.OnClick(p1,color);
 						}

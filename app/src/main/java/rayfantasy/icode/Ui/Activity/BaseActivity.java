@@ -14,15 +14,17 @@ import android.os.*;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
+	private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			Window window = getWindow();
+			window = getWindow();
 			window.setFlags(
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			window.setNavigationBarColor(getNavigationBarColor());
 		}
         setContentView(getLayoutRes());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -43,9 +45,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 		toolbar.setBackgroundColor(color);
 	}
 	
+	public void setNavigationBarColor(int color){
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			window.setNavigationBarColor(color);
+		}
+	}
+	
 	protected abstract String getTitleText();
 	
 	protected abstract int getBackgroundColor();
+	
+	protected abstract int getNavigationBarColor();
 
     protected abstract int getLayoutRes();
 

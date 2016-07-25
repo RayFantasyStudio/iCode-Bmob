@@ -43,8 +43,8 @@ public class userActivity extends BaseActivity implements userFragment.OnFabClic
 	public void OnClick(View v1, int color)
 	{
 		setToolBarBackgroundColor(color);
+		setNavigationBarColor(color);
 	}
-	
 	
 	@Override
 	protected String getTitleText()
@@ -55,6 +55,13 @@ public class userActivity extends BaseActivity implements userFragment.OnFabClic
 	
 	@Override
 	protected int getBackgroundColor()
+	{
+		i=getIntent();
+		return i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
+	}
+
+	@Override
+	protected int getNavigationBarColor()
 	{
 		i=getIntent();
 		return i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));

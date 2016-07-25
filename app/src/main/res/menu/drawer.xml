@@ -5,27 +5,30 @@
 		
 		<item
             android:id="@+id/drawer_user"
-            android:title="用户">
+            android:title="板块">
 			
 			<menu>
 
 				<item
 					android:id="@+id/drawer_home"
 					android:checked="false"
-					android:icon="@drawable/ic_home_white_36dp"
+					android:textAppearance="@style/Text"
+					android:icon="@drawable/ic_home_white"
 					android:title="@string/home" />
 				
 				
 				<item
 					android:id="@+id/drawer_material"
 					android:checked="false"
-					android:icon="@drawable/ic_home_white_36dp"
+					android:textAppearance="@style/Text"
+					android:icon="@drawable/ic_donut_large_white"
 					android:title="@string/material" />
 				
 				<item
 					android:id="@+id/drawer_bug"
 					android:checked="false"
-					android:icon="@drawable/ic_home_white_36dp"
+					android:textAppearance="@style/Text"
+					android:icon="@drawable/ic_apps_white"
 					android:title="@string/bug" />
 				
 			</menu>
@@ -40,13 +43,15 @@
 				<item
 					android:id="@+id/drawer_setting"
 					android:checked="false"
-					android:icon="@drawable/ic_settings_white_36dp"
+					android:textAppearance="@style/Text"
+					android:icon="@drawable/ic_settings_white"
 					android:title="@string/setting" />
 
 				<item
 					android:id="@+id/drawer_about"
 					android:checked="false"
-					android:icon="@drawable/ic_info_outline_white_36dp"
+					android:textAppearance="@style/Text"
+					android:icon="@drawable/ic_info_outline_white"
 					android:title="@string/about" />
 		
 			</menu>

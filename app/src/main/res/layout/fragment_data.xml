@@ -10,7 +10,6 @@
 		android:layout_height="match_parent"
 		android:id="@+id/swipe_layout">
 		
-
 			<android.support.v7.widget.RecyclerView
 				android:id="@+id/recycler_view"
 				android:layout_width="match_parent"
@@ -23,7 +22,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="16dp"
-		android:src="@drawable/ic_create_white_36dp"
+		android:src="@drawable/ic_create_white"
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentRight="true"/>
 

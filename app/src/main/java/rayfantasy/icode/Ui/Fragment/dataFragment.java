@@ -50,8 +50,6 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	{
 		v=inflater.inflate(R.layout.fragment_data,container,false);
 		initView(v);
-		initBmobUser();
-		initData(0);
 		return v;
 	}
 	

@@ -17,6 +17,7 @@ import rayfantasy.icode.Data.*;
 import android.content.pm.*;
 import android.support.design.widget.*;
 import cn.bmob.v3.exception.*;
+import android.content.res.*;
 
 public class MyApplication extends Application
 {
@@ -143,6 +144,15 @@ public class MyApplication extends Application
 	public String getUserRandomColor(){
 		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255))+"";
 	}
+	
+	public ColorStateList createSelector(int color1,int color2,int color3,int color4) { 
+		int statePressed = android.R.attr.state_pressed; 
+		int stateFocesed = android.R.attr.state_focused; 
+		int[][] state = {{statePressed},{-statePressed},{stateFocesed},{-stateFocesed}}; 
+		int[] color = {color1, color2, color3, color4}; 
+		ColorStateList colorStateList = new ColorStateList(state,color); 
+		return colorStateList; 
+    }
 	
 	public void saveData(String UserName,String HeadColor,String Title,String Message){
 		Data data = new Data();
