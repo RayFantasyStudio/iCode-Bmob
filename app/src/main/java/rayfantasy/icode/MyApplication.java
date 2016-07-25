@@ -154,7 +154,7 @@ public class MyApplication extends Application
 		return colorStateList; 
     }
 	
-	public void saveData(String UserName,String HeadColor,String Title,String Message){
+	public void saveData(String Data,String UserName,String HeadColor,String Title,String Message){
 		Data data = new Data();
 		data.setUser(UserName);
 		data.setHeadColor(HeadColor);

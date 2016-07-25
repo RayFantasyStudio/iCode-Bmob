@@ -15,7 +15,7 @@ import android.os.*;
 public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
 	private Window window;
-
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +36,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-            }
+			}
         });
-    }
+	}
 	
 	
 	public void setToolBarBackgroundColor(int color){

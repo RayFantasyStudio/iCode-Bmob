@@ -13,16 +13,28 @@ import rayfantasy.icode.R;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import cn.bmob.v3.*;
 import android.widget.RelativeLayout.*;
+import android.renderscript.*;
 
-public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
+public class dataRecyclerViewHolder<T extends java.lang.Object> extends RecyclerView.Adapter<ViewHolder>
 {
 	private List<Data> dataList;
+	private List<Material> dataMaterialList;
+	
 	private TextDrawable drawableBuilder;
 	private static final int TYPE_ITEM = 0;
 	private static final int TYPE_FOOTER = 1;
+	private int t;
 	
-	public dataRecyclerViewHolder(List<Data> dataList){
-		this.dataList=dataList;
+	public dataRecyclerViewHolder(List<T> dataList,int i){
+		t=i;
+		switch(i){
+			case 1:
+				this.dataList=(List<Data>)dataList;
+			break;
+			case 2:
+				this.dataMaterialList=(List<Material>)dataList;
+			break;
+		}
 	}
 	
 	@Override
@@ -48,19 +60,30 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 	{
 		if(holder instanceof MyViewHolder){
 			MyViewHolder itemview=(MyViewHolder)holder;
-			Data data = dataList.get(i);
 			User u=BmobUser.getCurrentUser(User.class);
-			itemview.title.setText(data.getTitle());
-			itemview.message.setText(data.getMessage());
-			itemview.time.setText(data.getCreatedAt());
-			itemview.user.setText(data.getUser());
+			switch(t){
+				case 1:
+					Data data=dataList.get(i);
+					itemview.title.setText(data.getTitle());
+					itemview.message.setText(data.getMessage());
+					itemview.time.setText(data.getCreatedAt());
+					itemview.user.setText(data.getUser());
+				break;
+				case 2:
+					Material data2=dataMaterialList.get(i);
+					itemview.title.setText(data2.getTitle());
+					itemview.message.setText(data2.getMessage());
+					itemview.time.setText(data2.getCreatedAt());
+					itemview.user.setText(data2.getUser());
+				break;
+			}
 			if(u!=null){
 				itemview.title.setTextColor(getTextColor(u.getHeadColor()));
 				itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
 																					  getHeadColor(u.getHeadColor())));
 			}else{
 				itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
-																					  getHeadColor(data.getHeadColor())));
+																					  R.color.PrimaryColor));
 			}
 		}
 	}
@@ -88,7 +111,12 @@ public class dataRecyclerViewHolder extends RecyclerView.Adapter<ViewHolder>
 	@Override
 	public int getItemCount()
 	{
-		return /*dataList.size() == 0 ? 0 : */dataList.size() + 1;
+		if(t==1){
+			return /*dataList.size() == 0 ? 0 : */dataList.size() + 1;
+		}else if(t==2){
+			return /*dataList.size() == 0 ? 0 : */dataMaterialList.size() + 1;
+		}
+		return 0;
 	}
 	
 	class MyViewHolder extends RecyclerView.ViewHolder {

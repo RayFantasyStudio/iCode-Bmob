@@ -101,8 +101,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 					closeDrawer();
 					switch (menuItem.getItemId()){
 						case R.id.drawer_home:
+							setTabInt(1);
 							return true;
 						case R.id.drawer_material:
+							setTabInt(2);
 							return true;
 						case R.id.drawer_bug:
 							return true;
@@ -215,6 +217,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		}
 		startActivity(intent);
 		myApplication.showToast("当前无网络");
+	}
+	
+	public int setTabInt(int i){
+		return i;
 	}
 	
 	public void closeDrawer(){

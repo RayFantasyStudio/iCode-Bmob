@@ -36,6 +36,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 	
 	private View v;
 	private List<Data> mList=new ArrayList<Data>();
+	private List<Material> mMaterialList = new ArrayList<Material>();
 	
 	private FloatingActionButton mFloatingActionButton;
 	
@@ -74,7 +75,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_view);
 		mLinearLayoutManager = new LinearLayoutManager(getActivity());
 		recyclerView.setLayoutManager(mLinearLayoutManager);
-		dataRecyclerViewHolder=new dataRecyclerViewHolder(mList);
+		dataRecyclerViewHolder=new dataRecyclerViewHolder(mList,1);
 		recyclerView.setAdapter(dataRecyclerViewHolder);
 		recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
 				@Override
@@ -95,10 +96,9 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 			});
 	}
 
-	private void initData(final int skip)
+	private void initData(int skip)
 	{
-		// 刷新数据
-		final BmobQuery<Data> query = new BmobQuery<Data>();
+		BmobQuery<Data> query = new BmobQuery<Data>();
 		query.order("-createdAt");
 		query.setLimit(10);
 		//忽略前面数据
@@ -119,10 +119,9 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 						dataRecyclerViewHolder.notifyDataSetChanged();
 						recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 						mSwipeRefreshLayout.setRefreshing(false);
-						//dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount());
 					}else{
 						myApplication.showToast("加载数据出错"+p2);
-						//dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount());
+						dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount()-1);
 					}
 				}
 			});
@@ -170,7 +169,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		switch(p1.getId()){
 			case R.id.new_code:
 				//startActivity(new Intent(getActivity(),writeActivity.class));
-				myApplication.saveData(user.getUsername(),user.getHeadColor(),"标题","本内容为测试内容");
+				myApplication.saveData("Data",user.getUsername(),user.getHeadColor(),"标题","本内容为测试内容");
 				break;
 		}
 	}
