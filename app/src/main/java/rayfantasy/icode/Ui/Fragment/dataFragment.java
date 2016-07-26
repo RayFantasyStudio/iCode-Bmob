@@ -75,7 +75,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_view);
 		mLinearLayoutManager = new LinearLayoutManager(getActivity());
 		recyclerView.setLayoutManager(mLinearLayoutManager);
-		dataRecyclerViewHolder=new dataRecyclerViewHolder(mList,1);
+		dataRecyclerViewHolder=new dataRecyclerViewHolder(mList,1,myApplication);
 		recyclerView.setAdapter(dataRecyclerViewHolder);
 		recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
 				@Override
@@ -169,7 +169,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		switch(p1.getId()){
 			case R.id.new_code:
 				//startActivity(new Intent(getActivity(),writeActivity.class));
-				myApplication.saveData("Data",user.getUsername(),user.getHeadColor(),"标题","本内容为测试内容");
+				myApplication.saveData("Data",user.getUsername(),user.getEmail(),user.getHeadUri(),user.getHeadVersion(),user.getHeadColor(),"标题","本内容为测试内容");
 				break;
 		}
 	}

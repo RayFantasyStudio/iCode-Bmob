@@ -23,6 +23,12 @@ import cn.bmob.v3.exception.*;
 import com.rengwuxian.materialedittext.*;
 import android.view.animation.*;
 import android.content.*;
+import android.net.*;
+import android.database.*;
+import android.provider.*;
+import cn.bmob.v3.datatype.*;
+import java.io.*;
+import java.net.*;
 
 public class userFragment extends Fragment
 {
@@ -33,9 +39,18 @@ public class userFragment extends Fragment
 	private CircleImageView userImage;
 	private int HeadColor,color;
 	private String UserName,UserAbout;
+	//头像选择路径
+	private String PicturePath;
+	private User user;
 	
 	private MenuItem item;
 	private Intent i;
+	
+	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
+	
+	
+	private static final int IMAGE_REQUEST_CODE = 0;
+	
 	public interface OnFabClickListener{
 		public void OnClick(View v1,int color)
 	}
@@ -78,11 +93,22 @@ public class userFragment extends Fragment
 
 	private void init()
 	{
+		user=BmobUser.getCurrentUser(User.class);
 		HeadColor=i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
 		UserAbout=i.getStringExtra("About");
 		UserName=i.getStringExtra("UserName");
-		
-		userImage.setBackground(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),HeadColor));
+		if(myApplication.noEquals(user.getId(),"0")){
+			if(myApplication.isFile("/cache/"+user.getEmail()+"_"+user.getHeadVersion()+".png")){
+				userImage.setBackgroundResource(0);
+				userImage.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+user.getEmail()+"_"+user.getHeadVersion()+".png"));
+			}else{
+				//未缓存下载
+				myApplication.downloadFile(new BmobFile(user.getEmail(),"",user.getHeadUri()),user.getEmail()+"_"+user.getHeadVersion(),userImage);
+			}
+		}else{
+			userImage.setImageResource(0);
+			userImage.setBackground(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),HeadColor-1000));
+		}
 		user_name.setText(UserName);
 		user_about.setText(UserAbout);
 		
@@ -97,6 +123,7 @@ public class userFragment extends Fragment
 				{
 					if(item!=null&&item.getTitle().equals("确定")){
 						color=getUserRandomColor();
+						
 						userImage.setBackground(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),color));
 						user_name.setTextColor(color);
 						user_about.setTextColor(color);
@@ -108,7 +135,46 @@ public class userFragment extends Fragment
 					}
 				}
 		});
+		
+		userImage.setOnLongClickListener(new OnLongClickListener(){
+				@Override
+				public boolean onLongClick(View p1)
+				{
+					resizeImage();
+					return false;
+				}
+		});
 	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		 Uri selectedImage = null;
+		if (requestCode == IMAGE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && null != data) {
+			selectedImage = data.getData();
+			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+			Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+																	 filePathColumn, null, null, null);
+			cursor.moveToFirst();
+			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+			PicturePath = cursor.getString(columnIndex);
+			cursor.close();
+			if(myApplication.noEquals(user.getId(),"")){
+				myApplication.deleteHead(user.getId());
+			}
+			myApplication.uploadHead(user.getEmail(),PicturePath,user.getHeadVersion().intValue()+1);
+			myApplication.showToast("正在上传头像，请稍等...");
+			userImage.setBackgroundResource(0);
+			userImage.setImageBitmap(BitmapFactory.decodeFile(PicturePath));
+		}		
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	public void resizeImage() {
+		Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		startActivityForResult(i, IMAGE_REQUEST_CODE);
+	}
+
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
@@ -168,6 +234,7 @@ public class userFragment extends Fragment
 		}
 		newUser.setHeadColor(color);
 		newUser.setAbout(About);
+		myApplication.findData(user.getEmail(),UserName,null,0);
 		User bmobuser=BmobUser.getCurrentUser(User.class);
 		newUser.update(bmobuser.getObjectId(), new UpdateListener() {
 				@Override
@@ -194,6 +261,8 @@ public class userFragment extends Fragment
 		BmobUser currentUser = BmobUser.getCurrentUser();
 		// 现在的currentUser是null了
 		getActivity().finish();
+		myApplication.editBoolean(user.getUsername()+"_isLoading",false);
 	}
+	
 	
 }

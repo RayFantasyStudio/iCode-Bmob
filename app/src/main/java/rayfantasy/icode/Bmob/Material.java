@@ -4,10 +4,10 @@ import cn.bmob.v3.*;
 
 public class Material extends BmobObject
 {
-	private String Title="Title";
-	private String Message="Message";
-   	private String UserName="UserName";
-	private String HeadColor="-10839344";
+	private String Title;
+	private String Message;
+   	private String UserName;
+	private String HeadColor;
 
     public Material() {
         this.setTableName("Material");

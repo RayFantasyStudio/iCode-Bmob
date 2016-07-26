@@ -36,6 +36,13 @@
 		</item>
 		
 		<item
+			android:id="@+id/drawer_usertheme"
+			android:checked="false"
+			android:textAppearance="@style/Text"
+			android:icon="@drawable/ic_color_lens_white"
+			android:title="@string/usertheme" />
+			
+		<item
             android:id="@+id/drawer_other"
             android:title="其他">
             <menu>

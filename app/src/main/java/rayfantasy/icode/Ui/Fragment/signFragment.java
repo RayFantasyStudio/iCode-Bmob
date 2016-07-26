@@ -94,6 +94,9 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		User bu = new User();
 		bu.setPassword(Password);
 		bu.setEmail(UserName);
+		bu.setId("0");
+		bu.setHeadUri("0");
+		bu.setHeadVersion(0);
 		bu.setUsername(UserName);
 		bu.setHeadColor(myApplication.getUserRandomColor());
 		bu.setAbout(UserName+"很懒什么都没有写");
@@ -118,6 +121,8 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				public void done(User user, BmobException e) {
 					if(user!=null){
 						myApplication.showToast("登录成功");
+						myApplication.editint(user.getEmail(),user.getHeadVersion());
+						myApplication.editBoolean(user.getEmail()+"_isLoading",true);
 						getFragmentManager().popBackStack();
 						getActivity().finish();
 					}else{

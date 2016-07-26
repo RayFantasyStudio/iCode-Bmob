@@ -33,6 +33,7 @@ import rayfantasy.icode.Bmob.*;
 import cn.bmob.v3.listener.*;
 import cn.bmob.v3.exception.*;
 import android.content.res.*;
+import cn.bmob.v3.datatype.*;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	private String About;
 	private ColorStateList csl;
 	private Window window;
+	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -140,12 +142,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		bmobUser = BmobUser.getCurrentUser(User.class);
 		//如果本地用户不为null证明登录了
 		if(bmobUser != null){
-			userName.setText(bmobUser.getUsername());
-			mCircleImageView.setImageResource(0);
-			//根据用户名称的第一位字符设置头像
 			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
 			About=(String)bmobUser.getObjectByKey("About");
-			mCircleImageView.setBackground(drawableBuilder.builder().buildRound(userName.getText().toString().subSequence(0,1).toString(),HeadColor-1000));
+			userName.setText(bmobUser.getUsername());
+			if(myApplication.noEquals(bmobUser.getId(),"0")){
+				
+				if(myApplication.isFile("/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png")){
+					mCircleImageView.setBackgroundResource(0);
+					mCircleImageView.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png"));
+				}else{
+					//未缓存下载
+					myApplication.downloadFile(new BmobFile(bmobUser.getEmail(),"",bmobUser.getHeadUri()),bmobUser.getEmail()+"_"+bmobUser.getHeadVersion(),mCircleImageView);
+				}
+				
+			}else{
+				mCircleImageView.setImageResource(0);
+				mCircleImageView.setBackground(drawableBuilder.builder().buildRound(bmobUser.getUsername().subSequence(0,1).toString(),HeadColor-1000));
+			}
 		}else{
 			HeadColor=getResources().getColor(R.color.PrimaryColor);
 			userName.setText("登录iCode");

@@ -6,10 +6,12 @@ import cn.bmob.v3.datatype.*;
 
 public class User extends BmobUser
 {
-
 	private String About;
 	private BmobFile Head;	
-	private String HeadColor="-10839344";
+	private String HeadColor;
+	private String HeadUri;
+	private String id;
+	private Integer HeadVersion;
 	
 	public void setAbout(String About){
 		this.About=About;
@@ -33,5 +35,29 @@ public class User extends BmobUser
 	
 	public void setHead(BmobFile head){
 		this.Head = head;
+	}
+	
+	public String getHeadUri(){
+		return HeadUri;
+	}
+
+	public void setHeadUri(String HeadUri){
+		this.HeadUri = HeadUri;
+	}
+	
+	public String getId(){
+		return id;
+	}
+
+	public void setId(String id){
+		this.id = id;
+	}
+	
+	public void setHeadVersion(Integer HeadVersion){
+		this.HeadVersion=HeadVersion;
+	}
+	
+	public Integer getHeadVersion(){
+		return HeadVersion;
 	}
 }
