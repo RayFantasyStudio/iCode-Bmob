@@ -93,7 +93,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 			//用户是否登录
 			if(u!=null){
 				itemview.title.setTextColor(getTextColor(u.getHeadColor()));
-				if(data.getHeadVersion()==0){
+				if(data.getHeadVersion().intValue()==0){
 					//当用户从未上传头像时，设置默认头像
 					itemview.userimage.setImageResource(0);
 					itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
