@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
 			About=(String)bmobUser.getObjectByKey("About");
 			userName.setText(bmobUser.getUsername());
-			if(myApplication.noEquals(bmobUser.getId(),"0")){
+			if(bmobUser.getId()!=null&&myApplication.noEquals(bmobUser.getId(),"0")){
 				
 				if(myApplication.isFile("/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png")){
 					mCircleImageView.setBackgroundResource(0);

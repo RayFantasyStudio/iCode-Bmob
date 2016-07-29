@@ -24,9 +24,9 @@ import android.support.v7.widget.*;
 import android.view.animation.*;
 import android.util.*;
 import cn.bmob.v3.exception.*;
+import rayfantasy.icode.Adapter.dataRecyclerViewHolder.*;
 
-
-public class dataFragment extends Fragment implements OnClickListener,SwipeRefreshLayout.OnRefreshListener
+public class dataFragment extends Fragment implements OnClickListener,OnRecyclerViewItemClickListener,SwipeRefreshLayout.OnRefreshListener
 {	
 	private SwipeRefreshLayout mSwipeRefreshLayout;
 	
@@ -77,6 +77,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		recyclerView.setLayoutManager(mLinearLayoutManager);
 		dataRecyclerViewHolder=new dataRecyclerViewHolder(mList,1,myApplication);
 		recyclerView.setAdapter(dataRecyclerViewHolder);
+		dataRecyclerViewHolder.setOnRecyclerViewItemClickListener(this);
 		recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
 				@Override
 				public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -94,7 +95,7 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					}
 				}
 			});
-	}
+		}
 
 	private void initData(int skip)
 	{
@@ -114,10 +115,11 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 					if(p2==null){
 						if (losts == null || losts.size() == 0) {
 							return;
+						}else{
+							mList.addAll(dataRecyclerViewHolder.getItemCount() - 1, losts);
+							dataRecyclerViewHolder.notifyDataSetChanged();
+							recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 						}
-						mList.addAll(dataRecyclerViewHolder.getItemCount() - 1, losts);
-						dataRecyclerViewHolder.notifyDataSetChanged();
-						recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
 						mSwipeRefreshLayout.setRefreshing(false);
 					}else{
 						myApplication.showToast("加载数据出错"+p2);
@@ -146,7 +148,13 @@ public class dataFragment extends Fragment implements OnClickListener,SwipeRefre
 		initBmobUser();
 		isNetwork_LoadingData(0);
 	}
-	
+
+	@Override
+	public void onItemClick(View v, int position)
+	{
+		myApplication.showSnackBar(getActivity(),"当前点击:"+position);
+	}
+
 	
 	@Override
 	public void onRefresh()

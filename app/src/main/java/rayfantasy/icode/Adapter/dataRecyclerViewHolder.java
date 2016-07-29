@@ -34,6 +34,14 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 	private int t;
 	private MyApplication myApplication;
 	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
+	//设置点击事件
+	public interface OnRecyclerViewItemClickListener{
+		public void onItemClick(View v,int position)
+	}
+	private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener;
+	public void setOnRecyclerViewItemClickListener(OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener){
+		this.mOnRecyclerViewItemClickListener=mOnRecyclerViewItemClickListener;
+	}
 	
 	
 	public dataRecyclerViewHolder(List<T> dataList,int i,MyApplication myApplication){
@@ -68,7 +76,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int i)
+	public void onBindViewHolder(ViewHolder holder, final int i)
 	{
 		if(holder instanceof MyViewHolder){
 			MyViewHolder itemview=(MyViewHolder)holder;
@@ -110,6 +118,18 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 				itemview.userimage.setImageResource(0);
 				itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
 												  R.color.PrimaryColor));
+				}
+				
+				if(mOnRecyclerViewItemClickListener!=null){
+					itemview.bg.setOnClickListener(new OnClickListener(){
+
+							@Override
+							public void onClick(View p1)
+							{
+								mOnRecyclerViewItemClickListener.onItemClick(p1,i+1);
+							}
+						
+					});
 				}
 				
 			}
