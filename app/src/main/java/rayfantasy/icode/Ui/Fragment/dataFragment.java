@@ -114,6 +114,7 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 				{
 					if(p2==null){
 						if (losts == null || losts.size() == 0) {
+							dataRecyclerViewHolder.notifyItemRemoved(mList.size());
 							return;
 						}else{
 							mList.addAll(dataRecyclerViewHolder.getItemCount() - 1, losts);
@@ -150,9 +151,16 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 	}
 
 	@Override
-	public void onItemClick(View v, int position)
+	public void onItemClick(View v, int Position,Data data)
 	{
-		myApplication.showSnackBar(getActivity(),"当前点击:"+position);
+		Intent i=new Intent(getActivity(),codeActivity.class);
+		i.putExtra("Id",data.getObjectId());
+		i.putExtra("Title",data.getTitle());
+		i.putExtra("Message",data.getMessage());
+		i.putExtra("Time",data.getCreatedAt());
+		i.putExtra("UserName",data.getUser());
+		i.putExtra("HeadColor",HeadColor);
+		startActivity(i);
 	}
 
 	

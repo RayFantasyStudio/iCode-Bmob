@@ -225,8 +225,11 @@ public class MyApplication extends Application
 			});
 	}
 	
+	//上传
 	public void saveData(String Data,String UserName,String Email,String HeadUri,int HeadVersion,String HeadColor,String Title,String Message){
 		Data data = new Data();
+		User user=BmobUser.getCurrentUser(User.class);
+		data.setAuthor(user);
 		data.setUser(UserName);
 		data.setHeadVersion(HeadVersion);
 		data.setHeadColor(HeadColor);
@@ -242,6 +245,29 @@ public class MyApplication extends Application
 						showToast("上传失败："+e.getMessage()+","+e.getErrorCode());
 					}
 				}
+			});
+	}
+	
+	//评论
+	public void saveComment(String id,String content){
+		User user = BmobUser.getCurrentUser(User.class);
+		Data post = new Data();
+		post.setObjectId(id);
+		final Comment comment = new Comment();
+		comment.setContent(content);
+		comment.setData(post);
+		comment.setUser(user);
+		comment.save(new SaveListener<String>() {
+
+				@Override
+				public void done(String objectId,BmobException e) {
+					if(e==null){
+						showToast("评论发表成功");
+					}else{
+						showToast("失败："+e.getMessage());
+					}
+				}
+
 			});
 	}
 	
@@ -313,77 +339,5 @@ public class MyApplication extends Application
 		}
 	}
 	
-	/**
-	 * 保存图片到SD卡上
-	 * 
-	 * @param bm
-	 * @param fileName
-	 * 
-	 */
-	/*public void saveFile(Drawable dw, String url) {
-		try {
-			BitmapDrawable bd = (BitmapDrawable) dw;
-			Bitmap bm = bd.getBitmap();
-
-			// 获得文件名字
-			final String fileNa = url.substring(url.lastIndexOf("/") + 1,
-												url.length()).toLowerCase();
-			File file = new File(path + "/image/" + fileNa);
-			// 创建图片缓存文件夹
-			boolean sdCardExist = Environment.getExternalStorageState().equals(
-				android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
-			if (sdCardExist) {
-				File maiduo = new File(path);
-				File ad = new File(path + "/image");
-				// 如果文件夹不存在
-				if (!maiduo.exists()) {
-					// 按照指定的路径创建文件夹
-					maiduo.mkdir();
-					// 如果文件夹不存在
-				} else if (!ad.exists()) {
-					// 按照指定的路径创建文件夹
-					ad.mkdir();
-				}
-				// 检查图片是否存在
-				if (!file.exists()) {
-					file.createNewFile();
-				}
-			}
-
-			BufferedOutputStream bos = new BufferedOutputStream(
-				new FileOutputStream(file));
-			bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-			bos.flush();
-			bos.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	/**
-	 * 使用SD卡上的图片
-	 * 
-	 
-	public Drawable useTheImage(String imageUrl) {
-
-		Bitmap bmpDefaultPic = null;
-
-		// 获得文件路径
-		String imageSDCardPath = path
-			+ "/image/"
-			+ imageUrl.substring(imageUrl.lastIndexOf("/") + 1,
-								 imageUrl.length()).toLowerCase();
-		File file = new File(imageSDCardPath);
-		// 检查图片是否存在
-		if (!file.exists()) {
-			return null;
-		}
-		bmpDefaultPic = BitmapFactory.decodeFile(imageSDCardPath, null);
-
-		if (bmpDefaultPic != null || bmpDefaultPic.toString().length() > 3) {
-			Drawable drawable = new BitmapDrawable(bmpDefaultPic);
-			return drawable;
-		} else
-			return null;
-	}*/
+	
 }

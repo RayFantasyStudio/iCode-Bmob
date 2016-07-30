@@ -1,6 +1,7 @@
 package rayfantasy.icode.Bmob;
 
 import cn.bmob.v3.*;
+import cn.bmob.v3.datatype.*;
 
 public class Data extends BmobObject
 {
@@ -11,6 +12,8 @@ public class Data extends BmobObject
 	private String HeadUri;
 	private String Email;
 	private Integer HeadVersion;
+	private User Author;
+	private BmobRelation Likes;
 	
     public Data() {
         this.setTableName("Data");
@@ -70,5 +73,21 @@ public class Data extends BmobObject
 
 	public Integer getHeadVersion(){
 		return HeadVersion;
+	}
+	
+	public void setAuthor(User Author){
+		this.Author=Author;
+	}
+
+	public User getAuthor(){
+		return Author;
+	}
+	
+	public void setLikes(BmobRelation Likes){
+		this.Likes=Likes;
+	}
+
+	public BmobRelation getLikes(){
+		return Likes;
 	}
 }

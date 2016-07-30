@@ -27,6 +27,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 {
 	private List<Data> dataList;
 	private List<Material> dataMaterialList;
+	private Data data;
 	
 	private TextDrawable drawableBuilder;
 	private static final int TYPE_ITEM = 0;
@@ -36,7 +37,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
 	//设置点击事件
 	public interface OnRecyclerViewItemClickListener{
-		public void onItemClick(View v,int position)
+		public void onItemClick(View v,int position,Data data)
 	}
 	private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener;
 	public void setOnRecyclerViewItemClickListener(OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener){
@@ -81,7 +82,6 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 		if(holder instanceof MyViewHolder){
 			MyViewHolder itemview=(MyViewHolder)holder;
 			User u=BmobUser.getCurrentUser(User.class);
-			Data data = null;
 			switch(t){
 				case 1:
 					data=dataList.get(i);
@@ -126,7 +126,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 							@Override
 							public void onClick(View p1)
 							{
-								mOnRecyclerViewItemClickListener.onItemClick(p1,i+1);
+								mOnRecyclerViewItemClickListener.onItemClick(p1,i+1,data);
 							}
 						
 					});
