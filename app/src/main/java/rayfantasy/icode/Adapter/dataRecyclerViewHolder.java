@@ -86,7 +86,11 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 				case 1:
 					data=dataList.get(i);
 					itemview.title.setText(data.getTitle());
-					itemview.message.setText(data.getMessage());
+					if(data.getMessage().length()<300){
+						itemview.message.setText(data.getMessage());
+					}else{
+						itemview.message.setText(data.getMessage().subSequence(0,300)+"…");
+					}
 					itemview.time.setText(data.getCreatedAt());
 					itemview.user.setText(data.getUser());
 				break;
@@ -105,7 +109,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 					//当用户从未上传头像时，设置默认头像
 					itemview.userimage.setImageResource(0);
 					itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
-													  getHeadColor(u.getHeadColor())));
+													  getTextColor(u.getHeadColor())));
 				}else if(myApplication.isFile("/cache/"+data.getEmail()+"_"+data.getHeadVersion()+".png")){
 					itemview.userimage.setBackgroundResource(0);
 					itemview.userimage.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+data.getEmail()+"_"+data.getHeadVersion().intValue()+".png"));
@@ -126,18 +130,13 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 							@Override
 							public void onClick(View p1)
 							{
-								mOnRecyclerViewItemClickListener.onItemClick(p1,i+1,data);
+								mOnRecyclerViewItemClickListener.onItemClick(p1,i+1,dataList.get(i));
 							}
 						
 					});
 				}
 				
 			}
-	}
-
-	private int getHeadColor(String headColor)
-	{
-		return Integer.valueOf(headColor).intValue();
 	}
 		
 	//String转int

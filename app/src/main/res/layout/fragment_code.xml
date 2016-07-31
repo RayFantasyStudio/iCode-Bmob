@@ -2,19 +2,28 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:layout_height="match_parent"
-	android:layout_width="match_parent">
+	android:layout_height="fill_parent"
+	android:layout_width="fill_parent">
 
-	<android.support.v4.widget.SwipeRefreshLayout
-		android:layout_width="match_parent"
+	<LinearLayout
 		android:layout_height="match_parent"
-		android:id="@+id/swipe_layout">
+		android:layout_width="match_parent"
+		android:orientation="vertical">
 
-		<LinearLayout
+		<android.support.v7.widget.CardView
+			android:id="@+id/list_cardview"
+			android:layout_gravity="center"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:orientation="vertical">
-			
+			app:cardCornerRadius="0dp"
+			android:layout_centerInParent="true"
+			android:clickable="true"
+			android:foreground="?android:attr/selectableItemBackground"
+			android:transitionName="element_bg"
+			app:cardBackgroundColor="@android:color/white"
+			android:layout_marginTop="3dp"
+			android:layout_marginBottom="3dp">
+
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
@@ -41,7 +50,7 @@
 						android:id="@+id/list_user"
 						android:text="User"
 						android:gravity="center"
-						android:layout_toRightOf="@id/cardviewtextImageView1"
+						android:layout_toRightOf="@id/list_head"
 						android:layout_centerVertical="true"
 						android:layout_margin="10dp"/>
 
@@ -89,13 +98,71 @@
 				</RelativeLayout>
 
 			</LinearLayout>
-			
-			
-			
+
+		</android.support.v7.widget.CardView>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="评论"
+			android:layout_margin="3dp"
+			android:textSize="15sp"/>
+
+		<android.support.v4.widget.SwipeRefreshLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/fragmentcodeSwipeRefreshLayout">
+
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/recycler_comment"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"/>
+
+		</android.support.v4.widget.SwipeRefreshLayout>
+
+	</LinearLayout>
+
+	<android.support.v7.widget.CardView
+		android:layout_alignParentBottom="true"
+		android:gravity="center_vertical"
+		android:id="@+id/list_cardview_comment"
+		android:layout_gravity="center"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:cardCornerRadius="0dp"
+		android:clickable="true"
+		android:foreground="?android:attr/selectableItemBackground"
+		android:transitionName="element_bg"
+		app:cardBackgroundColor="@android:color/white">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:padding="5dp">
+
+			<com.rengwuxian.materialedittext.MaterialEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="请输入内容"
+				android:textAppearance="@style/Text"
+				android:focusableInTouchMode="true"
+				app:met_floatingLabelText="评论"
+				app:met_maxCharacters="200"
+				app:met_floatingLabel="highlight"
+				android:layout_weight="5"
+				android:id="@+id/fragmentcodeMaterialEditText1"/>
+
+			<Button
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:text="发表"
+				android:layout_weight="1"
+				android:id="@+id/fragmentcodeButton1"/>
 
 		</LinearLayout>
 
-	</android.support.v4.widget.SwipeRefreshLayout>
+	</android.support.v7.widget.CardView>
 
 </RelativeLayout>
 

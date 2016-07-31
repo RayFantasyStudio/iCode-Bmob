@@ -25,6 +25,7 @@ import android.view.animation.*;
 import android.util.*;
 import cn.bmob.v3.exception.*;
 import rayfantasy.icode.Adapter.dataRecyclerViewHolder.*;
+import rayfantasy.icode.Util.*;
 
 public class dataFragment extends Fragment implements OnClickListener,OnRecyclerViewItemClickListener,SwipeRefreshLayout.OnRefreshListener
 {	
@@ -66,6 +67,7 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 		mSwipeRefreshLayout.post(new Runnable() {
 				@Override
 				public void run() {
+					isNetwork_LoadingData(0);
 					mSwipeRefreshLayout.setRefreshing(true);
 				}
 			});
@@ -114,7 +116,7 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 				{
 					if(p2==null){
 						if (losts == null || losts.size() == 0) {
-							dataRecyclerViewHolder.notifyItemRemoved(mList.size());
+							dataRecyclerViewHolder.notifyItemRemoved(dataRecyclerViewHolder.getItemCount()-1);
 							return;
 						}else{
 							mList.addAll(dataRecyclerViewHolder.getItemCount() - 1, losts);
@@ -147,7 +149,11 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 	{
 		super.onStart();
 		initBmobUser();
-		isNetwork_LoadingData(0);
+		if(user!=null && myApplication.getint("HeadColor",0) != myApplication.getHeadColor(user.getHeadColor())){
+			myApplication.editint("HeadColor",HeadColor);
+			isNetwork_LoadingData(0);
+		}
+		
 	}
 
 	@Override
@@ -160,7 +166,10 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 		i.putExtra("Time",data.getCreatedAt());
 		i.putExtra("UserName",data.getUser());
 		i.putExtra("HeadColor",HeadColor);
-		startActivity(i);
+		i.putExtra("HeadVersion",data.getHeadVersion().intValue());
+		i.putExtra("Email",data.getEmail());
+		i.putExtra("HeadUri",data.getHeadUri());
+		TransitionUtil.startActivity(getActivity(), i, Pair.create(v, "element_bg"));
 	}
 
 	

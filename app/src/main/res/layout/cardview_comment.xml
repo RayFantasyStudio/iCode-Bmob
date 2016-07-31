@@ -6,7 +6,6 @@
 	android:layout_width="match_parent">
 
 	<android.support.v7.widget.CardView
-		android:id="@+id/element_bg"
 		android:layout_gravity="center"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -17,7 +16,8 @@
 		android:transitionName="element_bg"
 		app:cardBackgroundColor="@android:color/white"
 		android:layout_marginTop="3dp"
-		android:layout_marginBottom="3dp">
+		android:layout_marginBottom="3dp"
+		android:id="@+id/cardviewcommentCardView1">
 
 		<LinearLayout
 			android:layout_width="match_parent"
@@ -27,27 +27,15 @@
 			<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="10dp"
+				android:layout_margin="3dp"
 				android:gravity="center">
 
 				<de.hdodenhof.circleimageview.CircleImageView
 					app:civ_border_color="#FF000000"
-					android:layout_width="@dimen/profile_pic_size"
-					android:layout_height="@dimen/profile_pic_size"
-					android:id="@+id/cardviewtextImageView1"/>
-
-				<TextView
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:textAppearance="@style/Text"
-					android:textColor="#8C8C8C"
-					android:textSize="15sp"
-					android:id="@+id/list_user"
-					android:text="User"
-					android:gravity="center"
-					android:layout_toRightOf="@id/cardviewtextImageView1"
+					android:layout_width="@dimen/head_comment"
+					android:layout_height="@dimen/head_comment"
 					android:layout_centerVertical="true"
-					android:layout_margin="10dp"/>
+					android:id="@+id/cardviewcommentCircleImageView1"/>
 
 				<TextView
 					android:layout_height="wrap_content"
@@ -55,12 +43,25 @@
 					android:textAppearance="@style/Text"
 					android:textColor="#8C8C8C"
 					android:textSize="10sp"
-					android:id="@+id/list_time"
+					android:text="User"
+					android:gravity="center"
+					android:layout_toRightOf="@id/cardviewcommentCircleImageView1"
+					android:layout_centerVertical="true"
+					android:layout_margin="3dp"
+					android:id="@+id/cardviewcommentTextView1"/>
+
+				<TextView
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:textAppearance="@style/Text"
+					android:textColor="#8C8C8C"
+					android:textSize="10sp"
 					android:text="Time"
 					android:layout_alignParentRight="true"
 					android:gravity="center"
 					android:layout_centerVertical="true"
-					android:layout_marginRight="10dp"/>
+					android:layout_marginRight="3dp"
+					android:id="@+id/cardviewcommentTextView2"/>
 
 			</RelativeLayout>
 
@@ -74,29 +75,18 @@
 			<RelativeLayout
 				android:layout_height="wrap_content"
 				android:layout_width="match_parent"
-				android:layout_margin="10dp"
-				android:gravity="center">
-
-				<TextView
-					android:layout_height="wrap_content"
-					android:layout_width="match_parent"
-					android:textAppearance="@style/Text"
-					android:textColor="#0084FF"
-					android:textSize="15sp"
-					android:id="@+id/list_title"
-					android:text="Title"
-					android:gravity="center_vertical"/>
+				android:gravity="center"
+				android:layout_margin="10dp">
 
 				<TextView
 					android:layout_height="wrap_content"
 					android:layout_width="match_parent"
 					android:textAppearance="@style/Text"
 					android:textColor="#8C8C8C"
-					android:textSize="10sp"
-					android:id="@+id/list_message"
+					android:textSize="15sp"
 					android:text="Message"
-					android:layout_below="@id/list_title"
-					android:gravity="center_vertical"/>
+					android:gravity="center_vertical"
+					android:id="@+id/cardviewcommentTextView3"/>
 
 			</RelativeLayout>
 

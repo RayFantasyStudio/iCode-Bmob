@@ -29,6 +29,7 @@ import android.provider.*;
 import cn.bmob.v3.datatype.*;
 import java.io.*;
 import java.net.*;
+import rayfantasy.icode.Ui.*;
 
 public class userFragment extends Fragment
 {
@@ -47,7 +48,6 @@ public class userFragment extends Fragment
 	private Intent i;
 	
 	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
-	
 	
 	private static final int IMAGE_REQUEST_CODE = 0;
 	

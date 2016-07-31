@@ -65,11 +65,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
         super.onCreate(savedInstanceState);
 		init();
         setContentView(R.layout.activity_main);
-		
 		initView();
-		initUser();
 		
-		if(myApplication.isNetwork(this) || checkCache()){
+		if(myApplication.isNetwork(this)){
 			initData();
 		}else{
 			showDialog("无网络","请检查网络状态！","设置","取消","Network");
@@ -154,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 					//未缓存下载
 					myApplication.downloadFile(new BmobFile(bmobUser.getEmail(),"",bmobUser.getHeadUri()),bmobUser.getEmail()+"_"+bmobUser.getHeadVersion(),mCircleImageView);
 				}
-				
 			}else{
 				mCircleImageView.setImageResource(0);
 				mCircleImageView.setBackground(drawableBuilder.builder().buildRound(bmobUser.getUsername().subSequence(0,1).toString(),HeadColor-1000));
@@ -166,6 +163,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_account_circle_white));
 			About="没有更多了";
 		}
+		initTheme();
+	}
+	
+	private void initTheme(){
 		toolbar.setBackgroundColor(HeadColor);
 		HeadLayout.setBackgroundColor(HeadColor);
 		csl=myApplication.createSelector(HeadColor,getResources().getColor(R.color.csl_color),HeadColor,getResources().getColor(R.color.csl_color));
@@ -195,23 +196,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 				i.putExtra("HeadColor",HeadColor);
 				startActivity(i);
 			break;		
-		}
-	}
-	
-	
-	private boolean checkCache(){
-		String s = "/data/data/rayfantasy.icode/code_cache/com.android.opengl.shaders_cache";
-		File f = new File(s);
-		if(f.exists()){
-			if(f.isFile() && f.length() != 0){
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
-		else{
-			return false;
 		}
 	}
 	
@@ -245,13 +229,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	}
 
 	@Override
-	protected void onRestart()
+	protected void onStart()
 	{
-		super.onRestart();
+		super.onStart();
 		initUser();
 	}
 
-	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK){
