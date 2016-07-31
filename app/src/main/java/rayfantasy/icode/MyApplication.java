@@ -248,29 +248,7 @@ public class MyApplication extends Application
 			});
 	}
 	
-	//评论
-	public void saveComment(String id,String content){
-		User user = BmobUser.getCurrentUser(User.class);
-		Data post = new Data();
-		post.setObjectId(id);
-		final Comment comment = new Comment();
-		comment.setContent(content);
-		comment.setData(post);
-		comment.setUser(user);
-		comment.save(new SaveListener<String>() {
 
-				@Override
-				public void done(String objectId,BmobException e) {
-					if(e==null){
-						showToast("评论发表成功");
-					}else{
-						showToast("失败："+e.getMessage());
-					}
-				}
-
-			});
-	}
-	
 	public void uploadHead(final String HeadName,final String file,final int HeadVersion){
 		final BmobFile bmobFile = new BmobFile(new File(file));
 		bmobFile.uploadblock(new UploadFileListener() {

@@ -1,6 +1,5 @@
 package rayfantasy.icode.Ui.Fragment;
 
-import android.app.*;
 import rayfantasy.icode.*;
 import android.view.*;
 import android.os.*;
@@ -21,9 +20,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import rayfantasy.icode.Adapter.*;
 import android.view.animation.*;
 import com.rengwuxian.materialedittext.*;
+import android.support.v4.app.Fragment;
 import android.view.View.*;
+import com.melnykov.fab.*;
 
-public class codeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+public class codeFragment extends Fragment
 {
 	private MyApplication myApplication;
 	private View v;
@@ -34,22 +35,10 @@ public class codeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 	private CircleImageView Head;
 	private TextDrawable drawableBuilder;
 	
-	private RecyclerView recyclerView;
-	private LinearLayoutManager mLinearLayoutManager;
-	private SwipeRefreshLayout mSwipeRefreshLayout;
-	
-	//评论
-	private CardView mCardView;
-	private MaterialEditText mText;
-	private Button mButton;
-	
 	private int HeadColor,HeadVersion;
 	private String id,Email,HeadUri,STitle,SMessage,STime,SUserName;
 	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
 	
-	private List<Comment> mListComment = new ArrayList<Comment>();
-	private commentHolder mCommentHolder;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
@@ -83,30 +72,14 @@ public class codeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 		Message=(TextView)v.findViewById(R.id.list_message);
 		UserName=(TextView)v.findViewById(R.id.list_user);
 		Head=(CircleImageView)v.findViewById(R.id.list_head);
-		mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.fragmentcodeSwipeRefreshLayout);
-		mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
-													android.R.color.holo_green_light,
-													android.R.color.holo_orange_light, android.R.color.holo_red_light);
-		mSwipeRefreshLayout.setOnRefreshListener(this);
-		mSwipeRefreshLayout.post(new Runnable() {
-				@Override
-				public void run() {
-					findComment(id);
-					mSwipeRefreshLayout.setRefreshing(true);
-				}
-			});
-		recyclerView=(RecyclerView)v.findViewById(R.id.recycler_comment);
-		mLinearLayoutManager = new LinearLayoutManager(getActivity());
-		recyclerView.setLayoutManager(mLinearLayoutManager);
-		mCommentHolder=new commentHolder(mListComment,myApplication);
-		recyclerView.setAdapter(mCommentHolder);
+		
 		
 		Title.setText(STitle);
-		if(SMessage.length()<300){
+		//if(SMessage.length()<300){
 			Message.setText(SMessage);
-		}else{
+		/*}else{
 			Message.setText(SMessage.subSequence(0,300)+"…");
-		}
+		}*/
 		UserName.setText(SUserName);
 		Time.setText(STime);
 		//用户是否登录
@@ -130,70 +103,8 @@ public class codeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 			Head.setBackground(drawableBuilder.builder().buildRound(UserName.getText().toString().subSequence(0,1).toString(),
 											R.color.PrimaryColor));
 		}
-		mCardView=(CardView)v.findViewById(R.id.list_cardview_comment);
-		mButton=(Button)v.findViewById(R.id.fragmentcodeButton1);
-		mText=(MaterialEditText)v.findViewById(R.id.fragmentcodeMaterialEditText1);
 		
-		mText.setTextColor(HeadColor);
-		mText.setPrimaryColor(HeadColor);
-		
-		if(user!=null){
-			mCardView.setVisibility(View.VISIBLE);
-		}else{
-			mCardView.setVisibility(View.GONE);
-		}
-		
-		mButton.setOnClickListener(new OnClickListener(){
-
-				@Override
-				public void onClick(View p1)
-				{
-					myApplication.saveComment(id,mText.getText().toString());
-					mText.setText("");
-				}
-				
-		});
 	}
-
-	@Override
-	public void onRefresh()
-	{
-		findComment(id);
-	}
-	
-	private void findComment(final String id){
-		BmobQuery<Comment> query = new BmobQuery<Comment>();
-		Data post = new Data();
-		post.setObjectId(id);
-		query.order("createdAt");
-		mListComment.clear();
-		query.setLimit(10);
-		query.addWhereEqualTo("data",new BmobPointer(post));
-		query.include("user,data");
-		query.findObjects(new FindListener<Comment>() {
-				@Override
-				public void done(List<Comment> objects,BmobException e) {
-				
-					if(e==null){
-						if(objects.size()==0||objects==null){
-							mSwipeRefreshLayout.setRefreshing(false);
-							myApplication.showToast("此贴还没有评论哦！");
-							return ;
-						}else{
-							mListComment.addAll(0,objects);
-							mCommentHolder.notifyDataSetChanged();
-							recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
-						}
-						mSwipeRefreshLayout.setRefreshing(false);
-					}else{
-						mSwipeRefreshLayout.setRefreshing(false);
-						myApplication.showToast("查询评论失败"+e.getMessage());
-					}
-					
-				}
-			});
-	}
-
 	
 	//String转int
 	public int getTextColor(String s){

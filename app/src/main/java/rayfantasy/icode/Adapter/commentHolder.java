@@ -45,7 +45,7 @@ public class commentHolder extends RecyclerView.Adapter<ViewHolder>
 			User u=BmobUser.getCurrentUser(User.class);
 			mComment=mListComment.get(p2);
 			itemview.User.setText(mComment.getUser().getUsername());
-			itemview.Time.setText("第"+(p2+1)+"楼"+"  "+mComment.getUser().getCreatedAt());
+			itemview.Time.setText("第"+(p2+1)+"楼"+"  "+mComment.getCreatedAt());
 			itemview.Content.setText(mComment.getContent());
 			itemview.mCardView.setElevation(3);
 			if(u!=null){
