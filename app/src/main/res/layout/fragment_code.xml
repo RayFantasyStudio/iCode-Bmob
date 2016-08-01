@@ -7,11 +7,9 @@
 
 	<android.support.v7.widget.CardView
 		android:id="@+id/list_cardview"
-		android:layout_gravity="center"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
+		android:layout_height="wrap_content"
 		app:cardCornerRadius="0dp"
-		android:layout_centerInParent="true"
 		android:clickable="true"
 		android:foreground="?android:attr/selectableItemBackground"
 		android:transitionName="element_bg"
@@ -92,16 +90,8 @@
 						android:background="@null"
 						android:textSize="10dp"
 						android:editable="false"
-						android:textIsSelectable="true" />
-					<!--<TextView
-						android:layout_height="wrap_content"
-						android:layout_width="match_parent"
-						android:textAppearance="@style/Text"
-						android:textColor="#8C8C8C"
-						android:textSize="10sp"
-						android:id="@+id/list_message"
-						android:text="Message"/>
-					-->
+						android:textIsSelectable="true"/>
+
 				</ScrollView>
 
 			</RelativeLayout>

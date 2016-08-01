@@ -13,6 +13,7 @@ import android.support.v4.app.*;
 import android.graphics.drawable.*;
 import android.content.res.*;
 import android.view.*;
+import android.graphics.*;
 
 public class codeActivity extends AppCompatActivity implements MaterialTabListener
 {
@@ -52,6 +53,7 @@ public class codeActivity extends AppCompatActivity implements MaterialTabListen
 		setTitle(i.getStringExtra("Title"));
 		setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		toolbar.getNavigationIcon().setTint(Color.WHITE);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -63,7 +65,7 @@ public class codeActivity extends AppCompatActivity implements MaterialTabListen
 		res = this.getResources();
 		tabHost = (MaterialTabHost) this.findViewById(R.id.tabHost);
 		
-		//tabHost.setAccentColor(HeadColor);
+		tabHost.setAccentColor(res.getColor(R.color.PrimaryColor));
 		tabHost.setPrimaryColor(HeadColor);
         pager = (ViewPager) this.findViewById(R.id.pager);
         // init view pager

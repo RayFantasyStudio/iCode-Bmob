@@ -11,6 +11,7 @@ import rayfantasy.icode.R;
 import android.graphics.*;
 import android.view.*;
 import android.os.*;
+import android.graphics.drawable.*;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
@@ -32,7 +33,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 		setTitle(getTitleText());
 		setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+		toolbar.getNavigationIcon().setTint(Color.WHITE);
+		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

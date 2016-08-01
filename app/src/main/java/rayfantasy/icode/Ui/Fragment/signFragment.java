@@ -26,7 +26,6 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 {
 	private MaterialEditText account,password;
 	private FloatingActionButton fab_sign_up,fab_sign_in;
-	
 	private MyApplication myApplication;
 		
 	@Override
@@ -46,6 +45,11 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		
 		fab_sign_up=(FloatingActionButton)v.findViewById(R.id.sign_up);
 		fab_sign_in=(FloatingActionButton)v.findViewById(R.id.sign_in);
+		
+		fab_sign_up.setColorNormal(getResources().getColor(R.color.PrimaryColor));
+		fab_sign_up.setColorPressed(getResources().getColor(R.color.PrimaryColor));
+		fab_sign_in.setColorNormal(getResources().getColor(R.color.PrimaryColor));
+		fab_sign_in.setColorPressed(getResources().getColor(R.color.PrimaryColor));
 		
 		fab_sign_in.setOnClickListener(this);
 		fab_sign_up.setOnClickListener(this);
