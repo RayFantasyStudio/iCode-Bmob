@@ -182,12 +182,12 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 	}
 	
 	public void isNetwork_LoadingData(int skip){
-		if(myApplication.isNetwork(getActivity())){
+		//if(myApplication.isNetwork(getActivity())){
 			initData(skip);
-		}else{
+		/*}else{
 			myApplication.showToast("当前无网络");
 			mSwipeRefreshLayout.setRefreshing(false);
-		}
+		}*/
 	}
 	
 	@Override

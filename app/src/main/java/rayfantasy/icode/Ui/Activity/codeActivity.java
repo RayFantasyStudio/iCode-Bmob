@@ -53,7 +53,7 @@ public class codeActivity extends AppCompatActivity implements MaterialTabListen
 		setTitle(i.getStringExtra("Title"));
 		setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		toolbar.getNavigationIcon().setTint(Color.WHITE);
+		//toolbar.getNavigationIcon().setTint(Color.WHITE);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {

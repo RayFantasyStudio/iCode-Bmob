@@ -20,14 +20,20 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.*;
 import cn.bmob.v3.listener.*;
 import android.text.*;
+import at.markushi.ui.*;
+import com.amulyakhare.textdrawable.*;
+import android.widget.*;
 
 
 public class signFragment extends Fragment implements OnClickListener,OnLongClickListener
 {
 	private MaterialEditText account,password;
-	private FloatingActionButton fab_sign_up,fab_sign_in;
+	private CircleButton cb_sign_up;
+	private Button fab_sign_in;
 	private MyApplication myApplication;
-		
+	private ImageView mCircleImageView;
+	private TextDrawable drawableBuilder;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
@@ -43,19 +49,20 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		account=(MaterialEditText)v.findViewById(R.id.usermainMaterialEditText_account);
 		password=(MaterialEditText)v.findViewById(R.id.usermainMaterialEditText_password);
 		
-		fab_sign_up=(FloatingActionButton)v.findViewById(R.id.sign_up);
-		fab_sign_in=(FloatingActionButton)v.findViewById(R.id.sign_in);
+		mCircleImageView=(ImageView)v.findViewById(R.id.user_image_sign);
+		cb_sign_up=(CircleButton)v.findViewById(R.id.sign_up);
+		fab_sign_in=(Button)v.findViewById(R.id.sign_in);
 		
-		fab_sign_up.setColorNormal(getResources().getColor(R.color.PrimaryColor));
-		fab_sign_up.setColorPressed(getResources().getColor(R.color.PrimaryColor));
-		fab_sign_in.setColorNormal(getResources().getColor(R.color.PrimaryColor));
-		fab_sign_in.setColorPressed(getResources().getColor(R.color.PrimaryColor));
+		cb_sign_up.setColor(getResources().getColor(R.color.PrimaryColor));
+		//fab_sign_in.setColorNormal(getResources().getColor(R.color.PrimaryColor));
+		//fab_sign_in.setColorPressed(getResources().getColor(R.color.PrimaryColor));
 		
 		fab_sign_in.setOnClickListener(this);
-		fab_sign_up.setOnClickListener(this);
-		fab_sign_up.setOnLongClickListener(this);
+		cb_sign_up.setOnClickListener(this);
+		cb_sign_up.setOnLongClickListener(this);
 		fab_sign_in.setOnLongClickListener(this);
 		
+		account.addTextChangedListener(new EditChangedListener());
 	}
 	
 	@Override
@@ -64,6 +71,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		switch(p1.getId()){
 			case R.id.sign_up:
 				if(isCharacter(password.getText().toString().length(),6,18)){
+					setMetVisibility(true);
 					loginByEmail(account.getText().toString(),password.getText().toString());
 				}else{
 					myApplication.showSnackBar(getActivity(),"输入格式有误！");
@@ -71,6 +79,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				break;
 			case R.id.sign_in:
 				if(isCharacter(password.getText().toString().length(),6,18)){
+					setMetVisibility(true);
 					LoginData(account.getText().toString(),password.getText().toString());
 				}else{
 					myApplication.showSnackBar(getActivity(),"输入格式有误！");
@@ -93,6 +102,25 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		return false;
 	}
 	
+	private void setMetVisibility(boolean v){
+		if(v){
+			account.setFocusable(false);
+			account.setFocusableInTouchMode(false);
+			account.setHideUnderline(true);
+			password.setFocusable(false);
+			password.setHideUnderline(true);
+			password.setFocusableInTouchMode(false);
+		}else{
+			account.setFocusable(true);
+			account.setFocusableInTouchMode(true);
+			account.setHideUnderline(false);
+			password.setFocusable(true);
+			password.setHideUnderline(false);
+			password.setFocusableInTouchMode(true);
+		}
+
+	}
+	
 	//注册
 	public void LoginData(final String UserName,final String Password){
 		User bu = new User();
@@ -111,6 +139,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 						myApplication.showSnackBar(getActivity(),"注册成功，正在登录");
 						loginByEmail(UserName,Password);
 					}else{
+						setMetVisibility(false);
 						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
 					}
 				}
@@ -129,6 +158,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 						getFragmentManager().popBackStack();
 						getActivity().finish();
 					}else{
+						setMetVisibility(false);
 						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
 					}
 				}
@@ -144,4 +174,33 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		}
 	}
 	
+	class EditChangedListener implements TextWatcher {
+        private CharSequence temp;//监听前的文本
+        private int editStart;//光标开始位置
+        private int editEnd;//光标结束位置
+        private final int charMaxNum = 10;
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            temp = s;
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+			
+            if (temp.length() > charMaxNum) {
+				/*s.delete(editStart - 1, editEnd);
+                int tempSelection = editStart;
+                account.setText(s);
+                account.setSelection(tempSelection);*/
+				mCircleImageView.setBackground(drawableBuilder.builder().buildRound(account.getText().toString().substring(0,1).toString(),
+				getResources().getColor(R.color.PrimaryColor)));
+            }
+			
+        }
+    };
 }

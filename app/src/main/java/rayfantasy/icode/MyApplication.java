@@ -140,7 +140,7 @@ public class MyApplication extends Application
 	}
 	
 	//判断网络状态
-	public static boolean isNetwork(Activity a) {  
+	/*public static boolean isNetwork(Activity a) {  
 		ConnectivityManager manager = (ConnectivityManager)a.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);  
 		if (manager == null) {  
 			return false;  
@@ -151,7 +151,7 @@ public class MyApplication extends Application
 		}  
 		return true;  
     }
-	
+	*/
 	public String getUserRandomColor(){
 		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255))+"";
 	}

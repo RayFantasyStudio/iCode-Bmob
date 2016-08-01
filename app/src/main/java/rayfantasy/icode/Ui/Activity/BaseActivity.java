@@ -33,7 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 		setTitle(getTitleText());
 		setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		toolbar.getNavigationIcon().setTint(Color.WHITE);
+		//toolbar.getNavigationIcon().setTint(Color.WHITE);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

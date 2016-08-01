@@ -66,12 +66,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		init();
         setContentView(R.layout.activity_main);
 		initView();
-		
-		if(myApplication.isNetwork(this)){
+		initData();
+		/*if(myApplication.isNetwork(this)){
 			initData();
 		}else{
 			showDialog("无网络","请检查网络状态！","设置","取消","Network");
-		}
+		}*/
     }
 
 	private void init()
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	}
 	
 	//无网络跳转
-	public void NetworkIntent(){
+	/*public void NetworkIntent(){
 		Intent intent = null;
 		if (android.os.Build.VERSION.SDK_INT > 10) {
 			intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		}
 		startActivity(intent);
 		myApplication.showToast("当前无网络");
-	}
+	}*/
 	
 	public int setTabInt(int i){
 		return i;
@@ -256,9 +256,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 						case "finish":
 							finish();
 						break;
-						case "Network":
+						/*case "Network":
 							NetworkIntent();
-						break;
+						break;*/
 					}
 				}
 			});
