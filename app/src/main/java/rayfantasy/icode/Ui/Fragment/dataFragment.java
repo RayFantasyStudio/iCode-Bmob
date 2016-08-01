@@ -195,10 +195,53 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 	{
 		switch(p1.getId()){
 			case R.id.new_code:
-				//startActivity(new Intent(getActivity(),writeActivity.class));
-				myApplication.saveData("Data","标题","本内容为测试内容");
-				break;
+				findUser(user.getUsername());
+			break;
 		}
 	}
 	
+	private void findUser(String username){
+		BmobQuery<User> query = new BmobQuery<User>();
+		query.addWhereEqualTo("username", username);
+		query.findObjects(new FindListener<User>(){
+				@Override
+				public void done(List<User> object,BmobException e) {
+					if(e==null){
+						if(object.get(0).getEmailVerified()){
+							Intent i=new Intent(getActivity(),writeActivity.class);
+							i.putExtra("HeadColor",HeadColor);
+							TransitionUtil.startActivity(getActivity(), i, Pair.create(v, "element_bg"));
+						}else{
+							showDialog("激活","未激活邮箱，是否立即激活邮箱？","激活","取消","EmailVerified");
+						}
+					}else{
+						myApplication.showToast("查询状态失败，无法发帖");
+					}
+				}
+			});
+	}
+	
+	private void showDialog(String Title,String Message,String Position,String Negative,final String Listener){
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(Title);
+		builder.setMessage(Message);
+		builder.setPositiveButton(Position, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					switch(Listener){
+						case "EmailVerified":
+							myApplication.EmailVerified(user.getEmail());
+							break;
+					}
+				}
+			});
+
+		builder.setNegativeButton(Negative, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+		builder.create().show();
+	}
 }

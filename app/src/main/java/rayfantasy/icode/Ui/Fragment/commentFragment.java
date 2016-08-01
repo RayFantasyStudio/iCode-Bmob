@@ -2,7 +2,7 @@ package rayfantasy.icode.Ui.Fragment;
 
 import android.content.*;
 import android.os.*;
-import android.support.v4.app.*;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.*;
 import android.support.v7.widget.*;
 import android.view.*;
@@ -19,6 +19,8 @@ import cn.bmob.v3.datatype.*;
 import cn.bmob.v3.listener.*;
 import android.view.animation.*;
 import android.view.View.*;
+import rayfantasy.icode.Util.*;
+import android.app.*;
 
 public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
@@ -85,7 +87,7 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 				@Override
 				public void onClick(View p1)
 				{
-					setInputVisibility(true);
+					findUser(user.getUsername());
 				}
 			});
 		if(user==null){
@@ -134,6 +136,48 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	}
 	
 	
+	private void findUser(String username){
+		BmobQuery<User> query = new BmobQuery<User>();
+		query.addWhereEqualTo("username", username);
+		query.findObjects(new FindListener<User>(){
+				@Override
+				public void done(List<User> object,BmobException e) {
+					if(e==null){
+						if(object.get(0).getEmailVerified()){
+							setInputVisibility(true);
+						}else{
+							showDialog("激活","未激活邮箱，是否立即激活邮箱？","激活","取消","EmailVerified");
+						}
+					}else{
+						myApplication.showToast("查询状态失败，无法发帖");
+					}
+				}
+			});
+	}
+
+	private void showDialog(String Title,String Message,String Position,String Negative,final String Listener){
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(Title);
+		builder.setMessage(Message);
+		builder.setPositiveButton(Position, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					switch(Listener){
+						case "EmailVerified":
+							myApplication.EmailVerified(user.getEmail());
+							break;
+					}
+				}
+			});
+
+		builder.setNegativeButton(Negative, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+		builder.create().show();
+	}
 	
 	public void setInputVisibility(boolean Visibility){
 		if(Visibility){

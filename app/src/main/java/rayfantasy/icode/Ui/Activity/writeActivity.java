@@ -6,14 +6,18 @@ import rayfantasy.icode.*;
 
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
+import android.content.*;
+import rayfantasy.icode.Ui.Fragment.*;
 
 public class writeActivity extends BaseActivity
 {
+	private Intent i;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		getFragmentManager().beginTransaction().replace(R.id.fragmentLayout_write,new writeFragment()).commit();
 	}
 
 	@Override
@@ -31,13 +35,15 @@ public class writeActivity extends BaseActivity
 	@Override
 	protected int getBackgroundColor()
 	{
-		return getResources().getColor(R.color.PrimaryColor);
+		i=getIntent();
+		return i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
 	}
 
 	@Override
 	protected int getNavigationBarColor()
 	{
-		return getResources().getColor(R.color.PrimaryColor);
+		i=getIntent();
+		return i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
 	}
 
 }

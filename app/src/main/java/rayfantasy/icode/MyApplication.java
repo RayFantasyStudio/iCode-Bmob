@@ -165,18 +165,8 @@ public class MyApplication extends Application
 		return colorStateList; 
     }
 	
-	//验证邮箱是否激活
-	public boolean isEmailVerified(){
-		User user=BmobUser.getCurrentUser(User.class);
-		if(user.getEmailVerified()){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
 	//激活邮箱
-	private void EmailVerified(final String email){
+	public void EmailVerified(final String email){
 		BmobUser.requestEmailVerify(email, new UpdateListener() {
 				@Override
 				public void done(BmobException e) {
@@ -188,29 +178,6 @@ public class MyApplication extends Application
 				}
 			});
 	}
-	
-	
-	//上传
-	public void saveData(String Data,String Title,String Message){
-		Data data = new Data();
-		User user=BmobUser.getCurrentUser(User.class);
-		data.setAuthor(user);
-		data.setCommentSize(0);
-		data.setTitle(Title);
-		data.setMessage(Message);
-		data.save(new SaveListener<String>() {
-				@Override
-				public void done(String objectId, BmobException e) {
-					if(e==null){
-						showToast("上传代码成功");
-					}else{
-						showToast("上传失败："+e.getMessage()+","+e.getErrorCode());
-					}
-				}
-			});
-	}
-	
-
 	
 	public void downloadFile(BmobFile file,String fileName,final CircleImageView civ){
 		//允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"

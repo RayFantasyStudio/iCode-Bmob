@@ -8,6 +8,11 @@
 	<include
 		android:id="@+id/toolbar"
 		layout="@layout/tool_bar"/>
+	
+	<LinearLayout
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		android:id="@+id/fragmentLayout_write"/>
 
 </LinearLayout>
 
