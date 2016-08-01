@@ -85,7 +85,15 @@
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content">
 
-					<TextView
+					<rayfantasy.icode.Ui.View.TextEditorView
+						android:id="@+id/list_message"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:background="@null"
+						android:textSize="10dp"
+						android:editable="false"
+						android:textIsSelectable="true" />
+					<!--<TextView
 						android:layout_height="wrap_content"
 						android:layout_width="match_parent"
 						android:textAppearance="@style/Text"
@@ -93,7 +101,7 @@
 						android:textSize="10sp"
 						android:id="@+id/list_message"
 						android:text="Message"/>
-
+					-->
 				</ScrollView>
 
 			</RelativeLayout>

@@ -97,7 +97,7 @@ public class userFragment extends Fragment
 		HeadColor=i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
 		UserAbout=i.getStringExtra("About");
 		UserName=i.getStringExtra("UserName");
-		if(myApplication.noEquals(user.getId(),"0")){
+		if(myApplication.noEquals(user.getHeadVersion().intValue()+"","0")){
 			if(myApplication.isFile("/cache/"+user.getEmail()+"_"+user.getHeadVersion()+".png")){
 				userImage.setBackgroundResource(0);
 				userImage.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+user.getEmail()+"_"+user.getHeadVersion()+".png"));
@@ -159,10 +159,7 @@ public class userFragment extends Fragment
 			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 			PicturePath = cursor.getString(columnIndex);
 			cursor.close();
-			if(myApplication.noEquals(user.getId(),"")){
-				myApplication.deleteHead(user.getId());
-			}
-			myApplication.uploadHead(user.getEmail(),PicturePath,user.getHeadVersion().intValue()+1);
+			uploadImage(PicturePath,user.getHeadVersion().intValue()+1);
 			myApplication.showToast("正在上传头像，请稍等...");
 			userImage.setBackgroundResource(0);
 			userImage.setImageBitmap(BitmapFactory.decodeFile(PicturePath));
@@ -226,16 +223,49 @@ public class userFragment extends Fragment
 		}
 
 	}
+	
+	//上传图片
+	public void uploadImage(String File,final int HeadVersion){
+		final BmobFile bmobFile = new BmobFile(new File(File));
+		bmobFile.upload(new UploadFileListener() {
+				@Override
+				public void done(BmobException e)
+				{
+					if(e==null){
+						upUser(HeadVersion,bmobFile.getUrl(),bmobFile);
+					}else{
+						myApplication.showToast("头像上传失败：" + e.getErrorCode()+",msg = "+e.getMessage());
+					}
+				}
+		});
+	}
 
+	public void upUser(int HeadVersion,String HeadUri,BmobFile Head){
+		User newUser = new User();
+		newUser.setHeadVersion(HeadVersion);
+		newUser.setHeadUri(HeadUri);
+		newUser.setHead(Head);
+		User bmobuser=BmobUser.getCurrentUser(User.class);
+		newUser.update(bmobuser.getObjectId(), new UpdateListener() {
+				@Override
+				public void done(BmobException e){
+					if(e==null){
+						myApplication.showToast("头像上传成功");
+					}else{
+						myApplication.showToast("头像上传失败：" + e.getErrorCode()+",msg = "+e.getMessage());
+					}
+				}
+			});
+	}
+	
 	private void updata(String UserName,String About,String color){
+		User bmobuser=BmobUser.getCurrentUser(User.class);
 		User newUser = new User();
 		if(myApplication.noEquals(this.UserName,UserName)){
 			newUser.setUsername(UserName);
 		}
 		newUser.setHeadColor(color);
 		newUser.setAbout(About);
-		myApplication.findData(user.getEmail(),UserName,null,0);
-		User bmobuser=BmobUser.getCurrentUser(User.class);
 		newUser.update(bmobuser.getObjectId(), new UpdateListener() {
 				@Override
 				public void done(BmobException e) {

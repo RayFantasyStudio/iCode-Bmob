@@ -4,18 +4,14 @@ import cn.bmob.v3.*;
 
 public class Comment extends BmobObject
 {
-	//评论内容
 	private String content;
-	//评论用户
 	private User user;
-	
 	private Data data;
 
-	public void setData(Data post)
+	public void setData(Data data)
 	{
-		this.data=post;
+		this.data=data;
 	}
-	
 	
 	public void setContent(String content){
 		this.content=content;

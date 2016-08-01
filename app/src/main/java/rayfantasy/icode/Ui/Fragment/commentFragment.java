@@ -27,6 +27,7 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	private Intent i;
 	private int HeadColor;
 	private String id;
+	private User user;
 	
 	private RecyclerView recyclerView;
 	private LinearLayoutManager mLinearLayoutManager;
@@ -52,6 +53,7 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		myApplication=(MyApplication)getActivity().getApplication();
 		HeadColor=i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
 		id=i.getStringExtra("Id");
+		user=BmobUser.getCurrentUser(User.class);
 	}
 
 	private void initView(View v)
@@ -74,19 +76,21 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		mCommentHolder=new commentHolder(mListComment,myApplication);
 		recyclerView.setAdapter(mCommentHolder);
 		
-		input=new inputCommentFragment();
+		input=new inputCommentFragment(this);
 		fab_comment=(FloatingActionButton)v.findViewById(R.id.fab_comment);
 		fab_comment.setColorNormal(HeadColor);
+		fab_comment.setColorPressed(HeadColor);
 		fab_comment.attachToRecyclerView(recyclerView);
 		fab_comment.setOnClickListener(new OnClickListener(){
-
 				@Override
 				public void onClick(View p1)
 				{
 					setInputVisibility(true);
 				}
-
 			});
+		if(user==null){
+			fab_comment.setVisibility(View.GONE);
+		}
 	}
 	
 	@Override
@@ -102,7 +106,7 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		post.setObjectId(id);
 		query.order("createdAt");
 		mListComment.clear();
-		query.setLimit(10);
+		query.setLimit(100);
 		query.addWhereEqualTo("data",new BmobPointer(post));
 		query.include("user,data");
 		query.findObjects(new FindListener<Comment>() {

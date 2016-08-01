@@ -31,8 +31,7 @@
 			android:src="@drawable/ic_send_white"
 			android:layout_weight="1"
 			android:id="@+id/fragmentcodeButton1"
-			app:cb_pressedRingWidth="5dip"
-			android:layout_margin="5dp"/>
+			app:cb_pressedRingWidth="5dip"/>
 
 	</LinearLayout>
 

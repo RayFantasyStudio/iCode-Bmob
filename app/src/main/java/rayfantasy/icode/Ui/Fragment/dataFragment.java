@@ -104,6 +104,7 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 		BmobQuery<Data> query = new BmobQuery<Data>();
 		query.order("-createdAt");
 		query.setLimit(10);
+		query.include("Author,Likes");
 		//忽略前面数据
 		query.setSkip(skip*10);
 		if(skip==0){
@@ -142,6 +143,7 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 			HeadColor=getResources().getColor(R.color.PrimaryColor);
 		}
 		mFloatingActionButton.setColorNormal(HeadColor);
+		mFloatingActionButton.setColorPressed(HeadColor);
 	}
 
 	@Override
@@ -164,11 +166,11 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 		i.putExtra("Title",data.getTitle());
 		i.putExtra("Message",data.getMessage());
 		i.putExtra("Time",data.getCreatedAt());
-		i.putExtra("UserName",data.getUser());
+		i.putExtra("UserName",data.getAuthor().getUsername());
 		i.putExtra("HeadColor",HeadColor);
-		i.putExtra("HeadVersion",data.getHeadVersion().intValue());
-		i.putExtra("Email",data.getEmail());
-		i.putExtra("HeadUri",data.getHeadUri());
+		i.putExtra("HeadVersion",data.getAuthor().getHeadVersion().intValue());
+		i.putExtra("Email",data.getAuthor().getEmail());
+		i.putExtra("HeadUri",data.getAuthor().getHeadUri());
 		TransitionUtil.startActivity(getActivity(), i, Pair.create(v, "element_bg"));
 	}
 
@@ -194,7 +196,7 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 		switch(p1.getId()){
 			case R.id.new_code:
 				//startActivity(new Intent(getActivity(),writeActivity.class));
-				myApplication.saveData("Data",user.getUsername(),user.getEmail(),user.getHeadUri(),user.getHeadVersion(),user.getHeadColor(),"标题","本内容为测试内容");
+				myApplication.saveData("Data","标题","本内容为测试内容");
 				break;
 		}
 	}

@@ -98,6 +98,20 @@
 					android:layout_below="@id/list_title"
 					android:gravity="center_vertical"/>
 
+				<TextView
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:textAppearance="@style/Text"
+					android:textColor="#8C8C8C"
+					android:textSize="10sp"
+					android:id="@+id/list_comment"
+					android:text="Comment"
+					android:layout_alignParentRight="true"
+					android:gravity="center"
+					android:layout_centerVertical="true"
+					android:layout_marginRight="10dp"
+					android:layout_alignParentBottom="true"/>
+
 			</RelativeLayout>
 
 		</LinearLayout>

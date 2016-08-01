@@ -1,9 +1,7 @@
 package rayfantasy.icode.Ui.Activity;
 
 import android.os.*;
-
 import rayfantasy.icode.*;
-
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.content.*;
@@ -46,7 +44,7 @@ public class codeActivity extends AppCompatActivity implements MaterialTabListen
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 			window.setNavigationBarColor(HeadColor);
-			//window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+			window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		}
         setContentView(R.layout.activity_code);
 		toolbar = (Toolbar) findViewById(R.id.toolbar);

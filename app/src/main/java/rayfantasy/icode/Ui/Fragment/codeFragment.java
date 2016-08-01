@@ -23,6 +23,7 @@ import com.rengwuxian.materialedittext.*;
 import android.support.v4.app.Fragment;
 import android.view.View.*;
 import com.melnykov.fab.*;
+import rayfantasy.icode.Ui.View.*;
 
 public class codeFragment extends Fragment
 {
@@ -31,7 +32,8 @@ public class codeFragment extends Fragment
 	private Intent i;
 	private User user;
 	
-	private TextView Title,Message,Time,UserName;
+	private TextView Title,Time,UserName;
+	private TextEditorView Message;
 	private CircleImageView Head;
 	private TextDrawable drawableBuilder;
 	
@@ -69,7 +71,7 @@ public class codeFragment extends Fragment
 	{
 		Time=(TextView)v.findViewById(R.id.list_time);
 		Title=(TextView)v.findViewById(R.id.list_title);
-		Message=(TextView)v.findViewById(R.id.list_message);
+		Message=(TextEditorView)v.findViewById(R.id.list_message);
 		UserName=(TextView)v.findViewById(R.id.list_user);
 		Head=(CircleImageView)v.findViewById(R.id.list_head);
 		

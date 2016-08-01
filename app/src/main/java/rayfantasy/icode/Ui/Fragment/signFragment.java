@@ -94,8 +94,7 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		User bu = new User();
 		bu.setPassword(Password);
 		bu.setEmail(UserName);
-		bu.setId("0");
-		bu.setHeadUri("0");
+		bu.setHeadUri(UserName.subSequence(0,1).toString());
 		bu.setHeadVersion(0);
 		bu.setUsername(UserName);
 		bu.setHeadColor(myApplication.getUserRandomColor());
@@ -132,20 +131,6 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 			});
 	}
 	
-	//验证邮箱验证码
-	private void isEmailVerified(final String email){
-		BmobUser.requestEmailVerify(email, new UpdateListener() {
-				@Override
-				public void done(BmobException e) {
-					if(e==null){
-						myApplication.showToast("请求验证邮件成功，请到" + email + "邮箱中进行激活。");
-					}else{
-						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
-					}
-				}
-			});
-	}
-
 	//检测输入框是否符合规则
 	public boolean isCharacter(int i,int a,int b){
 		if(i>=a&&i<=b){
@@ -153,23 +138,6 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 		}else{
 			return false;
 		}
-	}
-	
-	
-	//密码+帐号登录，已弃用
-	private void loginByAccountPwd(String Account,String Password){
-		BmobUser.loginByAccount(Account, Password, new LogInListener<User>() {
-				@Override
-				public void done(User user, BmobException e) {
-					if(user!=null){
-						myApplication.showToast("登录成功");
-						getFragmentManager().popBackStack();
-						getActivity().finish();
-					}else{
-						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
-					}
-				}
-			});			
 	}
 	
 }

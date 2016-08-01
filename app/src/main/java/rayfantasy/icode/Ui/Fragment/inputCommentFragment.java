@@ -17,6 +17,9 @@ import rayfantasy.icode.R;
 import android.support.v4.app.*;
 import android.content.res.*;
 import at.markushi.ui.*;
+import rayfantasy.icode.Ui.Activity.*;
+import cn.bmob.v3.datatype.*;
+import java.util.*;
 
 
 public class inputCommentFragment extends DialogFragment {
@@ -25,15 +28,18 @@ public class inputCommentFragment extends DialogFragment {
 	private int HeadColor;
 	private String id;
 	private MyApplication myApplication;
-	//评论
-	//private CardView mCardView;
+	
 	private MaterialEditText mText;
 	private CircleButton mButton;
 	
 	private View v;
 	private Intent i;
-	//private commentFragment mCommentFragment;
+	private commentFragment mCommentFragment;
 	
+	
+	public inputCommentFragment(commentFragment mCommentFragment){
+		this.mCommentFragment=mCommentFragment;
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -57,14 +63,12 @@ public class inputCommentFragment extends DialogFragment {
 		i=getActivity().getIntent();
 		myApplication=(MyApplication)getActivity().getApplication();
 		user=BmobUser.getCurrentUser(User.class);
-		//mCommentFragment=new commentFragment();
 		HeadColor=i.getIntExtra("HeadColor",R.color.PrimaryColor);
 		id=i.getStringExtra("Id");
 	}
 	
 	private void initView(View v)
 	{
-		//mCardView=(CardView)v.findViewById(R.id.list_cardview_comment);
 		mButton=(CircleButton)v.findViewById(R.id.fragmentcodeButton1);
 		mText=(MaterialEditText)v.findViewById(R.id.fragmentcodeMaterialEditText1);
 		mText.setTextSize(15);
@@ -85,10 +89,12 @@ public class inputCommentFragment extends DialogFragment {
 				@Override
 				public void onClick(View p1)
 				{
-					if(mText.getText().toString().length()<200){
+					if(mText.getText().length()==0){
+						myApplication.showToast("输入内容为空");
+					}else if(mText.getText().toString().length()<200){
 						saveComment(id,mText.getText().toString());
-						//mCommentFragment.setInputVisibility(false);
 						mText.setText("");
+						mCommentFragment.setInputVisibility(false);
 					}else{
 						myApplication.showToast("当前字数:"+mText.getText().toString().length()+" 大于评论规定字数:200");
 					}
@@ -101,25 +107,61 @@ public class inputCommentFragment extends DialogFragment {
 	//评论
 	public void saveComment(final String id,String content){
 		User user = BmobUser.getCurrentUser(User.class);
-		Data post = new Data();
+		final Data post = new Data();
 		post.setObjectId(id);
 		final Comment comment = new Comment();
 		comment.setContent(content);
 		comment.setData(post);
 		comment.setUser(user);
 		comment.save(new SaveListener<String>() {
-
 				@Override
 				public void done(String objectId,BmobException e) {
 					if(e==null){
-						myApplication.showToast("评论发表成功");
-						//mCommentFragment.findComment(id);
+						findComment(id);
+						//updateCommentSize((post.getCommentSize() == null ? 0 : post.getCommentSize().intValue()+1));
 					}else{
 						myApplication.showToast("失败："+e.getMessage());
 					}
 				}
 
 			});
+	}
+	
+	public void findComment(final String id){
+		BmobQuery<Comment> query = new BmobQuery<Comment>();
+		Data post = new Data();
+		post.setObjectId(id);
+		//query.order("createdAt");
+		query.addWhereEqualTo("data",new BmobPointer(post));
+		query.include("data");
+		query.findObjects(new FindListener<Comment>() {
+				@Override
+				public void done(List<Comment> objects,BmobException e) {
+					if(e==null){
+						updateCommentSize(objects.size());
+					}else{
+						myApplication.showToast("失败"+e.getMessage());
+					}
+
+				}
+			});
+	}
+	
+	public void updateCommentSize(int size){
+		Data data=new Data();
+		data.setCommentSize(size);
+		data.update(id, new UpdateListener(){
+				@Override
+				public void done(BmobException e)
+				{
+					if(e==null){
+						mCommentFragment.findComment(id);
+						myApplication.showToast("评论发表成功");
+					}else{
+						myApplication.showToast("失败："+e.getMessage());
+					}
+				}
+		});
 	}
 
 	@Override

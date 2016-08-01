@@ -108,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 							return true;
 						case R.id.drawer_bug:
 							return true;
+						case R.id.drawer_usertheme:
+							//主题选择
+							return true;
 						case R.id.drawer_setting:
 							return true;
 						case R.id.drawer_about:
@@ -143,8 +146,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
 			About=(String)bmobUser.getObjectByKey("About");
 			userName.setText(bmobUser.getUsername());
-			if(bmobUser.getId()!=null&&myApplication.noEquals(bmobUser.getId(),"0")){
-				
+			if(bmobUser.getHeadVersion()!=null&&myApplication.noEquals(bmobUser.getHeadVersion().intValue()+"","0")){
 				if(myApplication.isFile("/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png")){
 					mCircleImageView.setBackgroundResource(0);
 					mCircleImageView.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png"));

@@ -10,7 +10,6 @@ public class User extends BmobUser
 	private BmobFile Head;	
 	private String HeadColor;
 	private String HeadUri;
-	private String id;
 	private Integer HeadVersion;
 	
 	public void setAbout(String About){
@@ -43,14 +42,6 @@ public class User extends BmobUser
 
 	public void setHeadUri(String HeadUri){
 		this.HeadUri = HeadUri;
-	}
-	
-	public String getId(){
-		return id;
-	}
-
-	public void setId(String id){
-		this.id = id;
 	}
 	
 	public void setHeadVersion(Integer HeadVersion){

@@ -89,10 +89,11 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 					if(data.getMessage().length()<300){
 						itemview.message.setText(data.getMessage());
 					}else{
-						itemview.message.setText(data.getMessage().subSequence(0,300)+"…");
+						itemview.message.setText(data.getMessage().subSequence(0,300)+"...");
 					}
 					itemview.time.setText(data.getCreatedAt());
-					itemview.user.setText(data.getUser());
+					itemview.user.setText(data.getAuthor().getUsername());
+					itemview.comment.setText("共"+(data.getCommentSize() == null ? 0 : data.getCommentSize().intValue())+"条回复");
 				break;
 				case 2:
 					Material data2=dataMaterialList.get(i);
@@ -105,16 +106,16 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 			//用户是否登录
 			if(u!=null){
 				itemview.title.setTextColor(getTextColor(u.getHeadColor()));
-				if(data.getHeadVersion().intValue()==0){
+				if(data.getAuthor().getHeadVersion().intValue()==0){
 					//当用户从未上传头像时，设置默认头像
 					itemview.userimage.setImageResource(0);
 					itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
 													  getTextColor(u.getHeadColor())));
-				}else if(myApplication.isFile("/cache/"+data.getEmail()+"_"+data.getHeadVersion()+".png")){
+				}else if(myApplication.isFile("/cache/"+data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion()+".png")){
 					itemview.userimage.setBackgroundResource(0);
-					itemview.userimage.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+data.getEmail()+"_"+data.getHeadVersion().intValue()+".png"));
+					itemview.userimage.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion().intValue()+".png"));
 				}else{
-					myApplication.downloadFile(new BmobFile(data.getEmail(),"",data.getHeadUri()),data.getEmail()+"_"+data.getHeadVersion().intValue(),itemview.userimage);
+					myApplication.downloadFile(new BmobFile(data.getAuthor().getEmail(),"",data.getAuthor().getHeadUri()),data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion().intValue(),itemview.userimage);
 				}
 			}else{
 				//处理用户未登录
@@ -176,7 +177,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 	}
 	
 	class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, message, time, user;
+        public TextView title, message, time, user,comment;
         public CardView bg;
 		public CircleImageView userimage;
 
@@ -186,6 +187,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
             message = (TextView) itemView.findViewById(R.id.list_message);
             time = (TextView) itemView.findViewById(R.id.list_time);
 			user = (TextView) itemView.findViewById(R.id.list_user);
+			comment = (TextView)itemView.findViewById(R.id.list_comment);
 			userimage=(CircleImageView)itemView.findViewById(R.id.cardviewtextImageView1);
 			
             bg = (CardView) itemView.findViewById(R.id.element_bg);

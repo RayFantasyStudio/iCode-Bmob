@@ -7,13 +7,9 @@ public class Data extends BmobObject
 {
 	private String Title;
 	private String Message;
-   	private String UserName;
-	private String HeadColor;
-	private String HeadUri;
-	private String Email;
-	private Integer HeadVersion;
 	private User Author;
 	private BmobRelation Likes;
+	private Integer CommentSize;
 	
     public Data() {
         this.setTableName("Data");
@@ -34,46 +30,6 @@ public class Data extends BmobObject
 	public void setTitle(String Title){
 		this.Title=Title;
 	}
-
-	public void setUser(String User){
-		this.UserName=User;
-	}
-	public String getUser(){
-		return UserName;
-	}
-	
-	public void setHeadColor(String HeadColor){
-		this.HeadColor=HeadColor;
-	}
-
-
-	public String getHeadColor(){
-		return HeadColor;
-	}
-	
-	public void setHeadUri(String HeadUri){
-		this.HeadUri=HeadUri;
-	}
-	
-	public String getHeadUri(){
-		return HeadUri;
-	}
-	
-	public void setEmail(String Email){
-		this.Email=Email;
-	}
-
-	public String getEmail(){
-		return Email;
-	}
-	
-	public void setHeadVersion(Integer HeadVersion){
-		this.HeadVersion=HeadVersion;
-	}
-
-	public Integer getHeadVersion(){
-		return HeadVersion;
-	}
 	
 	public void setAuthor(User Author){
 		this.Author=Author;
@@ -89,5 +45,13 @@ public class Data extends BmobObject
 
 	public BmobRelation getLikes(){
 		return Likes;
+	}
+	
+	public void setCommentSize(Integer CommentSize){
+		this.CommentSize=CommentSize;
+	}
+	
+	public Integer getCommentSize(){
+		return CommentSize;
 	}
 }
