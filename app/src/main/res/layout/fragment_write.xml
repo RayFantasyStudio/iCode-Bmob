@@ -34,6 +34,12 @@
 				android:id="@+id/fragmentwriteMaterialEditText1"
 				android:layout_gravity="center_horizontal"/>
 
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/fragmentwriteTextView1"
+				android:layout_gravity="center_horizontal"/>
+
 			<rayfantasy.icode.Ui.View.TextEditorView
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
@@ -41,7 +47,8 @@
 				android:hint="代码 如:System.printf(Hello World);"
 				android:background="@null"
 				android:layout_below="@+id/fragmentwriteMaterialEditText1"
-				android:id="@+id/fragmentwriteTextEditorView1"/>
+				android:id="@+id/fragmentwriteTextEditorView1"
+				android:layout_marginTop="5dp"/>
 
 		</LinearLayout>
 

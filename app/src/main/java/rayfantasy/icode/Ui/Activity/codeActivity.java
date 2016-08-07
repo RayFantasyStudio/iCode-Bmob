@@ -44,7 +44,7 @@ public class codeActivity extends AppCompatActivity implements MaterialTabListen
 			window.setFlags(
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-			window.setNavigationBarColor(HeadColor);
+			//window.setNavigationBarColor(HeadColor);
 			window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		}
         setContentView(R.layout.activity_code);

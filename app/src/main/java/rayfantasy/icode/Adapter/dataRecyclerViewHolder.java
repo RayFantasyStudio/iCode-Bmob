@@ -40,6 +40,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 		public void onItemClick(View v,int position,Data data)
 	}
 	private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener;
+	
 	public void setOnRecyclerViewItemClickListener(OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener){
 		this.mOnRecyclerViewItemClickListener=mOnRecyclerViewItemClickListener;
 	}
@@ -85,11 +86,11 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 			switch(t){
 				case 1:
 					data=dataList.get(i);
-					itemview.title.setText(data.getTitle());
-					if(data.getMessage().length()<300){
+					itemview.title.setText(data.getTitle().toString());
+					if(data.getMessage().length()<50){
 						itemview.message.setText(data.getMessage());
 					}else{
-						itemview.message.setText(data.getMessage().subSequence(0,300)+"...");
+						itemview.message.setText(data.getMessage().subSequence(0,50)+"...");
 					}
 					itemview.time.setText(data.getCreatedAt());
 					itemview.user.setText(data.getAuthor().getUsername());
@@ -106,11 +107,13 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 			//用户是否登录
 			if(u!=null){
 				itemview.title.setTextColor(getTextColor(u.getHeadColor()));
-				if(data.getAuthor().getHeadVersion().intValue()==0){
+				if((data.getAuthor().getHeadVersion() 
+				   == null ? 0 : data.getAuthor().getHeadVersion().intValue())
+				   ==0){
 					//当用户从未上传头像时，设置默认头像
 					itemview.userimage.setImageResource(0);
-					itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
-													  getTextColor(u.getHeadColor())));
+					itemview.userimage.setBackgroundDrawable(drawableBuilder.builder().buildRound(
+					data.getAuthor().getUsername() == null ? "未" : (data.getAuthor().getUsername()).substring(0,1),getTextColor(u.getHeadColor())));
 				}else if(myApplication.isFile("/cache/"+data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion()+".png")){
 					itemview.userimage.setBackgroundResource(0);
 					itemview.userimage.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion().intValue()+".png"));
@@ -121,23 +124,21 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 				//处理用户未登录
 				itemview.title.setTextColor(R.color.PrimaryColor);
 				itemview.userimage.setImageResource(0);
-				itemview.userimage.setBackground(drawableBuilder.builder().buildRound(itemview.user.getText().toString().subSequence(0,1).toString(),
-												  R.color.PrimaryColor));
-				}
-				
-				if(mOnRecyclerViewItemClickListener!=null){
-					itemview.bg.setOnClickListener(new OnClickListener(){
-
-							@Override
-							public void onClick(View p1)
-							{
-								mOnRecyclerViewItemClickListener.onItemClick(p1,i+1,dataList.get(i));
-							}
-						
-					});
-				}
-				
+				itemview.userimage.setBackgroundDrawable(drawableBuilder.builder().buildRound(
+				data.getAuthor().getUsername().subSequence(0,1).toString(), R.color.PrimaryColor));
 			}
+			itemview.bg.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View p1)
+					{
+						if(mOnRecyclerViewItemClickListener!=null&&dataList.size()!=0){
+							mOnRecyclerViewItemClickListener.onItemClick(p1,i+1,dataList.get(i));
+						}
+					}
+
+				});
+		}
+				
 	}
 		
 	//String转int

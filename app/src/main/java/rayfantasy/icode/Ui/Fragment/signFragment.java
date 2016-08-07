@@ -4,8 +4,6 @@ import android.content.*;
 import android.os.*;
 import android.view.*;
 import android.view.View.*;
-import android.app.*;
-
 import rayfantasy.icode.*;
 import rayfantasy.icode.Bmob.*;
 import rayfantasy.icode.Ui.*;
@@ -23,6 +21,7 @@ import android.text.*;
 import at.markushi.ui.*;
 import com.amulyakhare.textdrawable.*;
 import android.widget.*;
+import android.support.v4.app.*;
 
 
 public class signFragment extends Fragment implements OnClickListener,OnLongClickListener
@@ -136,8 +135,8 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				public void done(User p1, BmobException e)
 				{
 					if(e==null){
-						myApplication.showSnackBar(getActivity(),"注册成功，正在登录");
 						loginByEmail(UserName,Password);
+						myApplication.showSnackBar(getActivity(),"注册成功，正在登录");
 					}else{
 						setMetVisibility(false);
 						myApplication.showToast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
@@ -197,7 +196,8 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
                 int tempSelection = editStart;
                 account.setText(s);
                 account.setSelection(tempSelection);*/
-				mCircleImageView.setBackground(drawableBuilder.builder().buildRound(account.getText().toString().substring(0,1).toString(),
+				mCircleImageView.setBackgroundDrawable(drawableBuilder.builder().buildRound(
+				account.getText().toString().substring(0,1).toString(),
 				getResources().getColor(R.color.PrimaryColor)));
             }
 			

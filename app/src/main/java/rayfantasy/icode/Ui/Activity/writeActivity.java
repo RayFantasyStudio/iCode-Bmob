@@ -17,7 +17,7 @@ public class writeActivity extends BaseActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		getFragmentManager().beginTransaction().replace(R.id.fragmentLayout_write,new writeFragment()).commit();
+		getSupportFragmentManager().beginTransaction().add(R.id.fragmentLayout_write,new writeFragment()).commit();
 	}
 
 	@Override

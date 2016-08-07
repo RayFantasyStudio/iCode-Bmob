@@ -5,7 +5,6 @@ import android.view.*;
 import android.os.*;
 import android.widget.*;
 import android.graphics.*;
-import android.app.*;
 
 import rayfantasy.icode.*;
 import rayfantasy.icode.R;
@@ -30,6 +29,10 @@ import cn.bmob.v3.datatype.*;
 import java.io.*;
 import java.net.*;
 import rayfantasy.icode.Ui.*;
+import android.support.v4.app.Fragment;
+import android.app.*;
+import at.markushi.ui.*;
+import com.soundcloud.android.crop.*;
 
 public class userFragment extends Fragment
 {
@@ -38,6 +41,9 @@ public class userFragment extends Fragment
 	
 	private TextDrawable drawableBuilder;
 	private CircleImageView userImage;
+	private TextView tv1;
+	private CircleButton updateHead;
+	
 	private int HeadColor,color;
 	private String UserName,UserAbout;
 	//头像选择路径
@@ -47,8 +53,7 @@ public class userFragment extends Fragment
 	private MenuItem item;
 	private Intent i;
 	
-	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
-	
+	private dialogProgressFragment dialog_progress;
 	private static final int IMAGE_REQUEST_CODE = 0;
 	
 	public interface OnFabClickListener{
@@ -83,8 +88,12 @@ public class userFragment extends Fragment
 	{
 		user_name=(MaterialEditText)v.findViewById(R.id.user_name);
 		user_about=(MaterialEditText)v.findViewById(R.id.user_about);
+		tv1=(TextView)v.findViewById(R.id.fragmentuserTextView1);
+		updateHead=(CircleButton)v.findViewById(R.id.update_head);
 		
 		userImage=(CircleImageView)v.findViewById(R.id.user_image);
+		
+		dialog_progress=new dialogProgressFragment();
 		user_name.setTextSize(25);
 		user_about.setTextSize(15);
 		setMetVisibility(true);
@@ -97,34 +106,41 @@ public class userFragment extends Fragment
 		HeadColor=i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
 		UserAbout=i.getStringExtra("About");
 		UserName=i.getStringExtra("UserName");
-		if(myApplication.noEquals(user.getHeadVersion().intValue()+"","0")){
-			if(myApplication.isFile("/cache/"+user.getEmail()+"_"+user.getHeadVersion()+".png")){
-				userImage.setBackgroundResource(0);
-				userImage.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+user.getEmail()+"_"+user.getHeadVersion()+".png"));
-			}else{
-				//未缓存下载
-				myApplication.downloadFile(new BmobFile(user.getEmail(),"",user.getHeadUri()),user.getEmail()+"_"+user.getHeadVersion(),userImage);
-			}
-		}else{
-			userImage.setImageResource(0);
-			userImage.setBackground(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),HeadColor-1000));
-		}
+		myApplication.setHead(userImage);
 		user_name.setText(UserName);
 		user_about.setText(UserAbout);
 		
+		tv1.setTextColor(HeadColor);
+		updateHead.setColor(HeadColor);
 		user_name.setTextColor(HeadColor);
 		user_about.setTextColor(HeadColor);
 		user_name.setPrimaryColor(HeadColor);
 		user_about.setPrimaryColor(HeadColor);
 		color=HeadColor;
+		updateHead.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View p1)
+				{
+					uploadImage(PicturePath,user.getHeadVersion().intValue()+1);
+					dialog_progress.show(getFragmentManager(),"dialogProgressFragment");
+				}
+		});
+		
+		updateHead.setOnLongClickListener(new OnLongClickListener(){
+				@Override
+				public boolean onLongClick(View p1)
+				{
+					Snackbar.make(p1,"上传头像",1000).show();
+					return true;
+				}
+		});
 		userImage.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View p1)
 				{
 					if(item!=null&&item.getTitle().equals("确定")){
 						color=getUserRandomColor();
-						
-						userImage.setBackground(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),color));
+						userImage.setBackgroundDrawable(drawableBuilder.builder().buildRound(UserName.subSequence(0,1).toString(),color));
 						user_name.setTextColor(color);
 						user_about.setTextColor(color);
 						user_name.setPrimaryColor(color);
@@ -141,7 +157,7 @@ public class userFragment extends Fragment
 				public boolean onLongClick(View p1)
 				{
 					resizeImage();
-					return false;
+					return true;
 				}
 		});
 	}
@@ -149,27 +165,21 @@ public class userFragment extends Fragment
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		 Uri selectedImage = null;
 		if (requestCode == IMAGE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && null != data) {
-			selectedImage = data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-			Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-																	 filePathColumn, null, null, null);
-			cursor.moveToFirst();
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			PicturePath = cursor.getString(columnIndex);
-			cursor.close();
-			uploadImage(PicturePath,user.getHeadVersion().intValue()+1);
-			myApplication.showToast("正在上传头像，请稍等...");
+			PicturePath = data.getData().toString().subSequence(7,data.getData().toString().length()).toString();
+			tv1.setText("已选择头像:"+PicturePath);
+			updateHead.setVisibility(View.VISIBLE);
 			userImage.setBackgroundResource(0);
 			userImage.setImageBitmap(BitmapFactory.decodeFile(PicturePath));
-		}		
-		super.onActivityResult(requestCode, resultCode, data);
+		}
 	}
+
 	
 	public void resizeImage() {
-		Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(i, IMAGE_REQUEST_CODE);
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("image/*");
+		intent.putExtra("return-data", true);
+		startActivityForResult(intent, IMAGE_REQUEST_CODE);
 	}
 
 	
@@ -251,8 +261,11 @@ public class userFragment extends Fragment
 				public void done(BmobException e){
 					if(e==null){
 						myApplication.showToast("头像上传成功");
+						dialog_progress.dismiss();
+						updateHead.setVisibility(View.GONE);
 					}else{
 						myApplication.showToast("头像上传失败：" + e.getErrorCode()+",msg = "+e.getMessage());
+						dialog_progress.dismiss();
 					}
 				}
 			});

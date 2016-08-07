@@ -209,7 +209,6 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 					if(e==null){
 						if(object.get(0).getEmailVerified()){
 							Intent i=new Intent(getActivity(),writeActivity.class);
-							i.putExtra("HeadColor",HeadColor);
 							TransitionUtil.startActivity(getActivity(), i, Pair.create(v, "element_bg"));
 						}else{
 							showDialog("激活","未激活邮箱，是否立即激活邮箱？","激活","取消","EmailVerified");

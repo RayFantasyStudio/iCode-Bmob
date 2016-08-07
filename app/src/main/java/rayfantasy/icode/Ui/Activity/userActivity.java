@@ -32,9 +32,9 @@ public class userActivity extends BaseActivity implements userFragment.OnFabClic
 	{
 		bmobUser=BmobUser.getCurrentUser(User.class);
 		if(bmobUser!=null){
-			getFragmentManager().beginTransaction().replace(R.id.fragmentLayout,new userFragment()).commit();
+			getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout,new userFragment()).commit();
 		}else{
-			getFragmentManager().beginTransaction().replace(R.id.fragmentLayout,new signFragment()).commit();
+			getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLayout,new signFragment()).commit();
 		}
 		
 	}
@@ -43,7 +43,7 @@ public class userActivity extends BaseActivity implements userFragment.OnFabClic
 	public void OnClick(View v1, int color)
 	{
 		setToolBarBackgroundColor(color);
-		setNavigationBarColor(color);
+		//setNavigationBarColor(color);
 	}
 	
 	@Override

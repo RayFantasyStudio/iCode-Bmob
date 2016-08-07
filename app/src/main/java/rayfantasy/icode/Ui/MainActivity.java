@@ -11,7 +11,6 @@ import android.widget.*;
 import rayfantasy.icode.*;
 import rayfantasy.icode.Ui.Activity.*;
 import rayfantasy.icode.Ui.Fragment.*;
-import rayfantasy.icode.Data.Var;
 
 import android.support.design.widget.*;
 import android.support.v4.view.*;
@@ -34,6 +33,8 @@ import cn.bmob.v3.listener.*;
 import cn.bmob.v3.exception.*;
 import android.content.res.*;
 import cn.bmob.v3.datatype.*;
+import com.soundcloud.android.crop.*;
+import rayfantasy.icode.R;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	//获取本地登录的bmob信息
 	private User bmobUser;
 	//圆形头像
-	private TextDrawable drawableBuilder;
 	private CircleImageView mCircleImageView;
 	private int drawerLayoutCheck = GravityCompat.START;
 	
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	private String About;
 	private ColorStateList csl;
 	private Window window;
-	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		}else{
 			showDialog("无网络","请检查网络状态！","设置","取消","Network");
 		}*/
-    }
+	}
 
 	private void init()
 	{
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			window = getWindow();
 			window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		}
-		BmobUpdateAgent.setUpdateOnlyWifi(false);//在任何环境下提示更新
+		BmobUpdateAgent.setUpdateOnlyWifi(true);//在任何环境下提示更新
 		BmobUpdateAgent.update(this);//调用更新
 	}
 	
@@ -109,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 						case R.id.drawer_bug:
 							return true;
 						case R.id.drawer_usertheme:
+							
 							//主题选择
 							return true;
 						case R.id.drawer_setting:
@@ -146,37 +146,24 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			HeadColor=myApplication.getHeadColor((String)bmobUser.getObjectByKey("HeadColor"));
 			About=(String)bmobUser.getObjectByKey("About");
 			userName.setText(bmobUser.getUsername());
-			if(bmobUser.getHeadVersion()!=null&&myApplication.noEquals(bmobUser.getHeadVersion().intValue()+"","0")){
-				if(myApplication.isFile("/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png")){
-					mCircleImageView.setBackgroundResource(0);
-					mCircleImageView.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png"));
-				}else{
-					//未缓存下载
-					myApplication.downloadFile(new BmobFile(bmobUser.getEmail(),"",bmobUser.getHeadUri()),bmobUser.getEmail()+"_"+bmobUser.getHeadVersion(),mCircleImageView);
-				}
-			}else{
-				mCircleImageView.setImageResource(0);
-				mCircleImageView.setBackground(drawableBuilder.builder().buildRound(bmobUser.getUsername().subSequence(0,1).toString(),HeadColor-1000));
-			}
 		}else{
 			HeadColor=getResources().getColor(R.color.PrimaryColor);
 			userName.setText("登录iCode");
-			mCircleImageView.setBackgroundResource(0);
-			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_account_circle_white));
 			About="没有更多了";
 		}
 		initTheme();
 	}
 	
 	private void initTheme(){
+		myApplication.setHead(mCircleImageView);
 		toolbar.setBackgroundColor(HeadColor);
 		HeadLayout.setBackgroundColor(HeadColor);
 		csl=myApplication.createSelector(HeadColor,getResources().getColor(R.color.csl_color),HeadColor,getResources().getColor(R.color.csl_color));
 		navigationView.setItemTextColor(csl);
 		navigationView.setItemIconTintList(csl);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+		/*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			window.setNavigationBarColor(HeadColor);
-		}
+		}*/
 	}
 	
 	private void initData()
@@ -201,22 +188,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		}
 	}
 	
-	//无网络跳转
-	/*public void NetworkIntent(){
-		Intent intent = null;
-		if (android.os.Build.VERSION.SDK_INT > 10) {
-			intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
-		} else {
-			intent = new Intent();
-			ComponentName component = new ComponentName(
-				"com.android.settings",
-				"com.android.settings.WirelessSettings");
-			intent.setComponent(component);
-			intent.setAction("android.intent.action.VIEW");
-		}
-		startActivity(intent);
-		myApplication.showToast("当前无网络");
-	}*/
+	
+	public int getHeadRandomColor(){
+		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+	}
 	
 	public int setTabInt(int i){
 		return i;
@@ -256,9 +231,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 						case "finish":
 							finish();
 						break;
-						/*case "Network":
-							NetworkIntent();
-						break;*/
 					}
 				}
 			});

@@ -22,6 +22,7 @@ import java.io.*;
 import java.util.*;
 import rayfantasy.icode.Bmob.*;
 import rayfantasy.icode.Data.*;
+import com.amulyakhare.textdrawable.*;
 
 public class MyApplication extends Application
 {
@@ -29,7 +30,7 @@ public class MyApplication extends Application
 	private Context context;
 	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
 	
-	public static final String Bmob_APPID="ed40b22516d8679a79eca831e77ec5ad";
+	public static final String Bmob_APPID="你的appid"
 
 	public void onCreate() {
         super.onCreate();
@@ -46,33 +47,9 @@ public class MyApplication extends Application
 	}
 	
 	private void initbugly(){
-		CrashReport.initCrashReport(getApplicationContext(),Var.String("BuglyID"),false);
+		CrashReport.initCrashReport(getApplicationContext(),"900040245",false);
 	}
 
-	public void initSign(){
-        try
-        {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-            Signature[] signs = packageInfo.signatures;
-            Signature sign = signs[0];
-            int code = sign.hashCode();
-            int official = Var.Int("official");
-            int debug = Var.Int("debug");
-
-            if (code != official)
-            {
-                if (code != debug){
-                    Toast.makeText(this,"Sign failed!",0).show();
-                }
-                else{
-                    Toast.makeText(this,"Debug Version!" ,0).show();
-                }
-            }
-        }
-        catch (PackageManager.NameNotFoundException e){
-        }
-    }
-	
     public void editString(String s, String message) {
         setting.edit().putString(s, message).apply();
     }
@@ -177,6 +154,27 @@ public class MyApplication extends Application
 					}
 				}
 			});
+	}
+	
+	public void setHead(CircleImageView mCircleImageView){
+		User bmobUser=BmobUser.getCurrentUser(User.class);
+		if(bmobUser != null){
+			if(bmobUser.getHeadVersion()!=null&&noEquals(bmobUser.getHeadVersion().intValue()+"","0")){
+				if(isFile("/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png")){
+					mCircleImageView.setBackgroundResource(0);
+					mCircleImageView.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png"));
+				}else{
+					//未缓存下载
+					downloadFile(new BmobFile(bmobUser.getEmail(),"",bmobUser.getHeadUri()),bmobUser.getEmail()+"_"+bmobUser.getHeadVersion(),mCircleImageView);
+				}
+			}else{
+				mCircleImageView.setImageResource(0);
+				mCircleImageView.setBackgroundDrawable(TextDrawable.builder().buildRound(bmobUser.getUsername().subSequence(0,1).toString(),getHeadColor(bmobUser.getHeadColor())));
+			}
+		}else{
+			mCircleImageView.setBackgroundResource(0);
+			mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_account_circle_white));
+		}
 	}
 	
 	public void downloadFile(BmobFile file,String fileName,final CircleImageView civ){

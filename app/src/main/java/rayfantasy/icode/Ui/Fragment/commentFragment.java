@@ -21,8 +21,10 @@ import android.view.animation.*;
 import android.view.View.*;
 import rayfantasy.icode.Util.*;
 import android.app.*;
+import rayfantasy.icode.Ui.Fragment.inputCommentFragment.*;
+import rayfantasy.icode.Ui.Fragment.dialogProgressFragment.*;
 
-public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,OnCommentClickListener
 {
 	private MyApplication myApplication;
 	private View v;
@@ -40,6 +42,8 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	private commentHolder mCommentHolder;
 	
 	private inputCommentFragment input;
+	private dialogProgressFragment dialog_progress;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
@@ -68,7 +72,7 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		mSwipeRefreshLayout.post(new Runnable() {
 				@Override
 				public void run() {
-					findComment(id);
+					findComment(id,0);
 					mSwipeRefreshLayout.setRefreshing(true);
 				}
 			});
@@ -78,7 +82,9 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		mCommentHolder=new commentHolder(mListComment,myApplication);
 		recyclerView.setAdapter(mCommentHolder);
 		
-		input=new inputCommentFragment(this);
+		dialog_progress=new dialogProgressFragment();
+		input=new inputCommentFragment();
+		input.setOnCommentClickListener(this);
 		fab_comment=(FloatingActionButton)v.findViewById(R.id.fab_comment);
 		fab_comment.setColorNormal(HeadColor);
 		fab_comment.setColorPressed(HeadColor);
@@ -98,11 +104,65 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	@Override
 	public void onRefresh()
 	{
-		findComment(id);
+		findComment(id,0);
+	}
+	
+	@Override
+	public void onClick(String comment)
+	{
+		if(comment.length()==0){
+			myApplication.showToast("输入内容为空");
+		}else if(comment.length()<100){
+			dialog_progress.show(getFragmentManager(),"dialogProgressFragment");
+			saveComment(id,comment);
+			setInputVisibility(false);
+		}else{
+			myApplication.showToast("当前字数:"+comment.length()+" 大于评论规定字数:200");
+		}
+	}
+	
+	//评论
+	public void saveComment(final String id,String content){
+		final Data post = new Data();
+		post.setObjectId(id);
+		final Comment comment = new Comment();
+		comment.setContent(content);
+		comment.setData(post);
+		comment.setUser(user);
+		comment.save(new SaveListener<String>() {
+				@Override
+				public void done(String objectId,BmobException e) {
+					if(e==null){
+						findComment(id,1);
+					}else{
+						myApplication.showToast("失败："+e.getMessage());
+					}
+				}
+
+			});
 	}
 	
 	
-	public void findComment(final String id){
+	public void updateCommentSize(int size){
+		Data data=new Data();
+		data.setCommentSize(size);
+		data.update(id, new UpdateListener(){
+				@Override
+				public void done(BmobException e)
+				{
+					if(e==null){
+						findComment(id,0);
+						myApplication.showToast("评论发表成功");
+						dialog_progress.dismiss();
+					}else{
+						myApplication.showToast("失败："+e.getMessage());
+					}
+				}
+			});
+	}
+	
+	
+	public void findComment(final String id,final int listener){
 		BmobQuery<Comment> query = new BmobQuery<Comment>();
 		Data post = new Data();
 		post.setObjectId(id);
@@ -116,14 +176,12 @@ public class commentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 				public void done(List<Comment> objects,BmobException e) {
 
 					if(e==null){
-						if(objects.size()==0||objects==null){
-							mSwipeRefreshLayout.setRefreshing(false);
-							myApplication.showToast("此贴还没有评论哦！");
-							return ;
-						}else{
+						if(listener==0){
 							mListComment.addAll(0,objects);
 							mCommentHolder.notifyDataSetChanged();
 							recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.list_main));
+						}else if(listener==1){
+							updateCommentSize(objects.size());
 						}
 						mSwipeRefreshLayout.setRefreshing(false);
 					}else{

@@ -44,5 +44,28 @@
 		android:layout_marginTop="10dp"
 		android:id="@+id/user_about"/>
 
+	<at.markushi.ui.CircleButton
+		android:layout_width="64dp"
+		android:layout_height="64dp"
+		android:src="@drawable/ic_check_white"
+		android:layout_margin="10dp"
+		android:id="@+id/update_head"
+		android:layout_below="@id/user_about"
+		app:cb_pressedRingWidth="8dip"
+		android:layout_centerHorizontal="true"
+		android:visibility="gone"/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="10dp"
+		android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true"
+		android:text="长按头像选择更改头像\n点击修改后单击头像修改主题色"
+		android:textColor="@color/PrimaryColor"
+		android:textSize="15sp"
+		android:id="@+id/fragmentuserTextView1"
+		android:gravity="center"/>
+
 </RelativeLayout>
 

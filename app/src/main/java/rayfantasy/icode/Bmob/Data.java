@@ -10,6 +10,7 @@ public class Data extends BmobObject
 	private User Author;
 	private BmobRelation Likes;
 	private Integer CommentSize;
+	private BmobFile fj;
 	
     public Data() {
         this.setTableName("Data");
@@ -53,5 +54,13 @@ public class Data extends BmobObject
 	
 	public Integer getCommentSize(){
 		return CommentSize;
+	}
+	
+	public BmobFile getFj(){
+		return fj;
+	}
+
+	public void setFj(BmobFile fj){
+		this.fj = fj;
 	}
 }

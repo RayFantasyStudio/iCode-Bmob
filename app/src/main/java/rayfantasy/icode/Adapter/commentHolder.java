@@ -47,14 +47,19 @@ public class commentHolder extends RecyclerView.Adapter<ViewHolder>
 			itemview.User.setText(mComment.getUser().getUsername());
 			itemview.Time.setText("第"+(p2+1)+"楼"+"  "+mComment.getCreatedAt());
 			itemview.Content.setText(mComment.getContent());
-			itemview.mCardView.setElevation(3);
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+				itemview.mCardView.setElevation(3);
+			}
 			if(u!=null){
 				itemview.Content.setTextColor(getTextColor(u.getHeadColor()));
-				if(mComment.getUser().getHeadVersion().intValue()==0){
+				if((mComment.getUser().getHeadVersion() 
+					== null ? 0 : mComment.getUser().getHeadVersion().intValue())
+					==0){
 					//当用户从未上传头像时，设置默认头像
 					itemview.Head.setImageResource(0);
-					itemview.Head.setBackground(drawableBuilder.builder().buildRound(itemview.User.getText().toString().subSequence(0,1).toString(),
-																						  getTextColor(u.getHeadColor())));
+					itemview.Head.setBackgroundDrawable(drawableBuilder.builder().buildRound(
+					mComment.getUser().getUsername() == null ? "未" : mComment.getUser().getUsername().subSequence(0,1).toString(),
+					getTextColor(u.getHeadColor())));
 				}else if(myApplication.isFile("/cache/"+mComment.getUser().getEmail()+"_"+mComment.getUser().getHeadVersion()+".png")){
 					itemview.Head.setBackgroundResource(0);
 					itemview.Head.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+mComment.getUser().getEmail()+"_"+mComment.getUser().getHeadVersion().intValue()+".png"));
@@ -65,8 +70,8 @@ public class commentHolder extends RecyclerView.Adapter<ViewHolder>
 				//处理用户未登录
 				itemview.Content.setTextColor(R.color.PrimaryColor);
 				itemview.Head.setImageResource(0);
-				itemview.Head.setBackground(drawableBuilder.builder().buildRound(itemview.User.getText().toString().subSequence(0,1).toString(),
-																					  R.color.PrimaryColor));
+				itemview.Head.setBackgroundDrawable(drawableBuilder.builder().buildRound(
+				mComment.getUser().getUsername().subSequence(0,1).toString(),R.color.PrimaryColor));
 			}
 		}
 		

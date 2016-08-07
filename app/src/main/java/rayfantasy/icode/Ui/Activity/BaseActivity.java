@@ -25,7 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 			window.setFlags(
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-			window.setNavigationBarColor(getNavigationBarColor());
+		//	window.setNavigationBarColor(getNavigationBarColor());
 		}
         setContentView(getLayoutRes());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -47,11 +47,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 		toolbar.setBackgroundColor(color);
 	}
 	
-	public void setNavigationBarColor(int color){
+	/*public void setNavigationBarColor(int color){
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			window.setNavigationBarColor(color);
 		}
-	}
+	}*/
 	
 	protected abstract String getTitleText();
 	
