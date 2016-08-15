@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 					switch (menuItem.getItemId()){
 						case R.id.drawer_home:
 							setTabInt(1);
+							initData();
 							return true;
 						case R.id.drawer_material:
 							setTabInt(2);
@@ -114,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 						case R.id.drawer_setting:
 							return true;
 						case R.id.drawer_about:
+							getSupportFragmentManager().popBackStack();
+							getSupportFragmentManager().beginTransaction().replace(R.id.frame,new aboutFragment()).commit();
 							return true;
 					}
 					return false;
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 	
 	private void initData()
 	{
-		getFragmentManager().beginTransaction().replace(R.id.frame,new dataFragment()).commit();
+		getSupportFragmentManager().beginTransaction().replace(R.id.frame,new dataFragment()).commit();
 	}
 	
 	@Override

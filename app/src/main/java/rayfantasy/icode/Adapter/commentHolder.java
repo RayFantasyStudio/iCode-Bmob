@@ -15,6 +15,7 @@ import cn.bmob.v3.datatype.*;
 import de.hdodenhof.circleimageview.*;
 import java.util.*;
 import rayfantasy.icode.Data.*;
+import rayfantasy.icode.Util.*;
 
 
 public class commentHolder extends RecyclerView.Adapter<ViewHolder>

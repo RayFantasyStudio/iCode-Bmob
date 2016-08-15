@@ -1,6 +1,5 @@
 package rayfantasy.icode.Ui.Fragment;
 
-import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.support.v4.widget.*;
@@ -27,6 +26,8 @@ import cn.bmob.v3.exception.*;
 import rayfantasy.icode.Adapter.dataRecyclerViewHolder.*;
 import rayfantasy.icode.Util.*;
 import com.blankj.utilcode.utils.*;
+import android.support.v4.app.Fragment;
+import android.app.*;
 
 public class dataFragment extends Fragment implements OnClickListener,OnRecyclerViewItemClickListener,SwipeRefreshLayout.OnRefreshListener
 {	
@@ -245,4 +246,13 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 			});
 		builder.create().show();
 	}
+
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		getFragmentManager().popBackStack();
+	}
+	
+	
 }

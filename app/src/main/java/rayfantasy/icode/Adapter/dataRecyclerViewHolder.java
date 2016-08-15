@@ -24,6 +24,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import rayfantasy.icode.R;
 import rayfantasy.icode.Data.*;
 import com.wang.avi.*;
+import rayfantasy.icode.Util.*;
 
 public class dataRecyclerViewHolder<T extends java.lang.Object> extends RecyclerView.Adapter<ViewHolder>
 {

@@ -23,6 +23,7 @@ import java.util.*;
 import rayfantasy.icode.Bmob.*;
 import rayfantasy.icode.Data.*;
 import com.amulyakhare.textdrawable.*;
+import rayfantasy.icode.Util.*;
 
 public class MyApplication extends Application
 {

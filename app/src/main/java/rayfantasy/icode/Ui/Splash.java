@@ -10,6 +10,7 @@ import android.content.pm.*;
 import rayfantasy.icode.R;
 import java.io.*;
 import rayfantasy.icode.Data.*;
+import rayfantasy.icode.Util.*;
 
 
 public class Splash extends Activity
