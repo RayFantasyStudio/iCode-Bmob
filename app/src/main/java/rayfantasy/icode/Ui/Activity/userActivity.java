@@ -15,16 +15,36 @@ import rayfantasy.icode.Bmob.*;
 import android.view.*;
 import rayfantasy.icode.Ui.Fragment.userFragment.*;
 
-public class userActivity extends BaseActivity implements userFragment.OnFabClickListener
+public class userActivity extends AppCompatActivity implements userFragment.OnFabClickListener
 {
 	private User bmobUser;
-	
+	protected Toolbar toolbar;
+	private Window window;
 	private Intent i;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			window = getWindow();
+			window.setFlags(
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		}
+        setContentView(R.layout.activity_user);
+		i=getIntent();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setBackgroundColor(	i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor)));
+		setTitle(i.getStringExtra("UserName"));
+		setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onBackPressed();
+				}
+			});
 		init();
 	}
 
@@ -43,40 +63,11 @@ public class userActivity extends BaseActivity implements userFragment.OnFabClic
 	public void OnClick(View v1, int color)
 	{
 		setToolBarBackgroundColor(color);
-		//setNavigationBarColor(color);
 	}
 	
-	@Override
-	protected String getTitleText()
-	{
-		i=getIntent();
-		return i.getStringExtra("UserName");
+	public void setToolBarBackgroundColor(int color){
+		toolbar.setBackgroundColor(color);
 	}
 	
-	@Override
-	protected int getBackgroundColor()
-	{
-		i=getIntent();
-		return i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
-	}
-
-	@Override
-	protected int getNavigationBarColor()
-	{
-		i=getIntent();
-		return i.getIntExtra("HeadColor",getResources().getColor(R.color.PrimaryColor));
-	}
-	
-	@Override
-	protected int getLayoutRes()
-	{
-		return R.layout.activity_user;
-	}
-
-	@Override
-	protected void onDestroy()
-	{
-		super.onDestroy();
-	}
 	
 }

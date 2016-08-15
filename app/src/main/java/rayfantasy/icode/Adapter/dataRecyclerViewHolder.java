@@ -23,6 +23,7 @@ import rayfantasy.icode.Bmob.*;
 import android.widget.RelativeLayout.LayoutParams;
 import rayfantasy.icode.R;
 import rayfantasy.icode.Data.*;
+import com.wang.avi.*;
 
 public class dataRecyclerViewHolder<T extends java.lang.Object> extends RecyclerView.Adapter<ViewHolder>
 {
@@ -35,6 +36,8 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 	private static final int TYPE_FOOTER = 1;
 	private int t;
 	private MyApplication myApplication;
+	private User user;
+	
 	//设置点击事件
 	public interface OnRecyclerViewItemClickListener{
 		public void onItemClick(View v,int position,Data data)
@@ -49,6 +52,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 	public dataRecyclerViewHolder(List<T> dataList,int i,MyApplication myApplication){
 		t=i;
 		this.myApplication=myApplication;
+		user=BmobUser.getCurrentUser(User.class);
 		switch(i){
 			case 1:
 				this.dataList=(List<Data>)dataList;
@@ -82,7 +86,6 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 	{
 		if(holder instanceof MyViewHolder){
 			MyViewHolder itemview=(MyViewHolder)holder;
-			User u=BmobUser.getCurrentUser(User.class);
 			switch(t){
 				case 1:
 					data=dataList.get(i);
@@ -105,15 +108,15 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 				break;
 			}
 			//用户是否登录
-			if(u!=null){
-				itemview.title.setTextColor(getTextColor(u.getHeadColor()));
+			if(user!=null){
+				itemview.title.setTextColor(getTextColor(user.getHeadColor()));
 				if((data.getAuthor().getHeadVersion() 
 				   == null ? 0 : data.getAuthor().getHeadVersion().intValue())
 				   ==0){
 					//当用户从未上传头像时，设置默认头像
 					itemview.userimage.setImageResource(0);
 					itemview.userimage.setBackgroundDrawable(drawableBuilder.builder().buildRound(
-					data.getAuthor().getUsername() == null ? "未" : (data.getAuthor().getUsername()).substring(0,1),getTextColor(u.getHeadColor())));
+					data.getAuthor().getUsername() == null ? "未" : (data.getAuthor().getUsername()).substring(0,1),getTextColor(user.getHeadColor())));
 				}else if(myApplication.isFile("/cache/"+data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion()+".png")){
 					itemview.userimage.setBackgroundResource(0);
 					itemview.userimage.setImageBitmap(BitmapFactory.decodeFile(Utils.getiCodePath()+"/cache/"+data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion().intValue()+".png"));
@@ -137,6 +140,9 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 					}
 
 				});
+		}else if(holder instanceof FooterViewHolder){
+			FooterViewHolder f=(FooterViewHolder)holder;
+			f.mLoading.setIndicatorColor(myApplication.getHeadColor(user.getHeadColor()));
 		}
 				
 	}
@@ -196,9 +202,11 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
     }
 	
 	class FooterViewHolder extends ViewHolder {
-
+		private AVLoadingIndicatorView mLoading;
+		
 		public FooterViewHolder(View view) {
 			super(view);
+			mLoading = (AVLoadingIndicatorView)view.findViewById(R.id.avi);
 		}
 
 	}
