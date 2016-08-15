@@ -35,6 +35,7 @@ import android.content.res.*;
 import cn.bmob.v3.datatype.*;
 import com.soundcloud.android.crop.*;
 import rayfantasy.icode.R;
+import com.blankj.utilcode.utils.*;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -65,12 +66,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 		init();
         setContentView(R.layout.activity_main);
 		initView();
-		initData();
-		/*if(myApplication.isNetwork(this)){
+		//initData();
+		if(NetworkUtils.isAvailable(this)){
 			initData();
 		}else{
 			showDialog("无网络","请检查网络状态！","设置","取消","Network");
-		}*/
+		}
 	}
 
 	private void init()
@@ -80,8 +81,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 			window = getWindow();
 			window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		}
-		BmobUpdateAgent.setUpdateOnlyWifi(true);//在任何环境下提示更新
-		BmobUpdateAgent.update(this);//调用更新
+		
 	}
 	
 	private void initView()
@@ -230,6 +230,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 					switch(Listener){
 						case "finish":
 							finish();
+						break;
+						case "Network":
+							NetworkUtils.openWirelessSettings(MainActivity.this);
 						break;
 					}
 				}

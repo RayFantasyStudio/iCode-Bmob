@@ -9,12 +9,12 @@ import android.content.pm.*;
 
 import rayfantasy.icode.R;
 import java.io.*;
+import rayfantasy.icode.Data.*;
 
 
 public class Splash extends Activity
 {
 	private Handler handler = new Handler();
-	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
 	
 	String[] PER_ALL = {"android.permission.WRITE_EXTERNAL_STORAGE",
 		                "android.permission.READ_PHONE_STATE"};
@@ -27,7 +27,7 @@ public class Splash extends Activity
 		setContentView(R.layout.activity_splash);
 		if(needPm()){
 			Notice();
-			File f=new File(path);
+			File f=new File(Utils.getiCodePath());
 			if(!f.exists()){
 				f.mkdir();
 			}

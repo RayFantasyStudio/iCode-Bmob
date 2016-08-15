@@ -33,6 +33,7 @@ import android.support.v4.app.Fragment;
 import android.app.*;
 import at.markushi.ui.*;
 import com.soundcloud.android.crop.*;
+import com.blankj.utilcode.utils.*;
 
 public class userFragment extends Fragment
 {
@@ -304,7 +305,7 @@ public class userFragment extends Fragment
 		BmobUser currentUser = BmobUser.getCurrentUser();
 		// 现在的currentUser是null了
 		getActivity().finish();
-		myApplication.editBoolean(user.getUsername()+"_isLoading",false);
+		SPUtils.putBoolean(getActivity(),user.getUsername()+"_isLoading",false);
 	}
 	
 	

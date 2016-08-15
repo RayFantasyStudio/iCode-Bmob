@@ -26,6 +26,7 @@ import android.util.*;
 import cn.bmob.v3.exception.*;
 import rayfantasy.icode.Adapter.dataRecyclerViewHolder.*;
 import rayfantasy.icode.Util.*;
+import com.blankj.utilcode.utils.*;
 
 public class dataFragment extends Fragment implements OnClickListener,OnRecyclerViewItemClickListener,SwipeRefreshLayout.OnRefreshListener
 {	
@@ -151,8 +152,8 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 	{
 		super.onStart();
 		initBmobUser();
-		if(user!=null && myApplication.getint("HeadColor",0) != myApplication.getHeadColor(user.getHeadColor())){
-			myApplication.editint("HeadColor",HeadColor);
+		if(user!=null && SPUtils.getInt(getActivity(),"HeadColor",0) != myApplication.getHeadColor(user.getHeadColor())){
+			SPUtils.putInt(getActivity(),"HeadColor",HeadColor);
 			isNetwork_LoadingData(0);
 		}
 		
@@ -182,9 +183,10 @@ public class dataFragment extends Fragment implements OnClickListener,OnRecycler
 	}
 	
 	public void isNetwork_LoadingData(int skip){
-		//if(myApplication.isNetwork(getActivity())){
+		initData(skip);
+		/*if(NetworkUtils.isAvailable(getActivity())){
 			initData(skip);
-		/*}else{
+		}else{
 			myApplication.showToast("当前无网络");
 			mSwipeRefreshLayout.setRefreshing(false);
 		}*/

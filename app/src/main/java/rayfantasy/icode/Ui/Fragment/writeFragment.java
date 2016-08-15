@@ -19,6 +19,7 @@ import rayfantasy.icode.R;
 import cn.bmob.v3.datatype.*;
 import java.io.*;
 import android.support.v4.app.*;
+import com.blankj.utilcode.utils.*;
 
 public class writeFragment extends Fragment
 {
@@ -70,6 +71,9 @@ public class writeFragment extends Fragment
 		tv1=(TextView)v.findViewById(R.id.fragmentwriteTextView1);
 		
 		dialog_progress=new dialogProgressFragment();
+		
+		mTextEditirView.setTextSize(10);
+		KeyboardUtils.hideSoftInput(getActivity(),mTextEditirView);
 		
 		fab_write.setColorNormal(HeadColor);
 		fab_write.setColorPressed(HeadColor);

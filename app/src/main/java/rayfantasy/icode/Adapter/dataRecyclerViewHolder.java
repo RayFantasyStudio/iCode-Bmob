@@ -22,6 +22,7 @@ import rayfantasy.icode.Bmob.*;
 
 import android.widget.RelativeLayout.LayoutParams;
 import rayfantasy.icode.R;
+import rayfantasy.icode.Data.*;
 
 public class dataRecyclerViewHolder<T extends java.lang.Object> extends RecyclerView.Adapter<ViewHolder>
 {
@@ -34,7 +35,6 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 	private static final int TYPE_FOOTER = 1;
 	private int t;
 	private MyApplication myApplication;
-	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
 	//设置点击事件
 	public interface OnRecyclerViewItemClickListener{
 		public void onItemClick(View v,int position,Data data)
@@ -116,7 +116,7 @@ public class dataRecyclerViewHolder<T extends java.lang.Object> extends Recycler
 					data.getAuthor().getUsername() == null ? "未" : (data.getAuthor().getUsername()).substring(0,1),getTextColor(u.getHeadColor())));
 				}else if(myApplication.isFile("/cache/"+data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion()+".png")){
 					itemview.userimage.setBackgroundResource(0);
-					itemview.userimage.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion().intValue()+".png"));
+					itemview.userimage.setImageBitmap(BitmapFactory.decodeFile(Utils.getiCodePath()+"/cache/"+data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion().intValue()+".png"));
 				}else{
 					myApplication.downloadFile(new BmobFile(data.getAuthor().getEmail(),"",data.getAuthor().getHeadUri()),data.getAuthor().getEmail()+"_"+data.getAuthor().getHeadVersion().intValue(),itemview.userimage);
 				}

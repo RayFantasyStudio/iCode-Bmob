@@ -14,6 +14,7 @@ import android.os.*;
 import cn.bmob.v3.datatype.*;
 import de.hdodenhof.circleimageview.*;
 import java.util.*;
+import rayfantasy.icode.Data.*;
 
 
 public class commentHolder extends RecyclerView.Adapter<ViewHolder>
@@ -23,7 +24,6 @@ public class commentHolder extends RecyclerView.Adapter<ViewHolder>
 	
 	private TextDrawable drawableBuilder;
 	private MyApplication myApplication;
-	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
 	
 	public commentHolder(List<Comment> mListComment,MyApplication myApplication){
 		this.mListComment=mListComment;
@@ -62,7 +62,7 @@ public class commentHolder extends RecyclerView.Adapter<ViewHolder>
 					getTextColor(u.getHeadColor())));
 				}else if(myApplication.isFile("/cache/"+mComment.getUser().getEmail()+"_"+mComment.getUser().getHeadVersion()+".png")){
 					itemview.Head.setBackgroundResource(0);
-					itemview.Head.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+mComment.getUser().getEmail()+"_"+mComment.getUser().getHeadVersion().intValue()+".png"));
+					itemview.Head.setImageBitmap(BitmapFactory.decodeFile(Utils.getiCodePath()+"/cache/"+mComment.getUser().getEmail()+"_"+mComment.getUser().getHeadVersion().intValue()+".png"));
 				}else{
 					myApplication.downloadFile(new BmobFile(mComment.getUser().getEmail(),"",mComment.getUser().getHeadUri()),mComment.getUser().getEmail()+"_"+mComment.getUser().getHeadVersion().intValue(),itemview.Head);
 				}

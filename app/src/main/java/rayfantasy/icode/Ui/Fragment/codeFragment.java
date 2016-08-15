@@ -23,6 +23,7 @@ import android.view.View.*;
 import rayfantasy.icode.Util.*;
 import android.util.*;
 import rayfantasy.icode.Ui.Activity.*;
+import rayfantasy.icode.Data.*;
 
 public class codeFragment extends Fragment
 {
@@ -39,7 +40,6 @@ public class codeFragment extends Fragment
 	
 	private int HeadColor,HeadVersion;
 	private String id,Email,HeadUri,STitle,SMessage,STime,SUserName;
-	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
 	private String pathfj=Environment.getExternalStorageDirectory().getPath();
 	private BmobFile file;
 	
@@ -109,7 +109,7 @@ public class codeFragment extends Fragment
 																					  getTextColor(user.getHeadColor())));
 			}else if(myApplication.isFile("/cache/"+Email+"_"+HeadVersion+".png")){
 				Head.setBackgroundResource(0);
-				Head.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+Email+"_"+HeadVersion+".png"));
+				Head.setImageBitmap(BitmapFactory.decodeFile(Utils.getiCodePath()+"/cache/"+Email+"_"+HeadVersion+".png"));
 			}else{
 				myApplication.downloadFile(new BmobFile(Email,"",HeadUri),Email+"_"+HeadVersion,Head);
 			}
@@ -121,11 +121,16 @@ public class codeFragment extends Fragment
 											R.color.PrimaryColor));
 		}
 		findfj(id);
-		if(Email.equals(user.getEmail())){
-			fab_code.setVisibility(View.VISIBLE);
+		if(user!=null){
+			if(Email.equals(user.getEmail())){
+				fab_code.setVisibility(View.VISIBLE);
+			}else{
+				fab_code.setVisibility(View.GONE);
+			}
 		}else{
 			fab_code.setVisibility(View.GONE);
 		}
+		
 	}
 	
 	private void findfj(String id){

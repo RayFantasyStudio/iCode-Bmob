@@ -28,14 +28,10 @@ public class MyApplication extends Application
 {
 	private SharedPreferences setting;
 	private Context context;
-	private String path=Environment.getExternalStorageDirectory().getPath()+"/.iCode";
-	
-	public static final String Bmob_APPID="你的appid"
 
 	public void onCreate() {
         super.onCreate();
 		setting = PreferenceManager.getDefaultSharedPreferences(this);
-        
 		context=this;
 		initbugly();
 		initBmob();
@@ -43,36 +39,12 @@ public class MyApplication extends Application
 
 	private void initBmob()
 	{
-		Bmob.initialize(this, Bmob_APPID);
+		Bmob.initialize(this, Utils.getBmobAppId());
 	}
 	
 	private void initbugly(){
 		CrashReport.initCrashReport(getApplicationContext(),"900040245",false);
 	}
-
-    public void editString(String s, String message) {
-        setting.edit().putString(s, message).apply();
-    }
-
-    public void editBoolean(String s, boolean message) {
-        setting.edit().putBoolean(s, message).apply();
-    }
-
-    public void editint(String s, int message) {
-        setting.edit().putInt(s, message).apply();
-    }
-
-    public int getint(String s, int message) {
-        return setting.getInt(s, message);
-    }
-
-    public boolean getBoolean(String s, boolean message) {
-        return setting.getBoolean(s, message);
-    }
-
-    public String getString(String s, String message) {
-        return setting.getString(s, message);
-    }
 	
 	//String转int
 	public int getHeadColor(String s){
@@ -116,19 +88,6 @@ public class MyApplication extends Application
 		return tm.getDeviceId();
 	}
 	
-	//判断网络状态
-	/*public static boolean isNetwork(Activity a) {  
-		ConnectivityManager manager = (ConnectivityManager)a.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);  
-		if (manager == null) {  
-			return false;  
-		}  
-		NetworkInfo networkinfo = manager.getActiveNetworkInfo();  
-		if (networkinfo == null || !networkinfo.isAvailable()) {  
-			return false;  
-		}  
-		return true;  
-    }
-	*/
 	public String getUserRandomColor(){
 		return Color.rgb((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255))+"";
 	}
@@ -162,7 +121,7 @@ public class MyApplication extends Application
 			if(bmobUser.getHeadVersion()!=null&&noEquals(bmobUser.getHeadVersion().intValue()+"","0")){
 				if(isFile("/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png")){
 					mCircleImageView.setBackgroundResource(0);
-					mCircleImageView.setImageBitmap(BitmapFactory.decodeFile(path+"/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png"));
+					mCircleImageView.setImageBitmap(BitmapFactory.decodeFile(Utils.getiCodePath()+"/cache/"+bmobUser.getEmail()+"_"+bmobUser.getHeadVersion()+".png"));
 				}else{
 					//未缓存下载
 					downloadFile(new BmobFile(bmobUser.getEmail(),"",bmobUser.getHeadUri()),bmobUser.getEmail()+"_"+bmobUser.getHeadVersion(),mCircleImageView);
@@ -179,7 +138,7 @@ public class MyApplication extends Application
 	
 	public void downloadFile(BmobFile file,String fileName,final CircleImageView civ){
 		//允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
-		File saveFile = new File(path+"/cache",fileName+".png");
+		File saveFile = new File(Utils.getiCodePath()+"/cache",fileName+".png");
 		file.download(saveFile, new DownloadFileListener() {
 				@Override
 				public void onStart() {
@@ -205,7 +164,7 @@ public class MyApplication extends Application
 	
 	
 	public boolean isFile(String file){
-		File f=new File(path+file);
+		File f=new File(Utils.getiCodePath()+file);
 		if(f.exists()){
 			return true;
 		}else{

@@ -33,6 +33,7 @@ dependencies {
 	
 	compile 'cn.bmob.android:bmob-sdk:3.5.1'
 	compile 'com.tencent.bugly:crashreport:2.1.9'
+	compile 'com.blankj:utilcode:1.0'
 	
 	compile fileTree(dir: 'libs', include: ['*.jar'])
 }

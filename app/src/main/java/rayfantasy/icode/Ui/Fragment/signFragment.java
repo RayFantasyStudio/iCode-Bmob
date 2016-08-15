@@ -22,6 +22,7 @@ import at.markushi.ui.*;
 import com.amulyakhare.textdrawable.*;
 import android.widget.*;
 import android.support.v4.app.*;
+import com.blankj.utilcode.utils.*;
 
 
 public class signFragment extends Fragment implements OnClickListener,OnLongClickListener
@@ -152,8 +153,8 @@ public class signFragment extends Fragment implements OnClickListener,OnLongClic
 				public void done(User user, BmobException e) {
 					if(user!=null){
 						myApplication.showToast("登录成功");
-						myApplication.editint(user.getEmail(),user.getHeadVersion());
-						myApplication.editBoolean(user.getEmail()+"_isLoading",true);
+						SPUtils.putInt(getActivity(),user.getEmail(),user.getHeadVersion());
+						SPUtils.putBoolean(getActivity(),user.getEmail()+"_isLoading",true);
 						getFragmentManager().popBackStack();
 						getActivity().finish();
 					}else{
